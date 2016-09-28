@@ -1,0 +1,12 @@
+{
+    "name": "ubermanu/flamingo",
+    "require": {
+        "symfony/yaml": "^2.8"
+    },
+    "autoload": {
+        "psr-0": {
+            "Flamingo\\": "src/"
+        }
+    },
+    "license": "MIT"
+}
