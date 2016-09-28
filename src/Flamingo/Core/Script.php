@@ -2,6 +2,7 @@
 
 namespace Flamingo\Core;
 
+use Flamingo\Exception\RuntimeException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -38,10 +39,20 @@ class Script
 
     /**
      * Run script task
-     * @param string $task
+     * @param string $taskName
      */
-    public function run($task = 'default')
+    public function run($taskName = 'default')
     {
-        var_dump($this->tasks); die;
+        if (!array_key_exists($taskName, $this->tasks)) {
+            throw new RuntimeException(sprintf('The task "%s" does not exist!', $taskName));
+        }
+
+        $task = $this->tasks[$taskName];
+
+        if (!($task instanceof Task)) {
+            throw new RuntimeException(sprintf('Registered task "%s" is not valid!', $taskName));
+        }
+
+        $task->execute();
     }
 }
