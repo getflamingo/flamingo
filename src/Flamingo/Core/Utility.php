@@ -45,13 +45,46 @@ class Utility
         // Split namespace
         $parts = Utility::classParts($taskName);
 
-        // Return name
+        // Format: Flamingo/Task/Test
         if (count($parts) === 3 &&
             $parts[0] === 'flamingo' &&
             $parts[1] === 'task' &&
             strlen($parts[2])
         ) {
             return $parts[2];
+        }
+
+        return false;
+    }
+
+    /**
+     * Parse a task namespace and return its normal name
+     *
+     * Example: /Flamingo/Task/Default
+     * Result: default
+     *
+     * @param string $processName
+     * @return string
+     */
+    public static function processName($processName)
+    {
+        // Split namespace
+        $parts = Utility::classParts($processName);
+
+        // Format: Flamingo/Process/Test
+        if (count($parts) === 3 &&
+            $parts[0] === 'flamingo' &&
+            $parts[1] === 'process' &&
+            strlen($parts[2])
+        ) {
+            return $parts[2];
+        }
+
+        // Format: Test
+        if (count($parts) === 1 &&
+            strlen($parts[0])
+        ) {
+            return $parts[0];
         }
 
         return false;

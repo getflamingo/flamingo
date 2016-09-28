@@ -45,27 +45,44 @@ class Compiler
     {
         $task = new Task();
 
-        foreach ($configuration as $processName => $processConf) {
-            $process = $this->parseProcess($processName, $processConf);
-            $task->addProcess($process);
+        foreach ($configuration as $processConf) {
+            if ($process = $this->parseProcess($processConf)) {
+                $task->addProcess($process);
+            }
         }
 
         return $task;
     }
 
     /**
-     * Parse process conf
+     * Build the process class name and
+     * create a new process using this conf
      *
-     * @param string $name
      * @param array $configuration
      * @return \Flamingo\Core\Process
      */
-    protected function parseProcess($name, $configuration)
+    protected function parseProcess($configuration)
     {
         if (is_string($configuration) && $taskName = Utility::taskName($configuration)) {
             return new TaskProcess($configuration);
         }
 
-        var_dump($configuration); die;
+        if (is_array($configuration)) {
+
+            // Get configuration name and data
+            $name = current(array_keys($configuration));
+            $configuration = current($configuration);
+
+            // Build class name
+            $processName = Utility::processName($name);
+            $className = 'Flamingo\\Process\\' . ucwords($processName) . 'Process';
+
+            // Create process if it exists
+            if (class_exists($className)) {
+                return new $className($configuration);
+            }
+        }
+
+        return null;
     }
 }
