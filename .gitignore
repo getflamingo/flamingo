@@ -1,3 +1,5 @@
 /.idea/
 /vendor/
 /composer.lock
+/box.phar
+/flamingo.phar

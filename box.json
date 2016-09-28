@@ -1,0 +1,19 @@
+{
+  "alias": "flamingo.phar",
+  "chmod": "0755",
+  "directories": [
+    "src"
+  ],
+  "finder": [
+    {
+      "name": "*.php",
+      "exclude": [
+        "symfony/yaml/Tests"
+      ],
+      "in": "vendor"
+    }
+  ],
+  "main": "bin/main.php",
+  "output": "flamingo.phar",
+  "stub": true
+}
