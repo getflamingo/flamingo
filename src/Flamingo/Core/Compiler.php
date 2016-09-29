@@ -78,7 +78,7 @@ class Compiler
         $task = new Task();
 
         // Data is not an iterator
-        if (empty($configuration) || is_array($configuration)) {
+        if (empty($configuration) || !is_array($configuration)) {
             return $task;
         }
 
