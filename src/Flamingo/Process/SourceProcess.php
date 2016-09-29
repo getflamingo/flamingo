@@ -4,6 +4,8 @@ namespace Flamingo\Process;
 
 use Flamingo\Core\Process;
 use Flamingo\Core\Task;
+use Flamingo\Utility\Taxonomy as TaxonomyUtility;
+use Flamingo\Utility\Conf as ConfUtility;
 
 /**
  * Class SourceProcess
@@ -18,14 +20,47 @@ use Flamingo\Core\Task;
 class SourceProcess extends Process
 {
     /**
+     * For each source, create the appropriate reader
+     * Create Tables with those data
+     *
      * @param array $data
      * @return int
      */
     public function execute(&$data = [])
     {
+        $sources = $this->configuration;
+
+        // Only one source was defined
+        if (!is_array($sources)) {
+            $sources = [$sources];
+        }
+
+        foreach ($sources as $source) {
+
+            // One file as source
+            if (is_string($source)) {
+                $source = ['file' => $source];
+            }
+
+            // No file given, next
+            if (empty($source['file'])) {
+                continue;
+            }
+
+            // Guess reader class
+            $extension = TaxonomyUtility::getExtension($source['file']);
+            if ($readerName = ConfUtility::getReader($extension)) {
+
+                // Build class name
+                $className = 'Flamingo\\Reader\\' . ucwords($readerName) . 'Reader';
+
+                // Create reader if it exists
+                if (class_exists($className)) {
+                    $data[] = $className::read($source);
+                }
+            }
+        }
+
         return Task::OK;
     }
 }
-
-//class_alias('SourceProcess', 'SrcProcess');
-//class_alias('SourceProcess', 'SourcesProcess');
