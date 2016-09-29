@@ -1,4 +1,9 @@
 
+# Log report and output
+Conf/Log/Level: error
+Conf/Log/File: flamingo.log
+Conf/Log/Debug: false
+
 # Processes class aliases
 Conf/Alias/Source: Sources, Src
 Conf/Alias/Destination: Destinations, Dest
