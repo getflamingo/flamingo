@@ -77,6 +77,11 @@ class Compiler
     {
         $task = new Task();
 
+        // Data is not an iterator
+        if (empty($configuration) || is_array($configuration)) {
+            return $task;
+        }
+
         foreach ($configuration as $processConf) {
             if ($process = $this->parseProcess($processConf)) {
                 $task->addProcess($process);
