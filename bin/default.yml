@@ -8,3 +8,6 @@ Conf/Reader/Json: json, js
 Conf/Reader/Csv: csv
 Conf/Reader/Xml: csv
 Conf/Reader/Excel: xls, xlsx
+
+# Empty default task
+Flamingo/Task/Default:
