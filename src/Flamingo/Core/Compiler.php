@@ -3,6 +3,8 @@
 namespace Flamingo\Core;
 
 use Flamingo\Process\TaskProcess;
+use Flamingo\Utility\Iterator as IteratorUtility;
+use Flamingo\Utility\Taxonomy as TaxonomyUtility;
 
 /**
  * Class Compiler
@@ -24,13 +26,43 @@ class Compiler
     {
         $tasks = [];
 
-        foreach ($configuration as $taskName => $taskConf) {
-            if ($taskName = Utility::taskName($taskName)) {
-                $tasks[$taskName] = $this->parseTask($taskConf);
+        foreach ($configuration as $name => $conf) {
+
+            if ($taskName = TaxonomyUtility::matches($name, 'Flamingo/Task/*')) {
+                $taskName = strtolower($taskName[0]);
+                $tasks[$taskName] = $this->parseTask($conf);
+            }
+
+            if ($confName = TaxonomyUtility::matches($name, 'Conf/*/*')) {
+                $this->parseConf($confName[0], $confName[1], $conf);
             }
         }
 
         return $tasks;
+    }
+
+    /**
+     * Parse Flamingo global conf to create class aliases
+     * or to add configuration in $GLOBALS['FLAMINGO']['CONF']
+     *
+     * @param string $domain
+     * @param string $key
+     * @param mixed $value
+     */
+    protected function parseConf($domain, $key, $value)
+    {
+        // Add new process alias
+        if (strtolower($domain) === 'alias' && !empty($value)) {
+            if (class_exists($className = 'Flamingo\\Process\\' . ucwords($key) . 'Process')) {
+                foreach (IteratorUtility::trimsplit(',', $value) as $alias) {
+                    class_alias($className, 'Flamingo\\Process\\' . ucwords($alias) . 'Process');
+                }
+            }
+            return;
+        }
+
+        // Add value global conf key
+        $GLOBALS['FLAMINGO']['CONF'][$domain][$key] = $value;
     }
 
     /**
@@ -73,9 +105,15 @@ class Compiler
             $name = current(array_keys($configuration));
             $configuration = current($configuration);
 
+            // Process name does not match any format
+            if (!($processName = TaxonomyUtility::matches($name, 'Flamingo/Process/*'))) {
+                if (!($processName = TaxonomyUtility::matches($name, '*'))) {
+                    return null;
+                }
+            }
+
             // Build class name
-            $processName = Utility::processName($name);
-            $className = 'Flamingo\\Process\\' . ucwords($processName) . 'Process';
+            $className = 'Flamingo\\Process\\' . ucwords($processName[0]) . 'Process';
 
             // Create process if it exists
             if (class_exists($className)) {

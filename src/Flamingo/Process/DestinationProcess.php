@@ -24,6 +24,3 @@ class DestinationProcess extends Process
         return Task::OK;
     }
 }
-
-//class_alias('DestinationProcess', 'DestProcess');
-//class_alias('DestinationProcess', 'DestinationsProcess');
