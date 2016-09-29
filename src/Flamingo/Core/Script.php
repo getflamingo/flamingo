@@ -31,7 +31,8 @@ class Script
                 $configuration = IteratorUtility::merge($configuration, $arg);
             }
             if (is_string($arg)) {
-                $configuration = IteratorUtility::merge($configuration, Yaml::parse($arg));
+                $yaml = Yaml::parse($arg);
+                $configuration = IteratorUtility::merge($configuration, $yaml);
             }
         }
 
