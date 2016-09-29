@@ -45,6 +45,8 @@ class Script
      */
     public function run($taskName = 'default')
     {
+        $taskName = strtolower($taskName);
+
         if (!array_key_exists($taskName, $this->tasks)) {
             throw new RuntimeException(sprintf('The task "%s" does not exist!', $taskName));
         }
