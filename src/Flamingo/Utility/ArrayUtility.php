@@ -3,10 +3,10 @@
 namespace Flamingo\Utility;
 
 /**
- * Class Iterator
+ * Class ArrayUtility
  * @package Flamingo\Utility
  */
-abstract class Iterator
+abstract class ArrayUtility
 {
     /**
      * array_merge_recursive does indeed merge arrays, but it converts values with duplicate
@@ -23,7 +23,7 @@ abstract class Iterator
 
         foreach ($b as $key => &$value) {
             if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
-                $merged[$key] = Iterator::merge($merged[$key], $value);
+                $merged[$key] = ArrayUtility::merge($merged[$key], $value);
             } else {
                 $merged[$key] = $value;
             }
@@ -54,7 +54,7 @@ abstract class Iterator
      */
     public static function inList($value, $list)
     {
-        $list = Iterator::trimsplit(',', $list);
+        $list = ArrayUtility::trimsplit(',', $list);
         return in_array($value, $list);
     }
 }

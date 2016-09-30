@@ -3,10 +3,10 @@
 namespace Flamingo\Utility;
 
 /**
- * Class Conf
+ * Class ConfUtility
  * @package Flamingo\Utility
  */
-abstract class Conf
+abstract class ConfUtility
 {
     /**
      * Return reader name associated to a file extension
@@ -19,7 +19,7 @@ abstract class Conf
         $readers = $GLOBALS['FLAMINGO']['CONF']['Reader'];
 
         foreach ($readers as $reader => $extensions) {
-            if (Iterator::inList($extension, $extensions)) {
+            if (ArrayUtility::inList($extension, $extensions)) {
                 return $reader;
             }
         }

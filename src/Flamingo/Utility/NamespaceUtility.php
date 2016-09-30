@@ -3,14 +3,14 @@
 namespace Flamingo\Utility;
 
 /**
- * Class Taxonomy
+ * Class NamespaceUtility
  *
  * Ths utility is used to identify custom classes in YAML configuration
  * Following this scheme: /Flamingo/Task/Default
  *
  * @package Flamingo\Utility
  */
-abstract class Taxonomy
+abstract class NamespaceUtility
 {
     /**
      * Check if the name is following the scheme structure
@@ -18,7 +18,7 @@ abstract class Taxonomy
      * Returns matches in an array
      *
      * Example:
-     *  Taxonomy::matches('Flamingo/Task/Default', 'Flamingo/Task/*')
+     *  NamespaceUtility::matches('Flamingo/Task/Default', 'Flamingo/Task/*')
      *
      * @param string $name
      * @param string $scheme

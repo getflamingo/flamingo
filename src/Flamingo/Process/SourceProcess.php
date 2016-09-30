@@ -4,8 +4,8 @@ namespace Flamingo\Process;
 
 use Flamingo\Core\Process;
 use Flamingo\Core\Task;
-use Flamingo\Utility\Taxonomy as TaxonomyUtility;
-use Flamingo\Utility\Conf as ConfUtility;
+use Flamingo\Utility\NamespaceUtility;
+use Flamingo\Utility\ConfUtility;
 
 /**
  * Class SourceProcess
@@ -48,7 +48,7 @@ class SourceProcess extends Process
             }
 
             // Guess reader class
-            $extension = TaxonomyUtility::getExtension($source['file']);
+            $extension = NamespaceUtility::getExtension($source['file']);
             if ($readerName = ConfUtility::getReader($extension)) {
 
                 // Build class name

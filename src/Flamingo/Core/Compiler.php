@@ -3,8 +3,8 @@
 namespace Flamingo\Core;
 
 use Flamingo\Process\TaskProcess;
-use Flamingo\Utility\Iterator as IteratorUtility;
-use Flamingo\Utility\Taxonomy as TaxonomyUtility;
+use Flamingo\Utility\ArrayUtility;
+use Flamingo\Utility\NamespaceUtility;
 
 /**
  * Class Compiler
@@ -28,12 +28,12 @@ class Compiler
 
         foreach ($configuration as $name => $conf) {
 
-            if ($taskName = TaxonomyUtility::matches($name, 'Flamingo/Task/*')) {
+            if ($taskName = NamespaceUtility::matches($name, 'Flamingo/Task/*')) {
                 $taskName = strtolower($taskName[0]);
                 $tasks[$taskName] = $this->parseTask($conf);
             }
 
-            if ($confName = TaxonomyUtility::matches($name, 'Conf/*/*')) {
+            if ($confName = NamespaceUtility::matches($name, 'Conf/*/*')) {
                 $this->parseConf($confName[0], $confName[1], $conf);
             }
         }
@@ -54,7 +54,7 @@ class Compiler
         // Add new process alias
         if (strtolower($domain) === 'alias' && !empty($value)) {
             if (class_exists($className = 'Flamingo\\Process\\' . ucwords($key) . 'Process')) {
-                foreach (IteratorUtility::trimsplit(',', $value) as $alias) {
+                foreach (ArrayUtility::trimsplit(',', $value) as $alias) {
                     class_alias($className, 'Flamingo\\Process\\' . ucwords($alias) . 'Process');
                 }
             }
@@ -100,7 +100,7 @@ class Compiler
      */
     protected function parseProcess($configuration)
     {
-        if (is_string($configuration) && $taskName = Utility::taskName($configuration)) {
+        if (is_string($configuration) && $taskName = NamespaceUtility::matches($configuration, 'Flamingo/Task/*')) {
             return new TaskProcess($configuration);
         }
 
@@ -111,8 +111,8 @@ class Compiler
             $configuration = current($configuration);
 
             // Process name does not match any format
-            if (!($processName = TaxonomyUtility::matches($name, 'Flamingo/Process/*'))) {
-                if (!($processName = TaxonomyUtility::matches($name, '*'))) {
+            if (!($processName = NamespaceUtility::matches($name, 'Flamingo/Process/*'))) {
+                if (!($processName = NamespaceUtility::matches($name, '*'))) {
                     return null;
                 }
             }

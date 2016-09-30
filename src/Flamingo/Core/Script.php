@@ -2,7 +2,7 @@
 
 namespace Flamingo\Core;
 
-use Flamingo\Utility\Iterator as IteratorUtility;
+use Flamingo\Utility\ArrayUtility;
 use Flamingo\Exception\RuntimeException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -28,11 +28,11 @@ class Script
 
         foreach (func_get_args() as $arg) {
             if (is_array($arg)) {
-                $configuration = IteratorUtility::merge($configuration, $arg);
+                $configuration = ArrayUtility::merge($configuration, $arg);
             }
             if (is_string($arg)) {
                 $yaml = Yaml::parse($arg);
-                $configuration = IteratorUtility::merge($configuration, $yaml);
+                $configuration = ArrayUtility::merge($configuration, $yaml);
             }
         }
 
