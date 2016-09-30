@@ -22,7 +22,7 @@ class Task
     const SUMMON = 4;
 
     /**
-     * @var array
+     * @var array<\Flamingo\Core\Process>
      */
     protected $processes = [];
 
@@ -37,7 +37,7 @@ class Task
 
     /**
      * Execute each processes
-     * @return array $data
+     * @return array<\Flamingo\Model\Table> $data
      */
     public function execute()
     {
