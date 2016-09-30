@@ -30,7 +30,7 @@ abstract class Process
      * Process data using custom functions
      * TODO: Add return signal for the task
      *
-     * @param array $data
+     * @param array<\Flamingo\Model\Table> $data
      * @return array|int
      */
     abstract public function execute(&$data);

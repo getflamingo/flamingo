@@ -11,11 +11,21 @@ namespace Flamingo\Model;
  *
  * @package Flamingo\Model
  */
-class Table
+class Table extends \ArrayIterator
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $name;
 
-    /** @var array */
-    protected $data;
+    /**
+     * Table constructor.
+     * @param string $name
+     * @param array $data
+     */
+    public function __construct($name, $data)
+    {
+        $this->name = $name;
+        parent::__construct($data);
+    }
 }
