@@ -1,12 +1,12 @@
 ![Logo](https://cdn.rawgit.com/ubermanu/flamingo/master/icons/flamingo.png)
 
-Flamingo is a task runner oriented on data processing<br>
-Like other task runners, it runs its own file `flamingo.yml`
+**Flamingo** is a task runner oriented on data processing<br>
+Like other task runners, it runs its own configuration file, `flamingo.yml`
 
 Usage
 -----
 
-Create a configuration file named `flamingo.yml`
+Create a configuration file `flamingo.yml`
 > This configuration talks about itself, just a basic import/export
 
     Flamingo/Task/Default:
