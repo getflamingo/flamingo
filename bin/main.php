@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$script = new \Flamingo\Core\Script(
+$script = new \Flamingo\Core\Flamingo(
     file_get_contents(__DIR__ . '/default.yml'),
     file_get_contents(getcwd() . '/flamingo.yml')
 );

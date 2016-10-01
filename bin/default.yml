@@ -1,6 +1,7 @@
 
-# Flamingo version
-Conf/Version: 0.1.161001
+# Flamingo application
+Conf/App/Name: Flamingo
+Conf/App/Version: 0.1.161001
 
 # Log report and output
 Conf/Log/Level: -1

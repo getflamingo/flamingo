@@ -7,10 +7,10 @@ use Flamingo\Exception\RuntimeException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class Script
+ * Class Flamingo
  * @package Flamingo\Core
  */
-class Script
+class Flamingo
 {
     /**
      * @var array<\Flamingo\Core\Task>
@@ -18,13 +18,23 @@ class Script
     protected $tasks = [];
 
     /**
-     * Script constructor.
+     * Flamingo constructor.
      * @params string|array
      */
     public function __construct()
     {
+        foreach (func_get_args() as $arg) {
+            $this->addConfiguration($arg);
+        }
+    }
+
+    /**
+     * Merge configurations into array of tasks
+     * @params string|array
+     */
+    public function addConfiguration()
+    {
         $configuration = [];
-        $compiler = new Compiler();
 
         foreach (func_get_args() as $arg) {
             if (is_array($arg)) {
@@ -36,11 +46,12 @@ class Script
             }
         }
 
-        $this->tasks = $compiler->parse($configuration);
+        // Compile and add new tasks to the list
+        $this->tasks += (new Compiler)->parse($configuration);
     }
 
     /**
-     * Run script task
+     * Run flamingo task
      * @param string $taskName
      */
     public function run($taskName = 'default')
