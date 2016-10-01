@@ -12,8 +12,9 @@ Conf/Alias/Destination: Destinations, Dest
 # Be careful to not use the same extension for multiple parsers
 Conf/Parser/Json: json, js
 Conf/Parser/Csv: csv
-Conf/Parser/Xml: csv
+Conf/Parser/Xml: xml
 Conf/Parser/Excel: xls, xlsx
+Conf/Parser/Yaml: yaml, yml
 
 # Empty default task
 Flamingo/Task/Default:
