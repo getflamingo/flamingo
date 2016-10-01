@@ -11,9 +11,7 @@ use Flamingo\Utility\ConfUtility;
  * Class SourceProcess
  *
  * The source process add input data to the stream using readers
- * TODO: Add readers for multiple data types
- * TODO: Handle database format
- * TODO: Check aliases
+ * TODO: Handle database format?
  *
  * @package Flamingo\Process
  */
@@ -31,8 +29,12 @@ class SourceProcess extends Process
         $sources = $this->configuration;
 
         // Only one source was defined
-        if (!is_array($sources)) {
+        if (is_string($sources)) {
             $sources = [$sources];
+        }
+
+        if (!is_array($sources)) {
+            return Task::ERROR;
         }
 
         foreach ($sources as $source) {
