@@ -7,6 +7,7 @@ Conf/Log/Debug: false
 # Processes class aliases
 Conf/Alias/Source: Sources, Src
 Conf/Alias/Destination: Destinations, Dest
+Conf/Alias/Modify: Process, Mod
 
 # Parsers allowed extensions
 # Be careful to not use the same extension for multiple parsers

@@ -91,4 +91,15 @@ abstract class NamespaceUtility
 
         return $extension;
     }
+
+    /**
+     * Transform a string in PascalCase
+     *
+     * @param string $str
+     * @return string
+     */
+    public static function pascalCase($str)
+    {
+        return str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', strtolower($str))));
+    }
 }
