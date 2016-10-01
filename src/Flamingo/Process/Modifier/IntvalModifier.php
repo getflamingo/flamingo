@@ -4,7 +4,7 @@ namespace Flamingo\Process\Modifier;
 
 /**
  * Class IntvalModifier
- * @package Flamingo\Process\Mutate
+ * @package Flamingo\Process\Modifier
  */
 class IntvalModifier extends AbstractModifier
 {
