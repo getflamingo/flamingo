@@ -69,7 +69,9 @@ class Compiler
             }
 
             if (NamespaceUtility::getExtension($require) == 'php') {
-                include_once $require;
+                if (file_exists($require)) {
+                    require_once $require;
+                }
             }
         }
     }
