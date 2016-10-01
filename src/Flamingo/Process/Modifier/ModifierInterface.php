@@ -3,18 +3,15 @@
 namespace Flamingo\Process\Modifier;
 
 /**
- * Class IntvalModifier
+ * Interface ModifierInterface
  * @package Flamingo\Process\Modifier
  */
-class IntvalModifier implements ModifierInterface
+interface ModifierInterface
 {
     /**
      * @param mixed $value
      * @param mixed $options
      * @param array $record
      */
-    public function process(&$value, $options, $record)
-    {
-        $value = intval($value);
-    }
+    public function process(&$value, $options, $record);
 }

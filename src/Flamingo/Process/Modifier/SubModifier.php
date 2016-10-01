@@ -6,14 +6,15 @@ namespace Flamingo\Process\Modifier;
  * Class SubModifier
  * @package Flamingo\Process\Modifier
  */
-class SubModifier extends AbstractModifier
+class SubModifier implements ModifierInterface
 {
     /**
      * @param double $value
      * @param double $amount
+     * @param array $record
      */
-    public function process(&$value, $amount = 0.0)
+    public function process(&$value, $amount, $record)
     {
-        $value -= $amount;
+        $value -= is_numeric($amount) ? $amount : 0;
     }
 }
