@@ -1,4 +1,5 @@
 ![Logo](https://cdn.rawgit.com/ubermanu/flamingo/master/icons/flamingo.png)
+
 Flamingo is a task runner oriented on data processing<br>
 Like other task runners, it runs its own file `flamingo.yml`
 
