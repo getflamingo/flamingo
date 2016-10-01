@@ -1,6 +1,9 @@
 {
   "alias": "flamingo.phar",
   "chmod": "0755",
+  "compactors": [
+    "Herrera\\Box\\Compactor\\Php"
+  ],
   "directories": [
     "src"
   ],

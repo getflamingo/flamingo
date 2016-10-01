@@ -33,6 +33,10 @@ class Compiler
                 $tasks[$taskName] = $this->parseTask($conf);
             }
 
+            if (is_array(NamespaceUtility::matches($name, 'Flamingo/Require'))) {
+                $this->parseRequire($conf);
+            }
+
             if ($confName = NamespaceUtility::matches($name, 'Conf/*/*')) {
                 $this->parseConf($confName[0], $confName[1], $conf);
             }
@@ -42,12 +46,40 @@ class Compiler
     }
 
     /**
+     * Include all the required files
+     * It can be used to call some Composer dependencies
+     * TODO: Add YAML configuration support
+     *
+     * @param mixed $requires
+     */
+    protected function parseRequire($requires)
+    {
+        if (is_string($requires)) {
+            $requires = [$requires];
+        }
+
+        if (!is_array($requires)) {
+            return;
+        }
+
+        foreach ($requires as $require) {
+
+            if (!is_string($require)) {
+                continue;
+            }
+
+            if (NamespaceUtility::getExtension($require) == 'php') {
+                include_once $require;
+            }
+        }
+    }
+
+    /**
      * Parse Flamingo global conf to create class aliases
      * or to add configuration in $GLOBALS['FLAMINGO']['CONF']
      *
      * @param string $domain
      * @param string $key
-     * @param mixed $value
      */
     protected function parseConf($domain, $key, $value)
     {
