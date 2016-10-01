@@ -2,11 +2,13 @@
 
 namespace Flamingo\Writer;
 
+use Flamingo\Core\Writer;
+
 /**
  * Class CsvWriter
  * @package Flamingo\Reader
  */
-abstract class CsvWriter
+abstract class CsvWriter implements Writer
 {
     /**
      * @param \Flamingo\Model\Table $table

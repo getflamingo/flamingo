@@ -2,13 +2,14 @@
 
 namespace Flamingo\Reader;
 
+use Flamingo\Core\Reader;
 use Flamingo\Model\Table;
 
 /**
  * Class JsonReader
  * @package Flamingo\Reader
  */
-abstract class JsonReader
+abstract class JsonReader implements Reader
 {
     /**
      * @param array $options

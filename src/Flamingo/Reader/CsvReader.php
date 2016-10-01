@@ -2,14 +2,14 @@
 
 namespace Flamingo\Reader;
 
+use Flamingo\Core\Reader;
 use Flamingo\Model\Table;
-use League\Csv\Reader;
 
 /**
  * Class CsvReader
  * @package Flamingo\Reader
  */
-abstract class CsvReader
+abstract class CsvReader implements Reader
 {
     /**
      * @param array $options
@@ -21,7 +21,7 @@ abstract class CsvReader
         $firstLineHeader = !empty($options['header']) ? $options['header'] : true;
 
         // Read data from the file
-        $csv = Reader::createFromPath($filename);
+        $csv = \League\Csv\Reader::createFromPath($filename);
         $data = $csv->fetchAll();
 
         // Use first line as header keys

@@ -2,11 +2,13 @@
 
 namespace Flamingo\Writer;
 
+use Flamingo\Core\Writer;
+
 /**
  * Class JsonWriter
  * @package Flamingo\Reader
  */
-abstract class JsonWriter
+abstract class JsonWriter implements Writer
 {
     /**
      * @param \Flamingo\Model\Table $table
