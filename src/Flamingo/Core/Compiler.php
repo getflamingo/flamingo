@@ -40,6 +40,10 @@ class Compiler
             if ($confName = NamespaceUtility::matches($name, 'Conf/*/*')) {
                 $this->parseConf($confName[0], $confName[1], $conf);
             }
+
+            if ($confName = NamespaceUtility::matches($name, 'Conf/*')) {
+                $this->parseConf($confName[0], null, $conf);
+            }
         }
 
         return $tasks;
@@ -96,7 +100,11 @@ class Compiler
         }
 
         // Add value global conf key
-        $GLOBALS['FLAMINGO']['CONF'][$domain][$key] = $value;
+        if ($key) {
+            $GLOBALS['FLAMINGO']['CONF'][$domain][$key] = $value;
+        } else {
+            $GLOBALS['FLAMINGO']['CONF'][$domain] = $value;
+        }
     }
 
     /**
