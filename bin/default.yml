@@ -8,11 +8,12 @@ Conf/Log/Debug: false
 Conf/Alias/Source: Sources, Src
 Conf/Alias/Destination: Destinations, Dest
 
-# Readers allowed extensions
-Conf/Reader/Json: json, js
-Conf/Reader/Csv: csv
-Conf/Reader/Xml: csv
-Conf/Reader/Excel: xls, xlsx
+# Parsers allowed extensions
+# Be careful to not use the same extension for multiple parsers
+Conf/Parser/Json: json, js
+Conf/Parser/Csv: csv
+Conf/Parser/Xml: csv
+Conf/Parser/Excel: xls, xlsx
 
 # Empty default task
 Flamingo/Task/Default:

@@ -9,18 +9,19 @@ namespace Flamingo\Utility;
 abstract class ConfUtility
 {
     /**
-     * Return reader name associated to a file extension
+     * Return parser name associated to a file extension
+     * A parser can be a Reader or Writer name
      *
      * @param string $extension
      * @return string
      */
-    public static function getReader($extension)
+    public static function getParser($extension)
     {
-        $readers = $GLOBALS['FLAMINGO']['CONF']['Reader'];
+        $parsers = $GLOBALS['FLAMINGO']['CONF']['Parser'];
 
-        foreach ($readers as $reader => $extensions) {
+        foreach ($parsers as $parser => $extensions) {
             if (ArrayUtility::inList($extension, $extensions)) {
-                return $reader;
+                return $parser;
             }
         }
 

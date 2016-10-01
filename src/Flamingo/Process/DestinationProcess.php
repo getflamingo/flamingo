@@ -11,7 +11,6 @@ use Flamingo\Utility\ConfUtility;
  * Class DestinationProcess
  *
  * Output data into a specific format
- * TODO: Globalize Conf/Reader/* into Conf/Parser/*
  *
  * @package Flamingo\Process
  */
@@ -48,7 +47,7 @@ class DestinationProcess extends Process
 
             // Guess writer class
             $extension = NamespaceUtility::getExtension($destination['file']);
-            if ($writerName = ConfUtility::getReader($extension)) {
+            if ($writerName = ConfUtility::getParser($extension)) {
 
                 // Build class name
                 $className = 'Flamingo\\Writer\\' . ucwords($writerName) . 'Writer';

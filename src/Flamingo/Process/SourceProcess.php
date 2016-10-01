@@ -51,7 +51,7 @@ class SourceProcess extends Process
 
             // Guess reader class
             $extension = NamespaceUtility::getExtension($source['file']);
-            if ($readerName = ConfUtility::getReader($extension)) {
+            if ($readerName = ConfUtility::getParser($extension)) {
 
                 // Build class name
                 $className = 'Flamingo\\Reader\\' . ucwords($readerName) . 'Reader';
