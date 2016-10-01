@@ -1,6 +1,9 @@
 
+# Flamingo version
+Conf/Version: 0.1.161001
+
 # Log report and output
-Conf/Log/Level: error
+Conf/Log/Level: -1
 Conf/Log/File: flamingo.log
 Conf/Log/Debug: false
 
