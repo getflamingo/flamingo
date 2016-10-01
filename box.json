@@ -11,7 +11,9 @@
     {
       "name": "*.php",
       "exclude": [
-        "symfony/yaml/Tests"
+        "symfony/yaml/Tests",
+        "sabre/uri/tests",
+        "sabre/xml/tests"
       ],
       "in": "vendor"
     },
