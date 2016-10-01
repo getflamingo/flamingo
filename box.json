@@ -11,6 +11,10 @@
         "symfony/yaml/Tests"
       ],
       "in": "vendor"
+    },
+    {
+      "name": "default.yml",
+      "in": "bin"
     }
   ],
   "main": "bin/main.php",
