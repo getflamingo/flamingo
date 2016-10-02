@@ -46,19 +46,18 @@ class SourceProcess extends Process
                 $source = ['file' => $source];
             }
 
-            // No file given, next
-            if (empty($source['file'])) {
-                Analog::warning('Source "file" is not defined');
+            // Guess reader type
+            if (!empty($source['type'])) {
+                $type = $source['type'];
+            } elseif (!empty($source['file'])) {
+                $type = NamespaceUtility::getExtension($source['file']);
+            } else {
+                Analog::error(sprintf('No type found for this source - %s', json_encode($source)));
                 continue;
             }
 
-            if (!file_exists($source['file'])) {
-                Analog::error(sprintf('Source file "%s" does not exist', $source['file']));
-            }
-
-            // Guess reader class
-            $extension = NamespaceUtility::getExtension($source['file']);
-            if ($readerName = ConfUtility::getParser($extension)) {
+            // Search for compatible parser name
+            if ($readerName = ConfUtility::getParser($type)) {
 
                 // Build class name
                 $readerName = NamespaceUtility::pascalCase($readerName);
@@ -66,7 +65,7 @@ class SourceProcess extends Process
 
                 // Create reader if it exists
                 if (!class_exists($className)) {
-                    Analog::error(sprintf('Reader "%s" does not exist for the file %s', $readerName, $source['file']));
+                    Analog::error(sprintf('No reader found for the type "%s"', $type));
                     continue;
                 }
 

@@ -26,6 +26,10 @@ abstract class FileReader implements Reader
             return null;
         }
 
+        if (!file_exists($options['file'])) {
+            Analog::error(sprintf('The file "%s" does not exist', $options['file']));
+        }
+
         $table = $this->fileContent($options['file'], $options);
 
         Analog::debug(sprintf('Read data from %s - %s', $options['file'], json_encode($options)));
