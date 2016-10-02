@@ -72,6 +72,12 @@ class Flamingo
             return;
         }
 
+        $startTime = microtime(true);
+        Analog::info(sprintf('Running "%s"...', $taskName));
+
         $task->execute();
+
+        $execTime = microtime(true) - $startTime;
+        Analog::info(sprintf('Finished "%s" in %fs', $taskName, $execTime));
     }
 }
