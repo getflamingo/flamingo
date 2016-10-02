@@ -2,26 +2,19 @@
 
 namespace Flamingo\Writer;
 
-use Flamingo\Core\Writer;
-
 /**
  * Class JsonWriter
- * @package Flamingo\Reader
+ * @package Flamingo\Writer
  */
-abstract class JsonWriter implements Writer
+class JsonWriter extends FileWriter
 {
     /**
      * @param \Flamingo\Model\Table $table
      * @param array $options
+     * @return string
      */
-    public static function write($table, $options)
+    protected function tableContent($table, $options)
     {
-        $filename = !empty($options['file']) ? $options['file'] : '';
-
-        // Encode data
-        $json = json_encode((array)$table);
-
-        // Write output
-        file_put_contents($filename, $json);
+        return json_encode((array)$table);
     }
 }

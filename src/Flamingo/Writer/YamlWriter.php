@@ -2,27 +2,21 @@
 
 namespace Flamingo\Writer;
 
-use Flamingo\Core\Writer;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class YamlWriter
- * @package Flamingo\Reader
+ * @package Flamingo\Writer
  */
-abstract class YamlWriter implements Writer
+class YamlWriter extends FileWriter
 {
     /**
      * @param \Flamingo\Model\Table $table
      * @param array $options
+     * @return string
      */
-    public static function write($table, $options)
+    protected function tableContent($table, $options)
     {
-        $filename = !empty($options['file']) ? $options['file'] : '';
-
-        // Dump data
-        $yaml = Yaml::dump((array)$table);
-
-        // Write file
-        file_put_contents($filename, $yaml);
+        return Yaml::dump((array)$table);
     }
 }

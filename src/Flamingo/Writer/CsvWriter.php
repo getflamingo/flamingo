@@ -2,20 +2,19 @@
 
 namespace Flamingo\Writer;
 
-use Flamingo\Core\Writer;
-
 /**
  * Class CsvWriter
- * @package Flamingo\Reader
+ * @package Flamingo\Writer
  */
-abstract class CsvWriter implements Writer
+class CsvWriter extends FileWriter
 {
     /**
      * @param \Flamingo\Model\Table $table
      * @param array $options
+     * @return string
      */
-    public static function write($table, $options)
+    protected function tableContent($table, $options)
     {
-        $filename = !empty($options['file']) ? $options['file'] : '';
+        return '';
     }
 }

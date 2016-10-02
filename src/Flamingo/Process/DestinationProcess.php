@@ -54,7 +54,7 @@ class DestinationProcess extends Process
 
                 // Create writer if it exists
                 if (class_exists($className)) {
-                    $className::write(current($data), $destination);
+                    (new $className)->write(current($data), $destination);
                     next($data);
                 }
             }

@@ -12,5 +12,5 @@ interface Writer
      * @param \Flamingo\Model\Table $table
      * @param array $options
      */
-    public static function write($table, $options);
+    public function write($table, $options);
 }

@@ -2,7 +2,6 @@
 
 namespace Flamingo\Writer;
 
-use Flamingo\Core\Writer;
 use Sabre\Xml\Service;
 
 /**
@@ -10,18 +9,17 @@ use Sabre\Xml\Service;
  * TODO: Add namespace as table name
  * TODO: Add record tag name option
  *
- * @package Flamingo\Reader
+ * @package Flamingo\Writer
  */
-abstract class XmlWriter implements Writer
+class XmlWriter extends FileWriter
 {
     /**
      * @param \Flamingo\Model\Table $table
      * @param array $options
+     * @return string
      */
-    public static function write($table, $options)
+    protected function tableContent($table, $options)
     {
-        $filename = !empty($options['file']) ? $options['file'] : '';
-
         // Cast table into classic array
         $data = (array)$table;
 
@@ -34,9 +32,6 @@ abstract class XmlWriter implements Writer
         }
 
         // Encode data
-        $xml = (new Service)->write('{flamingo}root', $data);
-
-        // Write output
-        file_put_contents($filename, $xml);
+        return (new Service)->write('{flamingo}root', $data);
     }
 }
