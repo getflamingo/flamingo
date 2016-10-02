@@ -6,6 +6,7 @@ use Flamingo\Process\TaskProcess;
 use Flamingo\Utility\ArrayUtility;
 use Flamingo\Utility\ConfUtility;
 use Flamingo\Utility\NamespaceUtility;
+use Flamingo\Exception\ProcessException;
 
 /**
  * Class Compiler
@@ -159,6 +160,7 @@ class Compiler
      *
      * @param array $configuration
      * @return \Flamingo\Core\Process
+     * @throws \Flamingo\Exception\ProcessException
      */
     protected function parseProcess($configuration)
     {
@@ -175,17 +177,19 @@ class Compiler
             // Process name does not match any format
             if (!($processName = NamespaceUtility::matches($name, 'Flamingo/Process/*'))) {
                 if (!($processName = NamespaceUtility::matches($name, '*'))) {
-                    return null;
+                    throw new ProcessException(sprintf('The process name "%s" is malformed', $name));
                 }
             }
 
             // Build class name
             $className = 'Flamingo\\Process\\' . ucwords($processName[0]) . 'Process';
 
-            // Create process if it exists
-            if (class_exists($className)) {
-                return new $className($configuration);
+            if (!class_exists($className)) {
+                throw new ProcessException(sprintf('The process "%s" does not exist', $processName[0]));
             }
+
+            // Create process if it exists
+            return new $className($configuration);
         }
 
         return null;
