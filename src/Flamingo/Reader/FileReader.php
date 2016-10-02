@@ -4,7 +4,6 @@ namespace Flamingo\Reader;
 
 use Analog\Analog;
 use Flamingo\Core\Reader;
-use Flamingo\Model\Table;
 
 /**
  * Class FileReader
