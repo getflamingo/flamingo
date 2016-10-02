@@ -13,7 +13,9 @@
       "exclude": [
         "symfony/yaml/Tests",
         "sabre/uri/tests",
-        "sabre/xml/tests"
+        "sabre/xml/tests",
+        "psr/log/Psr/Log/Test",
+        "analog/analog/tests"
       ],
       "in": "vendor"
     },
