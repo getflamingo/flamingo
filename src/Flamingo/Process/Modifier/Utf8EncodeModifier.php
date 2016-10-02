@@ -11,7 +11,7 @@ class Utf8EncodeModifier implements ModifierInterface
     /**
      * @param string $value
      * @param mixed $options
-     * @param mixed $record
+     * @param array $record
      */
     public function process(&$value, $options, $record)
     {
