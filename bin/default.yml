@@ -12,8 +12,7 @@ Conf/App/Usage: |
 
 # Log report and output
 Conf/Log/Level: -1
-Conf/Log/File: flamingo.log
-Conf/Log/Debug: false
+Conf/Log/Debug: true
 
 # Processes class aliases
 Conf/Alias/Source: Sources, Src

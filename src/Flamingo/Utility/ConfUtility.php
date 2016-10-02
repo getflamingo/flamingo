@@ -27,4 +27,20 @@ abstract class ConfUtility
 
         return false;
     }
+
+    /**
+     * Return error name
+     *
+     * @param integer $code
+     * @return string
+     */
+    public static function errorName($code)
+    {
+        $errors = [
+            E_USER_ERROR => 'Error',
+            E_USER_WARNING => 'Warn',
+        ];
+
+        return array_key_exists($code, $errors) ? $errors[$code] : '';
+    }
 }

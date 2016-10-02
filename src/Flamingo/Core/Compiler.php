@@ -4,6 +4,7 @@ namespace Flamingo\Core;
 
 use Flamingo\Process\TaskProcess;
 use Flamingo\Utility\ArrayUtility;
+use Flamingo\Utility\ConfUtility;
 use Flamingo\Utility\NamespaceUtility;
 
 /**
@@ -80,23 +81,50 @@ class Compiler
      * Parse Flamingo global conf to create class aliases
      * or to add configuration in $GLOBALS['FLAMINGO']['CONF']
      *
-     * @param string $domain
+     * @param string $group
      * @param string $key
+     * @param mixed $value
      */
-    protected function parseConf($domain, $key, $value)
+    protected function parseConf($group, $key, $value)
     {
+        $group = NamespaceUtility::pascalCase($group);
+        $key = NamespaceUtility::pascalCase($key);
+
         // Add new process alias
-        if (strtolower($domain) === 'alias' && !empty($value)) {
-            if (class_exists($className = 'Flamingo\\Process\\' . ucwords($key) . 'Process')) {
+        if ($group === 'Alias' && !empty($value)) {
+            if (class_exists($className = 'Flamingo\\Process\\' . $key . 'Process')) {
                 foreach (ArrayUtility::trimsplit(',', $value) as $alias) {
-                    class_alias($className, 'Flamingo\\Process\\' . ucwords($alias) . 'Process');
+                    $alias = NamespaceUtility::pascalCase($alias);
+                    class_alias($className, 'Flamingo\\Process\\' . $alias . 'Process');
                 }
             }
             return;
         }
 
+        // Configure logs
+        if ($group === 'Log' && !empty($value)) {
+
+            if ($key === 'Level') {
+                error_reporting($value);
+                return;
+            }
+
+            if ($key === 'Debug') {
+
+                // Custom error output for logs
+                set_error_handler(function ($num, $message) use ($value) {
+                    if ($value) {
+                        $header = ($num !== E_USER_NOTICE ? '[' . ConfUtility::errorName($num) . '] ' : '');
+                        echo $header . $message . PHP_EOL;
+                    }
+                }, E_ALL);
+
+                return;
+            }
+        }
+
         // Add value global conf key
-        $GLOBALS['FLAMINGO']['CONF'][ucwords($domain)][ucwords($key)] = $value;
+        $GLOBALS['FLAMINGO']['CONF'][$group][$key] = $value;
     }
 
     /**
