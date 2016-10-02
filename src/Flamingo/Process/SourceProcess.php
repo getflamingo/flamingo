@@ -2,6 +2,7 @@
 
 namespace Flamingo\Process;
 
+use Analog\Analog;
 use Flamingo\Core\Process;
 use Flamingo\Core\Task;
 use Flamingo\Utility\NamespaceUtility;
@@ -34,6 +35,7 @@ class SourceProcess extends Process
         }
 
         if (!is_array($sources)) {
+            Analog::warning('Sources array must be empty or null');
             return Task::ERROR;
         }
 
@@ -46,7 +48,12 @@ class SourceProcess extends Process
 
             // No file given, next
             if (empty($source['file'])) {
+                Analog::warning('Source "file" is not defined');
                 continue;
+            }
+
+            if (!file_exists($source['file'])) {
+                Analog::error(sprintf('Source file "%s" does not exist', $source['file']));
             }
 
             // Guess reader class
@@ -54,12 +61,16 @@ class SourceProcess extends Process
             if ($readerName = ConfUtility::getParser($extension)) {
 
                 // Build class name
-                $className = 'Flamingo\\Reader\\' . ucwords($readerName) . 'Reader';
+                $readerName = NamespaceUtility::pascalCase($readerName);
+                $className = 'Flamingo\\Reader\\' . $readerName . 'Reader';
 
                 // Create reader if it exists
-                if (class_exists($className)) {
-                    $data[] = $className::read($source);
+                if (!class_exists($className)) {
+                    Analog::error(sprintf('Reader "%s" does not exist for the file %s', $readerName, $source['file']));
+                    continue;
                 }
+
+                $data[] = $className::read($source);
             }
         }
 
