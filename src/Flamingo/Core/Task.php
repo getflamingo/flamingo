@@ -32,7 +32,9 @@ class Task
      */
     public function addProcess(Process $process)
     {
-        $this->processes[] = $process;
+        if ($process instanceof Process) {
+            $this->processes[] = $process;
+        }
     }
 
     /**
