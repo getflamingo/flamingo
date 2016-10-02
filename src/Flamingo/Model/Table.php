@@ -21,11 +21,18 @@ class Table extends \ArrayIterator
     /**
      * Table constructor.
      * @param string $name
-     * @param array $data
+     * @param array $columns
+     * @param array $records
      */
-    public function __construct($name, $data)
+    public function __construct($name, $columns, $records)
     {
         $this->name = $name;
-        parent::__construct($data);
+
+        // Add keys to $records
+        foreach ($records as &$record) {
+            $record = array_combine($columns, $record);
+        }
+
+        parent::__construct($records);
     }
 }

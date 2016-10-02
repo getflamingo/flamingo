@@ -70,7 +70,7 @@ class SourceProcess extends Process
                     continue;
                 }
 
-                $data[] = $className::read($source);
+                $data[] = (new $className)->read($source);
             }
         }
 

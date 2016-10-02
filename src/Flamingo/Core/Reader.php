@@ -12,5 +12,5 @@ interface Reader
      * @param array $options
      * @return \Flamingo\Model\Table
      */
-    public static function read($options);
+    public function read($options);
 }

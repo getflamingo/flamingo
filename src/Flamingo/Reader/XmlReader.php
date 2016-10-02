@@ -2,7 +2,6 @@
 
 namespace Flamingo\Reader;
 
-use Flamingo\Core\Reader;
 use Flamingo\Model\Table;
 use Sabre\Xml\Service;
 
@@ -13,23 +12,28 @@ use Sabre\Xml\Service;
  *
  * @package Flamingo\Reader
  */
-abstract class XmlReader implements Reader
+class XmlReader extends FileReader
 {
     /**
+     * @param string $filename
      * @param array $options
      * @return \Flamingo\Model\Table
      */
-    public static function read($options)
+    protected function fileContent($filename, $options)
     {
-        $filename = !empty($options['file']) ? $options['file'] : '';
-
         // Read data from the file
         $xml = file_get_contents($filename);
 
         // Parse XML data
         $service = new Service();
         $data = $service->parse($xml);
+        $header = [];
 
-        return new Table($filename, $data);
+        $data = array_map(function ($record) use (&$header) {
+            $header += array_column($record['value'], 'name');
+            return array_column($record['value'], 'value');
+        }, $data);
+
+        return new Table($filename, $header, array_values($data));
     }
 }
