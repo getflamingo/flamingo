@@ -1,14 +1,16 @@
 <?php
 
-namespace Flamingo\Core;
+namespace Flamingo;
 
+use Flamingo\Core\Compiler;
+use Flamingo\Core\Task;
 use Flamingo\Utility\ArrayUtility;
-use Flamingo\Exception\RuntimeException;
 use Symfony\Component\Yaml\Yaml;
+use Analog\Analog;
 
 /**
  * Class Flamingo
- * @package Flamingo\Core
+ * @package Flamingo
  */
 class Flamingo
 {
@@ -59,13 +61,15 @@ class Flamingo
         $taskName = strtolower($taskName);
 
         if (!array_key_exists($taskName, $this->tasks)) {
-            throw new RuntimeException(sprintf('The task "%s" does not exist!', $taskName));
+            Analog::error(sprintf('The task "%s" does not exist!', $taskName));
+            return;
         }
 
         $task = $this->tasks[$taskName];
 
         if (!($task instanceof Task)) {
-            throw new RuntimeException(sprintf('Registered task "%s" is not valid!', $taskName));
+            Analog::error(sprintf('Registered task "%s" is not valid!', $taskName));
+            return;
         }
 
         $task->execute();
