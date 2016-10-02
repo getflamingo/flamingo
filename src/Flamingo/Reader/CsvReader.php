@@ -2,6 +2,7 @@
 
 namespace Flamingo\Reader;
 
+use Analog\Analog;
 use Flamingo\Core\Reader;
 use Flamingo\Model\Table;
 
@@ -20,6 +21,11 @@ abstract class CsvReader implements Reader
         $filename = !empty($options['file']) ? $options['file'] : '';
         $firstLineHeader = !empty($options['header']) ? $options['header'] : true;
 
+        if (empty($filename)) {
+            Analog::error(sprintf('%s No filename defined', get_class(CsvReader::class)));
+            return null;
+        }
+
         // Read data from the file
         $csv = \League\Csv\Reader::createFromPath($filename);
         $data = $csv->fetchAll();
@@ -34,6 +40,7 @@ abstract class CsvReader implements Reader
             }
         }
 
+        Analog::debug(sprintf('Read data from %s - %s', $filename, json_encode($options)));
         return new Table($filename, $data);
     }
 }
