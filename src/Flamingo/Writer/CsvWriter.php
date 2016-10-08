@@ -17,11 +17,27 @@ class CsvWriter extends FileWriter
      */
     protected function tableContent($table, $options)
     {
+        $defaultOptions = [
+            'delimiter' => ',',
+            'enclosure' => '"',
+            'escape' => '\\',
+            'newline' => "\n",
+        ];
+
+        // Overwrite default options
+        $options = array_replace($defaultOptions, $options);
+
         // Cast into array
         $data = (array)$table;
 
         // Create writer
         $writer = LCsvWriter::createFromFileObject(new \SplTempFileObject());
+
+        // Set up writer controls from options
+        $writer->setDelimiter($options['delimiter']);
+        $writer->setEnclosure($options['enclosure']);
+        $writer->setEscape($options['escape']);
+        $writer->setNewline($options['newline']);
 
         // Add header
         if (count($data)) {

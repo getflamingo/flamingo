@@ -18,10 +18,28 @@ class CsvReader extends FileReader
      */
     protected function fileContent($filename, $options)
     {
+        $defaultOptions = [
+            'delimiter' => ',',
+            'enclosure' => '"',
+            'escape' => '\\',
+            'newline' => "\n",
+        ];
+
+        // Overwrite default options
+        $options = array_replace($defaultOptions, $options);
+
         $firstLineHeader = !empty($options['header']) ? $options['header'] : true;
 
         // Read data from the file
         $csv = LCsvReader::createFromPath($filename);
+
+        // Set up controls from options
+        $csv->setDelimiter($options['delimiter']);
+        $csv->setEnclosure($options['enclosure']);
+        $csv->setEscape($options['escape']);
+        $csv->setNewline($options['newline']);
+
+        // Fetch all lines
         $data = $csv->fetchAll();
 
         // Use first line as header keys
