@@ -50,6 +50,8 @@ class DbReader implements Reader
                 $options['password']
             );
 
+            // PDO should throw exceptions on error
+            // Need to be handled by Analog though
             $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         } catch (\PDOException $e) {
@@ -73,6 +75,8 @@ class DbReader implements Reader
         }
 
         try {
+
+            Analog::debug(sprintf('Get records from DB - "%s"', $query));
 
             // Execute query
             $query = $this->pdo->query($query, \PDO::FETCH_ASSOC)->fetchAll();
