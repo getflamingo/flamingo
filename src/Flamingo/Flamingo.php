@@ -43,8 +43,9 @@ class Flamingo
                 $configuration = ArrayUtility::merge($configuration, $arg);
             }
             if (is_string($arg)) {
-                $yaml = Yaml::parse($arg);
-                $configuration = ArrayUtility::merge($configuration, $yaml);
+                if (is_array($yaml = Yaml::parse($arg))) {
+                    $configuration = ArrayUtility::merge($configuration, $yaml);
+                }
             }
         }
 
