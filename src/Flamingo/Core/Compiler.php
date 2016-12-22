@@ -96,12 +96,12 @@ class Compiler
      */
     protected function parseConf($group, $key, $value)
     {
-        $group = NamespaceUtility::pascalCase($group);
-        $key = NamespaceUtility::pascalCase($key);
-
         // Add value global conf key
         Analog::debug(sprintf('Configuration %s/%s = %s', $group, $key, $value));
         $GLOBALS['FLAMINGO']['CONF'][$group][$key] = $value;
+
+        $group = NamespaceUtility::pascalCase($group);
+        $key = NamespaceUtility::pascalCase($key);
 
         // Add new process alias
         if ($group === 'Alias' && !empty($value)) {
