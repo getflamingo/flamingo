@@ -46,6 +46,7 @@ class Task
         $data = [];
 
         foreach ($this->processes as $process) {
+            reset($data);
             $process->execute($data);
         }
 

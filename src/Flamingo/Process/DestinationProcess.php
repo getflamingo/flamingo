@@ -23,7 +23,6 @@ class DestinationProcess extends Process
     public function execute(&$data = [])
     {
         $destinations = $this->configuration;
-        reset($data);
 
         // Only one destination was defined
         if (is_string($destinations)) {
