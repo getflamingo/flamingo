@@ -4,7 +4,8 @@
         "symfony/yaml": "^2.8",
         "league/csv": "^8.1",
         "sabre/xml": "^1.4",
-        "analog/analog": "^1.0"
+        "analog/analog": "^1.0",
+        "phpoffice/phpexcel": "^1.8"
     },
     "autoload": {
         "psr-0": {
