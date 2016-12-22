@@ -16,6 +16,9 @@ Conf/Log/Debug: false
 # Keep old fields after new ones are mapped
 Conf/Mapping/Keep: false
 
+# Don't apply processor if field does not exist
+Conf/Modify/MustExist: false
+
 # Processes class aliases
 Conf/Alias/Source: Sources, Src
 Conf/Alias/Destination: Destinations, Dest

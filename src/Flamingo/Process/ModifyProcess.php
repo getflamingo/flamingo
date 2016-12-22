@@ -20,6 +20,10 @@ class ModifyProcess extends Process
      */
     public function __construct($configuration)
     {
+        if (!is_array($configuration)) {
+            return;
+        }
+
         foreach ($configuration as $field => &$modifiers) {
 
             // No modifier specified
@@ -71,17 +75,13 @@ class ModifyProcess extends Process
      */
     public function execute(&$data = [])
     {
-        if (!is_array($this->configuration)) {
-            return Task::ERROR;
-        }
-
         // Execute those for every
         foreach ($data as &$table) {
             foreach ($table as &$record) {
                 foreach ($this->configuration as $field => $modifiers) {
 
                     // This column does not exists
-                    if (!array_key_exists($field, $record)) {
+                    if (!array_key_exists($field, $record) && $GLOBALS['FLAMINGO']['CONF']['Modify']['MustExist']) {
                         continue;
                     }
 
