@@ -1,7 +1,7 @@
 
 # Flamingo application
 Conf/App/Name: Flamingo
-Conf/App/Version: 0.1.161008
+Conf/App/Version: 0.1.161222
 Conf/App/Usage: |
   Usage: flamingo.phar [TASK] [OPTIONS]
   Execute a task in the flamingo.yml of the current folder
@@ -12,6 +12,9 @@ Conf/App/Usage: |
 
 # Log report and output
 Conf/Log/Debug: false
+
+# Keep old fields after new ones are mapped
+Conf/Mapping/Keep: false
 
 # Processes class aliases
 Conf/Alias/Source: Sources, Src

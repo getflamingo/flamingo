@@ -55,6 +55,11 @@ class MappingProcess extends Process
                 // Backup current record
                 $baseRecord = $record;
 
+                // Reset record if needed
+                if ($GLOBALS['FLAMINGO']['CONF']['Mapping']['Keep'] == false) {
+                    $record = [];
+                }
+
                 // Apply mapping
                 foreach ($this->configuration as $key => $newKey) {
                     if (array_key_exists($key, $baseRecord)) {
