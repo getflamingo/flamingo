@@ -1,65 +1,35 @@
 <?php
-
 namespace Flamingo\Process;
 
-use Flamingo\Core\Process;
-use Flamingo\Core\Task;
-use Flamingo\Utility\NamespaceUtility;
-use Flamingo\Utility\ConfUtility;
+use Flamingo\Core\Writer;
 
 /**
  * Class DestinationProcess
- *
- * Output data into a specific format
- *
  * @package Flamingo\Process
  */
-class DestinationProcess extends Process
+class DestinationProcess extends DataProcess
 {
     /**
-     * @param array $data
-     * @return int
+     * @var string
      */
-    public function execute(&$data = [])
+    protected $noTypeFound = 'No type found for this destination - %s';
+
+    /**
+     * @param array $data
+     * @param string $writerName
+     * @param array $configuration
+     */
+    public function parseData(&$data, $writerName, $configuration)
     {
-        $destinations = $this->configuration;
+        // Build class name
+        $className = 'Flamingo\\Writer\\' . ucwords($writerName) . 'Writer';
 
-        // Only one destination was defined
-        if (is_string($destinations)) {
-            $destinations = [$destinations];
-        }
-
-        if (!is_array($destinations)) {
-            return Task::ERROR;
-        }
-
-        foreach ($destinations as $index => $destination) {
-
-            // One file as destination
-            if (is_string($destination)) {
-                $destination = ['file' => $destination];
-            }
-
-            // No file given, next
-            if (empty($destination['file'])) {
-                continue;
-            }
-
-            // Guess writer class
-            $extension = NamespaceUtility::getExtension($destination['file']);
-            if ($writerName = ConfUtility::getParser($extension)) {
-
-                // Build class name
-                $className = 'Flamingo\\Writer\\' . ucwords($writerName) . 'Writer';
-
-                // Create writer if it exists
-                if (class_exists($className)) {
-                    (new $className)->write(current($data), $destination);
-                    next($data);
-                }
+        // Create writer if it exists
+        if (class_exists($className) && $parser = new $className) {
+            if ($parser instanceof Writer) {
+                $parser->write(current($data), $configuration);
+                next($data);
             }
         }
-
-        return Task::OK;
     }
 }
