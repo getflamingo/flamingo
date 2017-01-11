@@ -5,14 +5,13 @@ namespace Flamingo\Modifier;
  * Class ArrayShiftModifier
  * @package Flamingo\Modifier
  */
-class ArrayShiftModifier implements ModifierInterface
+class ArrayShiftModifier extends AbstractArrayModifier
 {
     /**
      * @param array $value
      * @param mixed $options
-     * @param array $record
      */
-    public function process(&$value, $options, $record)
+    protected function processArray(&$value, $options)
     {
         $value = array_shift($value);
     }

@@ -5,15 +5,14 @@ namespace Flamingo\Modifier;
  * Class ArrayUnshiftModifier
  * @package Flamingo\Modifier
  */
-class ArrayUnshiftModifier implements ModifierInterface
+class ArrayUnshiftModifier extends AbstractArrayModifier
 {
     /**
      * @param array $value
-     * @param mixed $var
-     * @param array $record
+     * @param mixed $parameter
      */
-    public function process(&$value, $var, $record)
+    public function processArray(&$value, $parameter)
     {
-        $value = array_unshift($value, $var);
+        array_unshift($value, $parameter);
     }
 }

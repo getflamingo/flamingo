@@ -5,15 +5,14 @@ namespace Flamingo\Modifier;
  * Class ArrayPushModifier
  * @package Flamingo\Modifier
  */
-class ArrayPushModifier implements ModifierInterface
+class ArrayPushModifier extends AbstractArrayModifier
 {
     /**
-     * @param array $value
-     * @param mixed $var
-     * @param array $record
+     * @param array $array
+     * @param mixed $parameter
      */
-    public function process(&$value, $var, $record)
+    public function processArray(&$array, $parameter)
     {
-        $value = array_push($value, $var);
+        array_push($array, $parameter);
     }
 }
