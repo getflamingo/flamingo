@@ -54,12 +54,18 @@ abstract class AbstractStreamProcess extends AbstractProcess
                 $stream = ['file' => $stream];
             }
 
-            // Guess stream type
+            // Get from file extension
+            if (!empty($stream['file'])) {
+                $type = NamespaceUtility::getExtension($stream['file']);
+            }
+
+            // Get from type property
             if (!empty($stream['type'])) {
                 $type = $stream['type'];
-            } elseif (!empty($stream['file'])) {
-                $type = NamespaceUtility::getExtension($stream['file']);
-            } else {
+            }
+
+            // No type found
+            if (!isset($type)) {
                 Analog::error(sprintf($this->noTypeFound, json_encode($stream)));
                 continue;
             }
