@@ -1,5 +1,4 @@
 <?php
-
 namespace Flamingo\Reader;
 
 use Flamingo\Model\Table;
@@ -8,7 +7,7 @@ use Flamingo\Model\Table;
  * Class JsonReader
  * @package Flamingo\Reader
  */
-class JsonReader extends FileReader
+class JsonReader extends AbstractFileReader
 {
     /**
      * @param string $filename

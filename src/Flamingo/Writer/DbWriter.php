@@ -2,7 +2,6 @@
 namespace Flamingo\Writer;
 
 use Analog\Analog;
-use Flamingo\Core\Writer;
 use Flamingo\Model\Table;
 use Flamingo\Utility\StatementUtility;
 
@@ -14,7 +13,7 @@ use Flamingo\Utility\StatementUtility;
  *
  * @package Flamingo\Writer
  */
-class DbWriter implements Writer
+class DbWriter implements WriterInterface
 {
     /**
      * @var \PDO

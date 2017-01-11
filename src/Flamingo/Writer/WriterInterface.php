@@ -1,12 +1,11 @@
 <?php
-
-namespace Flamingo\Core;
+namespace Flamingo\Writer;
 
 /**
- * Interface Writer
- * @package Flamingo\Core
+ * Interface WriterInterface
+ * @package Flamingo\Writer
  */
-interface Writer
+interface WriterInterface
 {
     /**
      * @param \Flamingo\Model\Table $table

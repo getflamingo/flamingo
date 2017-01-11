@@ -1,12 +1,11 @@
 <?php
-
 namespace Flamingo\Writer;
 
 /**
  * Class JsonWriter
  * @package Flamingo\Writer
  */
-class JsonWriter extends FileWriter
+class JsonWriter extends AbstractFileWriter
 {
     /**
      * @param \Flamingo\Model\Table $table

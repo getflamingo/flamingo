@@ -1,16 +1,14 @@
 <?php
-
 namespace Flamingo\Reader;
 
 use Analog\Analog;
-use Flamingo\Core\Reader;
 use Flamingo\Model\Table;
 
 /**
  * Class DbReader
  * @package Flamingo\Reader
  */
-class DbReader implements Reader
+class DbReader implements ReaderInterface
 {
     /**
      * @var \PDO
@@ -56,11 +54,12 @@ class DbReader implements Reader
 
         } catch (\PDOException $e) {
             Analog::error('PDO: ' . $e->getMessage());
+
             return null;
         }
 
         if (!empty($options['table'])) {
-            $query = "SELECT * FROM ". $options['table'];
+            $query = "SELECT * FROM " . $options['table'];
             Analog::debug(sprintf('Building query from table name - "%s"', $query));
         }
 
@@ -71,6 +70,7 @@ class DbReader implements Reader
 
         if (empty($query)) {
             Analog::error(sprintf('No table name or query defined - %s', json_encode($options)));
+
             return null;
         }
 
@@ -89,6 +89,7 @@ class DbReader implements Reader
 
         } catch (\PDOException $e) {
             Analog::error('PDO: ' . $e->getMessage());
+
             return null;
         }
     }

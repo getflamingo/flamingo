@@ -1,12 +1,11 @@
 <?php
-
-namespace Flamingo\Core;
+namespace Flamingo\Reader;
 
 /**
- * Interface Reader
- * @package Flamingo\Core
+ * Interface ReaderInterface
+ * @package Flamingo\Reader
  */
-interface Reader
+interface ReaderInterface
 {
     /**
      * @param array $options

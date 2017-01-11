@@ -1,5 +1,4 @@
 <?php
-
 namespace Flamingo\Writer;
 
 use League\Csv\Writer as LCsvWriter;
@@ -8,7 +7,7 @@ use League\Csv\Writer as LCsvWriter;
  * Class CsvWriter
  * @package Flamingo\Writer
  */
-class CsvWriter extends FileWriter
+class CsvWriter extends AbstractFileWriter
 {
     /**
      * @param \Flamingo\Model\Table $table

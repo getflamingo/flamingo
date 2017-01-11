@@ -1,19 +1,15 @@
 <?php
-
 namespace Flamingo\Writer;
 
 use Analog\Analog;
-use Flamingo\Core\Writer;
 
 /**
- * Class FileWriter
- *
- * Handles errors for writers
- * putting content in file
+ * Class AbstractFileWriter
+ * Handles errors for writers putting content in file
  *
  * @package Flamingo\Writer
  */
-abstract class FileWriter implements Writer
+abstract class AbstractFileWriter implements WriterInterface
 {
     /**
      * @@param \Flamingo\Model\Table $table

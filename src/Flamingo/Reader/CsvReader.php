@@ -1,5 +1,4 @@
 <?php
-
 namespace Flamingo\Reader;
 
 use Flamingo\Model\Table;
@@ -9,7 +8,7 @@ use League\Csv\Reader as LCsvReader;
  * Class CsvReader
  * @package Flamingo\Reader
  */
-class CsvReader extends FileReader
+class CsvReader extends AbstractFileReader
 {
     /**
      * @param string $filename

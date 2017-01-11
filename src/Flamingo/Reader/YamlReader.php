@@ -1,5 +1,4 @@
 <?php
-
 namespace Flamingo\Reader;
 
 use Flamingo\Model\Table;
@@ -9,7 +8,7 @@ use Symfony\Component\Yaml\Yaml;
  * Class YamlReader
  * @package Flamingo\Reader
  */
-class YamlReader extends FileReader
+class YamlReader extends AbstractFileReader
 {
     /**
      * @param string $filename

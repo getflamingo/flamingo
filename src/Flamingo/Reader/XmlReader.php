@@ -1,5 +1,4 @@
 <?php
-
 namespace Flamingo\Reader;
 
 use Flamingo\Model\Table;
@@ -12,7 +11,7 @@ use Sabre\Xml\Service;
  *
  * @package Flamingo\Reader
  */
-class XmlReader extends FileReader
+class XmlReader extends AbstractFileReader
 {
     /**
      * @param string $filename

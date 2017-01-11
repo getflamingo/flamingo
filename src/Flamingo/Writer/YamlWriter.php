@@ -1,5 +1,4 @@
 <?php
-
 namespace Flamingo\Writer;
 
 use Symfony\Component\Yaml\Yaml;
@@ -8,7 +7,7 @@ use Symfony\Component\Yaml\Yaml;
  * Class YamlWriter
  * @package Flamingo\Writer
  */
-class YamlWriter extends FileWriter
+class YamlWriter extends AbstractFileWriter
 {
     /**
      * @param \Flamingo\Model\Table $table

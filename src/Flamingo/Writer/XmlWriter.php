@@ -1,5 +1,4 @@
 <?php
-
 namespace Flamingo\Writer;
 
 use Sabre\Xml\Service;
@@ -11,7 +10,7 @@ use Sabre\Xml\Service;
  *
  * @package Flamingo\Writer
  */
-class XmlWriter extends FileWriter
+class XmlWriter extends AbstractFileWriter
 {
     /**
      * @param \Flamingo\Model\Table $table

@@ -1,19 +1,17 @@
 <?php
-
 namespace Flamingo\Reader;
 
 use Analog\Analog;
-use Flamingo\Core\Reader;
 
 /**
- * Class FileReader
+ * Class AbstractFileReader
  *
  * Handles errors for readers
  * reading data from file system
  *
  * @package Flamingo\Reader
  */
-abstract class FileReader implements Reader
+abstract class AbstractFileReader implements ReaderInterface
 {
     /**
      * @param array $options

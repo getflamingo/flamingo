@@ -1,5 +1,4 @@
 <?php
-
 namespace Flamingo\Reader;
 
 use Flamingo\Model\Table;
@@ -8,7 +7,7 @@ use Flamingo\Model\Table;
  * Class ExcelReader
  * @package Flamingo\Reader
  */
-class ExcelReader extends FileReader
+class ExcelReader extends AbstractFileReader
 {
     /**
      * @param string $filename
