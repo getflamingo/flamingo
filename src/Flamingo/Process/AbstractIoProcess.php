@@ -8,14 +8,14 @@ use Flamingo\Utility\NamespaceUtility;
 use Flamingo\Utility\ConfUtility;
 
 /**
- * Class DataProcess
+ * Class AbstractIoProcess
  *
  * Handles basic input and output processes creation
  * Base version for Source and Destination
  *
  * @package Flamingo\Process
  */
-abstract class DataProcess extends Process
+abstract class AbstractIoProcess extends Process
 {
     /**
      * Error to display when no type is found

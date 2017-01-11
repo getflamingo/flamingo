@@ -1,13 +1,13 @@
 <?php
 namespace Flamingo\Process;
 
-use Flamingo\Core\Reader;
+use Flamingo\Reader\ReaderInterface;
 
 /**
  * Class SourceProcess
  * @package Flamingo\Process
  */
-class SourceProcess extends DataProcess
+class SourceProcess extends AbstractIoProcess
 {
     /**
      * @var string
@@ -26,7 +26,7 @@ class SourceProcess extends DataProcess
 
         // Create writer if it exists
         if (class_exists($className) && $parser = new $className) {
-            if ($parser instanceof Reader) {
+            if ($parser instanceof ReaderInterface) {
                 $data[] = $parser->read($configuration);
             }
         }

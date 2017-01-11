@@ -1,13 +1,13 @@
 <?php
 namespace Flamingo\Process;
 
-use Flamingo\Core\Writer;
+use Flamingo\Writer\WriterInterface;
 
 /**
  * Class DestinationProcess
  * @package Flamingo\Process
  */
-class DestinationProcess extends DataProcess
+class DestinationProcess extends AbstractIoProcess
 {
     /**
      * @var string
@@ -26,7 +26,7 @@ class DestinationProcess extends DataProcess
 
         // Create writer if it exists
         if (class_exists($className) && $parser = new $className) {
-            if ($parser instanceof Writer) {
+            if ($parser instanceof WriterInterface) {
                 $parser->write(current($data), $configuration);
                 next($data);
             }
