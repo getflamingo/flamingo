@@ -48,7 +48,7 @@ class ModifyProcess extends AbstractProcess
 
                 // Get modifier class name
                 $name = current(array_keys($modConf));
-                $className = 'Flamingo\\Process\\Modifier\\' . NamespaceUtility::pascalCase($name) . 'Modifier';
+                $className = 'Flamingo\\Modifier\\' . NamespaceUtility::pascalCase($name) . 'Modifier';
 
                 // Class does not exist, remove from modifiers
                 if (!class_exists($className)) {
@@ -90,7 +90,7 @@ class ModifyProcess extends AbstractProcess
                         $options = current($modConf);
 
                         // Create class name and execute it
-                        $className = 'Flamingo\\Process\\Modifier\\' . NamespaceUtility::pascalCase($name) . 'Modifier';
+                        $className = 'Flamingo\\Modifier\\' . NamespaceUtility::pascalCase($name) . 'Modifier';
                         (new $className)->process($record[$field], $options, $record);
                     }
                 }

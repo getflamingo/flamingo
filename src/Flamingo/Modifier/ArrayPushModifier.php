@@ -1,12 +1,11 @@
 <?php
-
 namespace Flamingo\Process\Modifier;
 
 /**
- * Class ArrayUnshiftModifier
+ * Class ArrayPushModifier
  * @package Flamingo\Process\Modifier
  */
-class ArrayUnshiftModifier implements ModifierInterface
+class ArrayPushModifier implements ModifierInterface
 {
     /**
      * @param array $value
@@ -15,6 +14,6 @@ class ArrayUnshiftModifier implements ModifierInterface
      */
     public function process(&$value, $var, $record)
     {
-        $value = array_unshift($value, $var);
+        $value = array_push($value, $var);
     }
 }

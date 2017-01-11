@@ -1,5 +1,4 @@
 <?php
-
 namespace Flamingo\Process\Modifier;
 
 /**

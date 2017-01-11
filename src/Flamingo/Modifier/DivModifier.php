@@ -1,12 +1,11 @@
 <?php
-
 namespace Flamingo\Process\Modifier;
 
 /**
- * Class SubModifier
+ * Class DivModifier
  * @package Flamingo\Process\Modifier
  */
-class SubModifier implements ModifierInterface
+class DivModifier implements ModifierInterface
 {
     /**
      * @param double $value
@@ -15,6 +14,6 @@ class SubModifier implements ModifierInterface
      */
     public function process(&$value, $amount, $record)
     {
-        $value -= is_numeric($amount) ? $amount : 0;
+        $value /= is_numeric($amount) ? $amount : 1;
     }
 }

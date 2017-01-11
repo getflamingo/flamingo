@@ -1,17 +1,19 @@
 <?php
-
 namespace Flamingo\Process\Modifier;
 
 /**
- * Interface ModifierInterface
+ * Class IntvalModifier
  * @package Flamingo\Process\Modifier
  */
-interface ModifierInterface
+class IntvalModifier implements ModifierInterface
 {
     /**
      * @param mixed $value
      * @param mixed $options
      * @param array $record
      */
-    public function process(&$value, $options, $record);
+    public function process(&$value, $options, $record)
+    {
+        $value = intval($value);
+    }
 }

@@ -1,20 +1,19 @@
 <?php
-
 namespace Flamingo\Process\Modifier;
 
 /**
- * Class ArrayShiftModifier
+ * Class Utf8DecodeModifier
  * @package Flamingo\Process\Modifier
  */
-class ArrayShiftModifier implements ModifierInterface
+class Utf8DecodeModifier implements ModifierInterface
 {
     /**
-     * @param array $value
+     * @param string $value
      * @param mixed $options
      * @param array $record
      */
     public function process(&$value, $options, $record)
     {
-        $value = array_shift($value);
+        $value = utf8_decode($value);
     }
 }

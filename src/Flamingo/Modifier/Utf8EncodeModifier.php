@@ -1,12 +1,11 @@
 <?php
-
 namespace Flamingo\Process\Modifier;
 
 /**
- * Class Utf8DecodeModifier
+ * Class Utf8EncodeModifier
  * @package Flamingo\Process\Modifier
  */
-class Utf8DecodeModifier implements ModifierInterface
+class Utf8EncodeModifier implements ModifierInterface
 {
     /**
      * @param string $value
@@ -15,6 +14,6 @@ class Utf8DecodeModifier implements ModifierInterface
      */
     public function process(&$value, $options, $record)
     {
-        $value = utf8_decode($value);
+        $value = utf8_encode($value);
     }
 }
