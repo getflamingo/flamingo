@@ -7,7 +7,7 @@ use Flamingo\Writer\WriterInterface;
  * Class DestinationProcess
  * @package Flamingo\Process
  */
-class DestinationProcess extends AbstractIoProcess
+class DestinationProcess extends AbstractStreamProcess
 {
     /**
      * @var string

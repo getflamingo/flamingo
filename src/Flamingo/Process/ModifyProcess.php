@@ -1,8 +1,6 @@
 <?php
-
 namespace Flamingo\Process;
 
-use Flamingo\Core\Process;
 use Flamingo\Core\Task;
 use Flamingo\Utility\NamespaceUtility;
 
@@ -10,7 +8,7 @@ use Flamingo\Utility\NamespaceUtility;
  * Class ModifyProcess
  * @package Flamingo\Process
  */
-class ModifyProcess extends Process
+class ModifyProcess extends AbstractProcess
 {
     /**
      * ModifyProcess constructor.
@@ -73,7 +71,7 @@ class ModifyProcess extends Process
      * @param array $data
      * @return int
      */
-    public function execute(&$data = [])
+    public function execute(&$data)
     {
         // Execute those for every
         foreach ($data as &$table) {

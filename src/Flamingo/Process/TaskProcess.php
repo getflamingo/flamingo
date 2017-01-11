@@ -1,9 +1,7 @@
 <?php
-
 namespace Flamingo\Process;
 
 use Flamingo\Core\Task;
-use Flamingo\Core\Process;
 
 /**
  * Class TaskProcess
@@ -13,24 +11,8 @@ use Flamingo\Core\Process;
  *
  * @package Flamingo\Process
  */
-class TaskProcess extends Process
+class TaskProcess extends AbstractProcess
 {
-    /**
-     * The task to summon next
-     * @var string
-     */
-    protected $task;
-
-    /**
-     * TaskProcess constructor.
-     * @param $taskName
-     */
-    public function __construct($taskName)
-    {
-        parent::__construct();
-        $this->task = $taskName;
-    }
-
     /**
      * Returns a signal to the task to call another task
      *
@@ -39,6 +21,6 @@ class TaskProcess extends Process
      */
     public function execute(&$data)
     {
-        return [Task::SUMMON, $this->task];
+        return [Task::SUMMON, $this->configuration];
     }
 }

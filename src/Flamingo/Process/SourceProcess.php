@@ -7,7 +7,7 @@ use Flamingo\Reader\ReaderInterface;
  * Class SourceProcess
  * @package Flamingo\Process
  */
-class SourceProcess extends AbstractIoProcess
+class SourceProcess extends AbstractStreamProcess
 {
     /**
      * @var string

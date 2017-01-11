@@ -1,5 +1,4 @@
 <?php
-
 namespace Flamingo\Core;
 
 use Flamingo\Process\TaskProcess;
@@ -151,7 +150,7 @@ class Compiler
      * create a new process using this conf
      *
      * @param array $configuration
-     * @return \Flamingo\Core\Process
+     * @return \Flamingo\Process\ProcessInterface
      */
     protected function parseProcess($configuration)
     {

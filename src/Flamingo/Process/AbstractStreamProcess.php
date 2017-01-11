@@ -2,20 +2,19 @@
 namespace Flamingo\Process;
 
 use Analog\Analog;
-use Flamingo\Core\Process;
 use Flamingo\Core\Task;
 use Flamingo\Utility\NamespaceUtility;
 use Flamingo\Utility\ConfUtility;
 
 /**
- * Class AbstractIoProcess
+ * Class AbstractStreamProcess
  *
  * Handles basic input and output processes creation
  * Base version for Source and Destination
  *
  * @package Flamingo\Process
  */
-abstract class AbstractIoProcess extends Process
+abstract class AbstractStreamProcess extends AbstractProcess
 {
     /**
      * Error to display when no type is found
@@ -69,7 +68,7 @@ abstract class AbstractIoProcess extends Process
     }
 
     /**
-     * @param array<\Flamingo\Model\Table> $data
+     * @param <\Flamingo\Model\Table> $data
      * @param string $parserName
      * @param array $configuration
      */

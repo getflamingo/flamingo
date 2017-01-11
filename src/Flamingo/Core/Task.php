@@ -1,6 +1,7 @@
 <?php
-
 namespace Flamingo\Core;
+
+use Flamingo\Process\ProcessInterface;
 
 /**
  * Class Task
@@ -28,11 +29,11 @@ class Task
 
     /**
      * Add a process to the list
-     * @param \Flamingo\Core\Process $process
+     * @param \Flamingo\Process\ProcessInterface $process
      */
-    public function addProcess(Process $process)
+    public function addProcess($process)
     {
-        if ($process instanceof Process) {
+        if ($process instanceof ProcessInterface) {
             $this->processes[] = $process;
         }
     }

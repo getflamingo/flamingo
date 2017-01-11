@@ -1,16 +1,14 @@
 <?php
-
 namespace Flamingo\Process;
 
 use Analog\Analog;
-use Flamingo\Core\Process;
 use Flamingo\Core\Task;
 
 /**
  * Class MappingProcess
  * @package Flamingo\Process
  */
-class MappingProcess extends Process
+class MappingProcess extends AbstractProcess
 {
     /**
      * MappingProcess constructor.
