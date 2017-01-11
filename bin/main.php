@@ -33,7 +33,7 @@ if (in_array('-h', $argv) || in_array('--help', $argv)) {
 
 // Output current version
 if (in_array('-v', $argv) || in_array('--version', $argv)) {
-    echo $appConf['Name'] . ' ' . $appConf['Version'];
+    echo $appConf['Name'] . ' ' . $appConf['Version'] . PHP_EOL;
     exit;
 }
 
