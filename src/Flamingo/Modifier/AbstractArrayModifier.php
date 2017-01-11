@@ -17,7 +17,7 @@ abstract class AbstractArrayModifier implements ModifierInterface
     public function process(&$value, $options, $record)
     {
         if (!is_array($value)) {
-            Analog::error(sprintf('%s: Value is not an array', __CLASS__));
+            Analog::error(sprintf('%s: %s is not an array', __CLASS__, strval($value)));
             return;
         }
 

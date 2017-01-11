@@ -5,14 +5,13 @@ namespace Flamingo\Modifier;
  * Class MultModifier
  * @package Flamingo\Modifier
  */
-class MultModifier implements ModifierInterface
+class MultModifier extends AbstractNumberModifier
 {
     /**
-     * @param double $value
-     * @param double $amount
-     * @param array $record
+     * @param number $value
+     * @param mixed $amount
      */
-    public function process(&$value, $amount, $record)
+    protected function processNumber(&$value, $amount)
     {
         $value *= is_numeric($amount) ? $amount : 1;
     }
