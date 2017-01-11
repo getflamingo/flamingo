@@ -5,7 +5,7 @@ namespace Flamingo\Utility;
  * Class StatementUtility
  * @package Flamingo\Utility
  */
-class StatementUtility
+class StatementUtility implements UtilityInterface
 {
     /**
      * @var string

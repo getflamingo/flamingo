@@ -1,5 +1,4 @@
 <?php
-
 namespace Flamingo\Utility;
 
 /**
@@ -10,7 +9,7 @@ namespace Flamingo\Utility;
  *
  * @package Flamingo\Utility
  */
-abstract class NamespaceUtility
+class NamespaceUtility implements UtilityInterface
 {
     /**
      * Check if the name is following the scheme structure

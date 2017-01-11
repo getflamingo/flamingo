@@ -1,12 +1,11 @@
 <?php
-
 namespace Flamingo\Utility;
 
 /**
  * Class ArrayUtility
  * @package Flamingo\Utility
  */
-abstract class ArrayUtility
+class ArrayUtility implements UtilityInterface
 {
     /**
      * array_merge_recursive does indeed merge arrays, but it converts values with duplicate
@@ -36,12 +35,12 @@ abstract class ArrayUtility
      * CLean split of values
      *
      * @param string $delimiter
-     * @param array $array
+     * @param string $list
      * @return array
      */
-    public static function trimsplit($delimiter, $array)
+    public static function trimsplit($delimiter, $list)
     {
-        return array_map('trim', explode($delimiter, $array));
+        return array_map('trim', explode($delimiter, $list));
     }
 
     /**

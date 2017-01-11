@@ -3,8 +3,8 @@ namespace Flamingo\Process;
 
 use Analog\Analog;
 use Flamingo\Core\Task;
+use Flamingo\Utility\ArrayUtility;
 use Flamingo\Utility\NamespaceUtility;
-use Flamingo\Utility\ConfUtility;
 
 /**
  * Class AbstractStreamProcess
@@ -59,12 +59,32 @@ abstract class AbstractStreamProcess extends AbstractProcess
             }
 
             // Search for compatible parser
-            if ($parserName = ConfUtility::getParser($type)) {
+            if ($parserName = $this->getParser($type)) {
                 $this->parseData($data, $parserName, $target);
             }
         }
 
         return Task::OK;
+    }
+
+    /**
+     * Get parser class from file extension and global settings
+     * If not matching parser is found, skip this stream
+     *
+     * @param string $extension
+     * @return bool|string
+     */
+    protected function getParser($extension)
+    {
+        $parsers = $GLOBALS['FLAMINGO']['CONF']['Parser'];
+
+        foreach ($parsers as $parser => $extensions) {
+            if (ArrayUtility::inList($extension, $extensions)) {
+                return $parser;
+            }
+        }
+
+        return false;
     }
 
     /**
