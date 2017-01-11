@@ -37,30 +37,36 @@ abstract class AbstractStreamProcess extends AbstractProcess
             $configuration = [$configuration];
         }
 
+        // Use console writer if none is defined
+        if (is_null($configuration) && (get_class($this) === DestinationProcess::class)) {
+            $configuration = [['type' => 'console']];
+        }
+
+        // No configuration found
         if (!is_array($configuration)) {
             return Task::ERROR;
         }
 
-        foreach ($configuration as $index => $target) {
+        foreach ($configuration as $stream) {
 
             // One file as target
-            if (is_string($target)) {
-                $target = ['file' => $target];
+            if (is_string($stream)) {
+                $stream = ['file' => $stream];
             }
 
-            // Guess target type
-            if (!empty($target['type'])) {
-                $type = $target['type'];
-            } elseif (!empty($target['file'])) {
-                $type = NamespaceUtility::getExtension($target['file']);
+            // Guess stream type
+            if (!empty($stream['type'])) {
+                $type = $stream['type'];
+            } elseif (!empty($stream['file'])) {
+                $type = NamespaceUtility::getExtension($stream['file']);
             } else {
-                Analog::error(sprintf($this->noTypeFound, json_encode($target)));
+                Analog::error(sprintf($this->noTypeFound, json_encode($stream)));
                 continue;
             }
 
             // Search for compatible parser
             if ($parserName = $this->getParser($type)) {
-                $this->parseData($data, $parserName, $target);
+                $this->parseData($data, $parserName, $stream);
             }
         }
 

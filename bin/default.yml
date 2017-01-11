@@ -33,3 +33,4 @@ Conf/Parser/Xml: xml
 Conf/Parser/Excel: xls, xlsx
 Conf/Parser/Yaml: yaml, yml
 Conf/Parser/Db: db
+Conf/Parser/Console: console
