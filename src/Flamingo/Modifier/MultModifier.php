@@ -1,9 +1,9 @@
 <?php
-namespace Flamingo\Process\Modifier;
+namespace Flamingo\Modifier;
 
 /**
  * Class MultModifier
- * @package Flamingo\Process\Modifier
+ * @package Flamingo\Modifier
  */
 class MultModifier implements ModifierInterface
 {

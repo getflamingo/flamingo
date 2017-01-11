@@ -1,9 +1,9 @@
 <?php
-namespace Flamingo\Process\Modifier;
+namespace Flamingo\Modifier;
 
 /**
  * Class Utf8DecodeModifier
- * @package Flamingo\Process\Modifier
+ * @package Flamingo\Modifier
  */
 class Utf8DecodeModifier implements ModifierInterface
 {

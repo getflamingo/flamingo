@@ -1,11 +1,11 @@
 <?php
-namespace Flamingo\Process\Modifier;
+namespace Flamingo\Modifier;
 
 use Analog\Analog;
 
 /**
  * Class StrReplaceModifier
- * @package Flamingo\Process\Modifier
+ * @package Flamingo\Modifier
  */
 class StrReplaceModifier implements ModifierInterface
 {

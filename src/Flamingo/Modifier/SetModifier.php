@@ -1,9 +1,9 @@
 <?php
-namespace Flamingo\Process\Modifier;
+namespace Flamingo\Modifier;
 
 /**
  * Class SetModifier
- * @package Flamingo\Process\Modifier
+ * @package Flamingo\Modifier
  */
 class SetModifier implements ModifierInterface
 {

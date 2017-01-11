@@ -1,9 +1,9 @@
 <?php
-namespace Flamingo\Process\Modifier;
+namespace Flamingo\Modifier;
 
 /**
  * Class IntvalModifier
- * @package Flamingo\Process\Modifier
+ * @package Flamingo\Modifier
  */
 class IntvalModifier implements ModifierInterface
 {

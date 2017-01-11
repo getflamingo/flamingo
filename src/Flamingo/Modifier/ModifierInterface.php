@@ -1,9 +1,9 @@
 <?php
-namespace Flamingo\Process\Modifier;
+namespace Flamingo\Modifier;
 
 /**
  * Interface ModifierInterface
- * @package Flamingo\Process\Modifier
+ * @package Flamingo\Modifier
  */
 interface ModifierInterface
 {
