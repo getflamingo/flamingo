@@ -1,7 +1,7 @@
 
 # Flamingo application
 Conf/App/Name: Flamingo
-Conf/App/Version: 0.1.170111
+Conf/App/Version: 0.1.170112
 Conf/App/Usage: |
   Usage: flamingo.phar [TASK] [OPTIONS]
   Execute a task in the flamingo.yml of the current folder
@@ -18,6 +18,9 @@ Conf/Mapping/Keep: false
 
 # Don't apply processor if field does not exist
 Conf/Modify/MustExist: false
+
+# Use first line in the as header key
+Conf/Header/FirstLine: true
 
 # Processes class aliases
 Conf/Alias/Source: Sources, Src

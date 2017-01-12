@@ -39,6 +39,13 @@ class ExcelReader extends AbstractFileReader
         // Use first line as header keys
         $header = $options['header'] ? array_shift($data) : [];
 
+        // Clean up header keys
+        if ($GLOBALS['FLAMINGO']['CONF']['Header']['FirstLine']) {
+            foreach ($header as &$column) {
+                $column = array_shift(explode(PHP_EOL, $column));
+            }
+        }
+
         return new Table($filename, $header, array_values($data));
     }
 }
