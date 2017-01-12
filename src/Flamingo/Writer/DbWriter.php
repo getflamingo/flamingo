@@ -176,6 +176,11 @@ class DbWriter implements WriterInterface
             );
         }
 
+        // No columns to update
+        if (count($record) == 0) {
+            return;
+        }
+
         // Build query
         $statement = sprintf(
             'UPDATE %s SET %s',
