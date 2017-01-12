@@ -25,13 +25,13 @@ class ModifyProcess extends AbstractProcess
         foreach ($configuration as $field => &$modifiers) {
 
             // No modifier specified
-            if (empty($modifiers)) {
+            if (is_null($modifiers)) {
                 continue;
             }
 
-            // Only one modifier (as a string) given
-            if (is_string($modifiers)) {
-                $modifiers = [$modifiers => null];
+            // Use set for standalone values
+            if (!is_array($modifiers)) {
+                $modifiers = [['set' => $modifiers]];
             }
 
             foreach ($modifiers as $index => &$modConf) {
