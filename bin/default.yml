@@ -31,6 +31,7 @@ Conf/Alias/Source: Sources, Src
 Conf/Alias/Destination: Destinations, Dest
 Conf/Alias/Modify: Process, Mod
 Conf/Alias/Mapping: Map
+Conf/Alias/Function: Functions, Func, UserFunc, Call
 
 # Parsers allowed extensions
 # Be careful to not use the same extension for multiple parsers
