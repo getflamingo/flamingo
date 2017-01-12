@@ -56,8 +56,9 @@ class Flamingo
     /**
      * Run flamingo task
      * @param string $taskName
+     * @param bool $mainTask
      */
-    public function run($taskName = 'default')
+    public function run($taskName = 'default', $mainTask = true)
     {
         $taskName = strtolower($taskName);
 
@@ -73,12 +74,19 @@ class Flamingo
             return;
         }
 
-        $startTime = microtime(true);
-        Analog::info(sprintf('Running "%s"...', $taskName));
+        if ($mainTask) {
 
-        $task->execute();
+            $startTime = microtime(true);
+            Analog::info(sprintf('Running "%s"...', $taskName));
 
-        $execTime = microtime(true) - $startTime;
-        Analog::info(sprintf('Finished "%s" in %fs', $taskName, $execTime));
+            $task->execute($this);
+
+            $execTime = microtime(true) - $startTime;
+            Analog::info(sprintf('Finished "%s" in %fs', $taskName, $execTime));
+
+        } else {
+
+            $task->execute($this);
+        }
     }
 }

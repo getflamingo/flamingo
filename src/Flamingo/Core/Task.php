@@ -1,13 +1,13 @@
 <?php
 namespace Flamingo\Core;
 
+use Flamingo\Flamingo;
 use Flamingo\Process\ProcessInterface;
 
 /**
  * Class Task
- *
  * A task is an entry point to the script execution
- * TODO: Find a way to call tasks from parent script
+ * TODO: Implement a more object oriented way to summon tasks
  *
  * @package Flamingo\Core
  */
@@ -40,15 +40,41 @@ class Task
 
     /**
      * Execute each processes
+     *
+     * @param \Flamingo\Flamingo $flamingo
      * @return array<\Flamingo\Model\Table> $data
      */
-    public function execute()
+    public function execute($flamingo = null)
     {
         $data = [];
 
         foreach ($this->processes as $process) {
+
+            // Reset iterator index
             reset($data);
-            $process->execute($data);
+
+            // Execute process
+            $signal = $process->execute($data);
+
+            // A summon action has been called
+            if (
+                is_array($signal) &&
+                count($signal) == 2 &&
+                $signal[0] == Task::SUMMON &&
+                !empty($takList = $signal[1]) &&
+                ($flamingo instanceof Flamingo)
+            ) {
+
+                // Support one task as a string
+                if (!is_array($takList)) {
+                    $takList = [$takList];
+                }
+
+                // Run tasks
+                foreach ($takList as $task) {
+                    $flamingo->run($task, false);
+                }
+            }
         }
 
         return $data;
