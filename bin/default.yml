@@ -22,6 +22,10 @@ Conf/Modify/MustExist: false
 # Use first line in the as header key
 Conf/Header/FirstLine: true
 
+# Execute inserts with ignore clause
+# Can be useful to ignore NULL values
+Conf/Sql/Ignore: false
+
 # Processes class aliases
 Conf/Alias/Source: Sources, Src
 Conf/Alias/Destination: Destinations, Dest
