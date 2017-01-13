@@ -20,12 +20,16 @@ class ExcelReader extends AbstractFileReader
             'header' => true,
             'sheet' => 0,
             'readOnly' => true,
+            'nullValue' => null,
+            'calculateFormulas' => false,
+            'formatData' => false,
         ];
 
         // Overwrite default options
         $options = array_replace($defaultOptions, $options);
 
         // Create file loader
+        /** @var $reader \PHPExcel_Reader_Abstract $reader */
         $reader = \PHPExcel_IOFactory::createReaderForFile($filename);
         $reader->setReadDataOnly($options['readOnly']);
 
@@ -34,7 +38,11 @@ class ExcelReader extends AbstractFileReader
         $excel->setActiveSheetIndex($options['sheet']);
 
         // Fetch all lines
-        $data = $excel->getActiveSheet()->toArray();
+        $data = $excel->getActiveSheet()->toArray(
+            $options['nullValue'],
+            $options['calculateFormulas'],
+            $options['formatData']
+        );
 
         // Use first line as header keys
         $header = $options['header'] ? array_shift($data) : [];
