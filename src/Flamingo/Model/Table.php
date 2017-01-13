@@ -51,4 +51,18 @@ class Table extends \ArrayIterator
     {
         return $this->name;
     }
+
+    /**
+     * Remove null and empty values
+     */
+    public function removeEmptyValues()
+    {
+        $copy = $this->getArrayCopy();
+
+        $cleanArray = array_filter($copy, function ($record) {
+            return (is_array($record) && count($record));
+        });
+
+        parent::__construct($cleanArray);
+    }
 }
