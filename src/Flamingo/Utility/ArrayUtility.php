@@ -56,4 +56,20 @@ class ArrayUtility implements UtilityInterface
         $list = ArrayUtility::trimsplit(',', $list);
         return in_array($value, $list);
     }
+
+    /**
+     * Add a prefix to array keys
+     *
+     * @param array $array
+     * @param string $prefix
+     * @return array
+     */
+    public static function prefixKeys(&$array, $prefix = '')
+    {
+        $newKeys = array_map(function ($key) use ($prefix) {
+            return $prefix . $key;
+        }, array_keys($array));
+
+        return array_combine($newKeys, $array);
+    }
 }

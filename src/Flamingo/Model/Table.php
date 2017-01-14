@@ -24,16 +24,19 @@ class Table extends \ArrayIterator
      * @param array $columns
      * @param array $records
      */
-    public function __construct($name, $columns, $records)
+    public function __construct($name = null, $columns = [], $records = [])
     {
         $this->name = $name;
 
-        // Add keys to $records
-        foreach ($records as &$record) {
-            $record = array_combine($columns, $record);
-        }
+        if (count($columns) * count($records) > 0) {
 
-        parent::__construct($records);
+            // Add keys to $records
+            foreach ($records as &$record) {
+                $record = array_combine($columns, $record);
+            }
+
+            parent::__construct($records);
+        }
     }
 
     /**
@@ -55,7 +58,7 @@ class Table extends \ArrayIterator
     /**
      * Remove null and empty values
      */
-    public function removeEmptyValues()
+    public function sanitize()
     {
         $copy = $this->getArrayCopy();
 
@@ -64,5 +67,14 @@ class Table extends \ArrayIterator
         });
 
         parent::__construct($cleanArray);
+    }
+
+    /**
+     * Copy an array into object storage
+     * @param array $array
+     */
+    public function copy($array)
+    {
+        parent::__construct($array);
     }
 }
