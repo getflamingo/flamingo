@@ -66,14 +66,12 @@ class MappingProcess extends AbstractProcess
                 // Apply mapping
                 foreach ($this->configuration as $key => $newKey) {
 
-                    if ($key == $newKey) {
-                        $record[$newKey] = $baseRecord[$key];
-                        continue;
-                    }
-
                     if (array_key_exists($key, $baseRecord)) {
                         $record[$newKey] = $baseRecord[$key];
-                        unset($record[$key]);
+
+                        if ($key !== $newKey) {
+                            unset($record[$key]);
+                        }
                     }
                 }
             }
