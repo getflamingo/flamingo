@@ -26,6 +26,11 @@ class MappingProcess extends AbstractProcess
 
         foreach ($configuration as $key => $newKey) {
 
+            // Support string as "needed" value
+            if (is_string($newKey)) {
+                $newKey = [$newKey => $newKey];
+            }
+
             // Support sub arrays syntax
             if (is_array($newKey)) {
                 $key = current(array_keys($newKey));
@@ -60,6 +65,12 @@ class MappingProcess extends AbstractProcess
 
                 // Apply mapping
                 foreach ($this->configuration as $key => $newKey) {
+
+                    if ($key == $newKey) {
+                        $record[$newKey] = $baseRecord[$key];
+                        continue;
+                    }
+
                     if (array_key_exists($key, $baseRecord)) {
                         $record[$newKey] = $baseRecord[$key];
                         unset($record[$key]);
