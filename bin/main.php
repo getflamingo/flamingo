@@ -14,6 +14,12 @@ $flamingo = new Flamingo(
 // Get app configuration
 $appConf = $GLOBALS['FLAMINGO']['CONF']['App'];
 
+// No configuration file found
+if (!file_exists(getcwd() . '/flamingo.yml')) {
+    echo 'No flamingo.yml file found in ' . getcwd() . PHP_EOL;
+    exit;
+}
+
 // Add project configuration
 $flamingo->addConfiguration(
     file_get_contents(getcwd() . '/flamingo.yml')
