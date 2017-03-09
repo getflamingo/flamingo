@@ -1,5 +1,18 @@
 {
     "name": "ubermanu/flamingo",
+    "description": "Task runner for data processing with PHP + YAML",
+    "keywords": [
+        "task-runner",
+        "flamingo",
+        "import",
+        "export",
+        "data-processing"
+    ],
+    "type": "software",
+    "support": {
+        "issues": "https://github.com/ubermanu/flamingo/issues",
+        "docs": "https://github.com/ubermanu/flamingo/wiki"
+    },
     "require": {
         "symfony/yaml": "^2.8",
         "league/csv": "^8.1",
