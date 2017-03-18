@@ -16,7 +16,7 @@ class JsonReader extends AbstractFileReader
      */
     protected function fileContent($filename, $options)
     {
-        $data = file_get_contents($filename);
+        $data = json_decode(file_get_contents($filename), true);
         $header = count($data) ? array_keys(current($data)) : [];
 
         return new Table($filename, $header, array_values($data));
