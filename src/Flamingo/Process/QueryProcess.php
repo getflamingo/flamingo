@@ -64,7 +64,7 @@ class QueryProcess extends AbstractProcess
 
             // Handle joinned queries
             foreach ($parameters as &$param) {
-                if (array_key_exists('from', $param)) {
+                if (is_array($param) && array_key_exists('from', $param)) {
                     $param = $this->executeQuery($data, $param);
                 }
             }
