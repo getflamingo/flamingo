@@ -24,24 +24,8 @@ class MappingProcess extends AbstractProcess
             return;
         }
 
-        foreach ($configuration as $key => $newKey) {
-
-            // Support string as "needed" value
-            if (is_string($newKey)) {
-                $newKey = [$newKey => $newKey];
-            }
-
-            // Support sub arrays syntax
-            if (is_array($newKey)) {
-                $key = current(array_keys($newKey));
-                $newKey = current(array_values($newKey));
-            }
-
-            // Add non null mapping values to object conf
-            if (!empty($newKey)) {
-                $this->configuration[$key] = $newKey;
-            }
-        }
+        // Apply configuration to process
+        parent::__construct($configuration);
     }
 
     /**

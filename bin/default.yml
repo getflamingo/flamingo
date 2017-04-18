@@ -1,7 +1,7 @@
 
 # Flamingo application
 Conf/App/Name: Flamingo
-Conf/App/Version: 0.2.170318
+Conf/App/Version: 0.2.170418
 Conf/App/Usage: |
   Usage: flamingo.phar [TASK] [OPTIONS]
   Execute a task in the flamingo.yml of the current folder
