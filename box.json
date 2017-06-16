@@ -20,7 +20,10 @@
         "sabre/uri/tests",
         "sabre/xml/bin",
         "sabre/xml/tests",
-        "symfony/yaml/Tests"
+        "symfony/yaml/Tests",
+        "nategood/commando/examples",
+        "nategood/commando/tests",
+        "kevinlebrun/colors.php/tests"
       ],
       "in": "vendor"
     },
