@@ -1,14 +1,11 @@
 <?php
+
 namespace Flamingo\Reader;
 
 use Flamingo\Model\Table;
-use Sabre\Xml\Service;
 
 /**
  * Class XmlReader
- * TODO: Read correct node using options
- * TODO: Convert parser result into a correct Table
- *
  * @package Flamingo\Reader
  */
 class XmlReader extends AbstractFileReader
@@ -20,19 +17,48 @@ class XmlReader extends AbstractFileReader
      */
     protected function fileContent($filename, $options)
     {
+        $defaultOptions = [
+            'path' => null,
+        ];
+
+        $options = array_replace($defaultOptions, $options);
+
         // Read data from the file
         $xml = file_get_contents($filename);
 
-        // Parse XML data
-        $service = new Service();
-        $data = $service->parse($xml);
-        $header = [];
+        // Hide XML namespace
+        $xml = str_replace(' xmlns=', ' ns=', $xml);
 
-        $data = array_map(function ($record) use (&$header) {
-            $header += array_column($record['value'], 'name');
-            return array_column($record['value'], 'value');
+        // Create document from file data
+        $document = new \SimpleXMLElement($xml);
+
+        // Use path if defined
+        $data = $options['path']
+            ? $document->xpath($options['path'])
+            : $document->children();
+
+        // Cast to array
+        $data = json_decode(json_encode($data), true);
+
+        // Get first element keys
+        $header = array_keys(current($data));
+
+        // Retrieve the maximum number of columns
+        foreach ($data as $record) {
+            $header = array_unique(array_merge($header, array_keys($record)));
+        }
+
+        // Create an empty dummy record
+        $dummyRecord = array_flip($header);
+        $dummyRecord = array_map(function () {
+            return null;
+        }, $dummyRecord);
+
+        // Add missing columns to records
+        $values = array_map(function ($record) use ($dummyRecord) {
+            return array_replace($dummyRecord, $record);
         }, $data);
 
-        return new Table($filename, $header, array_values($data));
+        return new Table($filename, $header, $values);
     }
 }
