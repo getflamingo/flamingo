@@ -19,18 +19,25 @@ class XmlReader extends AbstractFileReader
     {
         $defaultOptions = [
             'path' => null,
+            'nocdata' => true,
         ];
 
         $options = array_replace($defaultOptions, $options);
 
-        // Read data from the file
+        // Read data from the file and hide namespace
         $xml = file_get_contents($filename);
-
-        // Hide XML namespace
         $xml = str_replace(' xmlns=', ' ns=', $xml);
 
+        // List of LIBXML parameters
+        $parameters = 0;
+
+        // Trim CDATA tags
+        if ($options['nocdata']) {
+            $parameters += LIBXML_NOCDATA;
+        }
+
         // Create document from file data
-        $document = new \SimpleXMLElement($xml);
+        $document = new \SimpleXMLElement($xml, $parameters);
 
         // Use path if defined
         $data = $options['path']
