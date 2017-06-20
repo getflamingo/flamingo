@@ -1,7 +1,7 @@
 
 # Flamingo application
 Conf/App/Name: Flamingo
-Conf/App/Version: 0.2.170619
+Conf/App/Version: 0.2.170620
 
 # Log report and output
 Conf/Log/Debug: false
