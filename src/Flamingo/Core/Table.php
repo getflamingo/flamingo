@@ -1,17 +1,12 @@
 <?php
 
-namespace Flamingo\Model;
+namespace Flamingo\Core;
 
 /**
  * Class Table
- *
- * A table is formed with one source
- * This source can have multiple types:
- *  - CSV, JSON, dbTable, XLS, etc...
- *
- * @package Flamingo\Model
+ * @package Flamingo\Core
  */
-class Table extends \ArrayIterator
+class Table extends \ArrayIterator implements \Traversable
 {
     /**
      * @var string
@@ -24,7 +19,7 @@ class Table extends \ArrayIterator
      * @param array $columns
      * @param array $records
      */
-    public function __construct($name = null, $columns = [], $records = [])
+    public function __construct($name = null, array $columns = [], array $records = [])
     {
         $this->name = $name;
 

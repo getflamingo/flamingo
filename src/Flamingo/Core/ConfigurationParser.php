@@ -1,4 +1,5 @@
 <?php
+
 namespace Flamingo\Core;
 
 use Flamingo\Process\TaskProcess;
@@ -14,7 +15,7 @@ use Analog\Analog;
  *
  * @package Flamingo\Core
  */
-class Compiler
+class ConfigurationParser
 {
     /**
      * Read configuration and return Tasks

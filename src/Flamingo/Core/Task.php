@@ -1,4 +1,5 @@
 <?php
+
 namespace Flamingo\Core;
 
 use Flamingo\Flamingo;

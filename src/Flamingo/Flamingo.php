@@ -2,7 +2,7 @@
 
 namespace Flamingo;
 
-use Flamingo\Core\Compiler;
+use Flamingo\Core\ConfigurationParser;
 use Flamingo\Core\Task;
 use Flamingo\Utility\ArrayUtility;
 use Symfony\Component\Yaml\Yaml;
@@ -50,7 +50,7 @@ class Flamingo
         }
 
         // Compile and add new tasks to the list
-        $this->tasks += (new Compiler)->parse($configuration);
+        $this->tasks += (new ConfigurationParser)->parse($configuration);
     }
 
     /**

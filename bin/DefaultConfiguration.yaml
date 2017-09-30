@@ -1,9 +1,9 @@
 Flamingo:
 
-  # Flamingo application
+  # Flamingo application version
   Version: 1.0.0
 
-  # Reports
+  # Report low level logs
   Debug: false
 
   # Continue execution if an error has been thrown
@@ -104,14 +104,24 @@ Flamingo:
 # TODO: Add SingleSourceProcessor and MultipleSourceProcessor interfaces (or traits?)
 # Add __source to determine what source to process (for SingleSourceProcessors)
 
+# TODO: Allow streams to persist through tasks
+# Find a way to insert and delete sources inside the stream
+
 # TODO: Add __function for FunctionProcessor
 # Pass parameters to the user function
 
 # TODO: Add configuration for the ModifierProcessor
 # Avoid the creation of multiple files for nothing
 
+# TODO: Optimize the DB writer using commits
+
 # TODO: Remove non-used files from PHPOffice
 # So the .phar file can be lighter
+
+# TODO: Migrate linq to another library
+# Add more extended support for complicated requests
+# Add a SQL statement parser for this kind of library (as a separated project)
+# https://github.com/fusonic/linq
 
 # TODO: Enable the use of CLI arguments (not sure which way yet)
 # Arguments an be used using a custom source (as file or stream or anything else)
