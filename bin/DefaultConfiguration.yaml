@@ -1,0 +1,132 @@
+Flamingo:
+
+  # Flamingo application
+  Version: 1.0.0
+
+  # Reports
+  Debug: false
+
+  # Continue execution if an error has been thrown
+  Force: false
+
+  # Autoload
+  Classes:
+    Core:
+      Task:
+        className: Ubermanu\Flamingo\Core\Task
+      Stream:
+        className: Ubermanu\Flamingo\Core\Stream
+      Table:
+        className: Ubermanu\Flamingo\Core\Table
+    Processor:
+      Source:
+        className: Ubermanu\Flamingo\Processor\InputProcessor
+      Destination:
+        className: Ubermanu\Flamingo\Processor\OutputProcessor
+      Transform:
+        className: Ubermanu\Flamingo\Processor\TransformProcessor
+      Mapping:
+        className: Ubermanu\Flamingo\Processor\MappingProcessor
+      Function:
+        className: Ubermanu\Flamingo\Processor\FunctionProcessor
+    Reader:
+      Csv:
+        className: Ubermanu\Flamingo\Reader\CsvReader
+      Db:
+        className: Ubermanu\Flamingo\Reader\DbReader
+      Excel:
+        className: Ubermanu\Flamingo\Reader\ExcelReader
+      Json:
+        className: Ubermanu\Flamingo\Reader\JsonReader
+      Xml:
+        className: Ubermanu\Flamingo\Reader\XmlReader
+      Yaml:
+        className: Ubermanu\Flamingo\Reader\YamlReader
+    Writer:
+      Cli:
+        className: Ubermanu\Flamingo\Writer\CliWriter
+      Csv:
+        className: Ubermanu\Flamingo\Writer\CsvWriter
+      Db:
+        className: Ubermanu\Flamingo\Writer\DbWriter
+      Json:
+        className: Ubermanu\Flamingo\Writer\JsonWriter
+      Xml:
+        className: Ubermanu\Flamingo\Writer\XmlWriter
+      Yaml:
+        className: Ubermanu\Flamingo\Writer\YamlWriter
+
+  # Additional global options
+  # These can are accessible through $GLOBALS
+  Options:
+
+    # Keep old fields after new ones are mapped
+    Mapping:
+      KeepOldProperties: false
+
+    # Don't apply processor if field does not exist
+    Transform:
+      PropertyMustExist: false
+
+    # Use first line in files as header key list
+    Header:
+      Line: 0
+
+    # Execute inserts with ignore clause
+    # Can be useful to ignore NULL values
+    Sql:
+      InsertIgnore: false
+
+    # Parsers allowed extensions
+    # Be careful to not use the same extension for multiple parsers
+    FileProcessorExtensions:
+      Csv: csv
+      Db: db
+      Excel: xls, xlsx
+      Json: json, js
+      Xml: xml
+      Yaml: yaml, yml
+
+# ------------------------------------
+# EXAMPLES + NEW FEATURES TO IMPLEMENT
+# ------------------------------------
+
+# TODO: Tasks now are ending with (), to represent a function
+
+# TODO: Add Flamingo version requirements
+
+# TODO: Add __inheritances option to overwrite values
+# Avoid the use of internal references
+# The __inheritances applies at the very end of all configuration merges (like ext:form on TYPO3)
+# Check out ext:form implementation to avoid errors
+# https://docs.typo3.org/typo3cms/extensions/form/Concepts/Configuration/Index.html#inheritances
+
+# TODO: Add SingleSourceProcessor and MultipleSourceProcessor interfaces (or traits?)
+# Add __source to determine what source to process (for SingleSourceProcessors)
+
+# TODO: Add __function for FunctionProcessor
+# Pass parameters to the user function
+
+# TODO: Add configuration for the ModifierProcessor
+# Avoid the creation of multiple files for nothing
+
+# TODO: Remove non-used files from PHPOffice
+# So the .phar file can be lighter
+
+# TODO: Enable the use of CLI arguments (not sure which way yet)
+# Arguments an be used using a custom source (as file or stream or anything else)
+
+Hello():
+  __inheritances:
+    10: HelloMixin
+
+HelloMixin:
+  - Source: file.json
+  - Modify:
+      __source: 0 # Source number
+#      __inheritances: []
+      Hey: test
+  - Call:
+      __function: test::test # callable
+      bonjour: Hello
+      param2: [ value2, value3 ]

@@ -26,7 +26,10 @@ $command
     ->describedAs('Name of the task to execute.');
 
 // Create base task runner
-$flamingo = new Flamingo(file_get_contents(__DIR__ . '/default.yml'));
+$flamingo = new Flamingo(
+    file_get_contents(__DIR__ . '/DefaultConfiguration.yaml'),
+    file_get_contents(__DIR__ . '/AdditionalConfiguration.yaml')
+);
 
 // Output executable version
 if ($command['version']) {

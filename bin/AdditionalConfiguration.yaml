@@ -1,0 +1,32 @@
+Flamingo:
+
+  # Class aliases
+  Classes:
+    Processor:
+      Src:
+        __inheritances:
+          10: Flamingo.Classes.Processor.Source
+      Dest:
+        __inheritances:
+          10: Flamingo.Classes.Processor.Destination
+      Process:
+        __inheritances:
+          10: Flamingo.Classes.Processor.Transform
+      Modify:
+        __inheritances:
+          10: Flamingo.Classes.Processor.Transform
+      Mod:
+        __inheritances:
+          10: Flamingo.Classes.Processor.Transform
+      Map:
+        __inheritances:
+          10: Flamingo.Classes.Processor.Mapping
+      Func:
+        __inheritances:
+          10: Flamingo.Classes.Processor.Function
+      UserFunc:
+        __inheritances:
+          10: Flamingo.Classes.Processor.Function
+      Call:
+        __inheritances:
+          10: Flamingo.Classes.Processor.Function
