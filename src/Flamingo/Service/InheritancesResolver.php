@@ -289,7 +289,8 @@ class InheritancesResolver
                     }
 
                     if (
-                        is_array($this->inheritanceStack[$pathToCheck])
+                        array_key_exists($pathToCheck, $this->inheritanceStack)
+                        && is_array($this->inheritanceStack[$pathToCheck])
                         && in_array($inheritancePath, $this->inheritanceStack[$pathToCheck])
                     ) {
                         $this->inheritanceStack[$pathToCheck][] = $inheritancePath;
