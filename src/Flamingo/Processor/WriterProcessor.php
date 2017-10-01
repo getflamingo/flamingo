@@ -35,15 +35,19 @@ class WriterProcessor extends AbstractSingleSourceProcessor
      */
     protected function processSource(Table $source, TaskRuntime $taskRuntime)
     {
-        $streamConfiguration = [];
+        // Use console writer if none is defined
+        $streamConfiguration = [
+            'parserType' => self::WRITER_DEFAULT,
+            'options' => [],
+        ];
 
         // Process configuration as a single stream
         if (!empty($this->configuration)) {
             $streamConfiguration = $this->resolveStreamConfiguration($this->configuration);
         }
 
-        // Use console writer if none is defined
-        $writerName = $streamConfiguration ? $streamConfiguration['parserType'] : self::WRITER_DEFAULT;
+        $writerName = $streamConfiguration['parserType'];
+        $writerOptions = $streamConfiguration['options'] ?: [];
 
         // Find class name
         $className = $GLOBALS['FLAMINGO']['Classes']['Writer'][ucwords($writerName)]['className'];
@@ -51,7 +55,7 @@ class WriterProcessor extends AbstractSingleSourceProcessor
         // Create writer if it exists
         if (class_exists($className) && $parser = new $className) {
             if ($parser instanceof WriterInterface) {
-                $parser->write($source, $streamConfiguration['options']);
+                $parser->write($source, $writerOptions);
             }
         }
     }

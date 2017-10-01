@@ -23,6 +23,10 @@ trait StreamProcessorTrait
      */
     protected function resolveStreamConfiguration($configuration)
     {
+        $streamConfiguration = [
+            'options' => [],
+        ];
+
         // One file as target
         if (is_string($configuration)) {
             $configuration = ['file' => $configuration];
@@ -41,18 +45,18 @@ trait StreamProcessorTrait
         // No type found
         if (!isset($type)) {
             Analog::error(sprintf($this->noTypeFound, json_encode($configuration)));
-            return [];
+            return $streamConfiguration;
         }
 
         // Search for compatible parser
         if ($parserType = $this->getParserType($type)) {
-            return [
+            $streamConfiguration = [
                 'parserType' => $parserType,
                 'options' => $configuration,
             ];
         }
 
-        return [];
+        return $streamConfiguration;
     }
 
     /**

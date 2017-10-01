@@ -1,6 +1,8 @@
 <?php
-namespace Flamingo\Writer;
 
+namespace Flamingo\Processor\Writer;
+
+use Flamingo\Core\Table;
 use Sabre\Xml\Service;
 
 /**
@@ -8,19 +10,19 @@ use Sabre\Xml\Service;
  * TODO: Add namespace as table name
  * TODO: Add record tag name option
  *
- * @package Flamingo\Writer
+ * @package Flamingo\Processor\Writer
  */
 class XmlWriter extends AbstractFileWriter
 {
     /**
-     * @param \Flamingo\Model\Table $table
+     * @param Table $table
      * @param array $options
      * @return string
      */
-    protected function tableContent($table, $options)
+    protected function tableContent(Table $table, array $options)
     {
         // Cast table into classic array
-        $data = (array)$table;
+        $data = $table->getArrayCopy();
 
         // Convert data in correct XML format
         foreach ($data as &$record) {

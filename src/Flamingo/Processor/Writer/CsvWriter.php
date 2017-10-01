@@ -1,33 +1,38 @@
 <?php
-namespace Flamingo\Writer;
 
+namespace Flamingo\Processor\Writer;
+
+use Flamingo\Core\Table;
 use League\Csv\Writer as LCsvWriter;
 
 /**
  * Class CsvWriter
- * @package Flamingo\Writer
+ * @package Flamingo\Processor\Writer
  */
 class CsvWriter extends AbstractFileWriter
 {
     /**
-     * @param \Flamingo\Model\Table $table
+     * @var array
+     */
+    protected $defaultOptions = [
+        'delimiter' => ',',
+        'enclosure' => '"',
+        'escape' => '\\',
+        'newline' => "\n",
+    ];
+
+    /**
+     * @param Table $table
      * @param array $options
      * @return string
      */
-    protected function tableContent($table, $options)
+    protected function tableContent(Table $table, array $options)
     {
-        $defaultOptions = [
-            'delimiter' => ',',
-            'enclosure' => '"',
-            'escape' => '\\',
-            'newline' => "\n",
-        ];
-
         // Overwrite default options
-        $options = array_replace($defaultOptions, $options);
+        $options = array_replace($this->defaultOptions, $options);
 
         // Cast into array
-        $data = (array)$table;
+        $data = $table->getArrayCopy();
 
         // Create writer
         $writer = LCsvWriter::createFromFileObject(new \SplTempFileObject());

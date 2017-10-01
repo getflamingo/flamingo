@@ -1,19 +1,22 @@
 <?php
-namespace Flamingo\Writer;
+
+namespace Flamingo\Processor\Writer;
+
+use Flamingo\Core\Table;
 
 /**
  * Class JsonWriter
- * @package Flamingo\Writer
+ * @package Flamingo\Processor\Writer
  */
 class JsonWriter extends AbstractFileWriter
 {
     /**
-     * @param \Flamingo\Model\Table $table
+     * @param Table $table
      * @param array $options
      * @return string
      */
-    protected function tableContent($table, $options)
+    protected function tableContent(Table $table, array $options)
     {
-        return json_encode((array)$table);
+        return json_encode($table->getArrayCopy());
     }
 }

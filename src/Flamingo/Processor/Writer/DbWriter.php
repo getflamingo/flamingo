@@ -1,17 +1,18 @@
 <?php
-namespace Flamingo\Writer;
+
+namespace Flamingo\Processor\Writer;
 
 use Analog\Analog;
-use Flamingo\Model\Table;
+use Flamingo\Core\Table;
 use Flamingo\Utility\StatementUtility;
 
 /**
  * Class DbWriter
  * TODO: Prepare only one statement, execute and commit changes in db afterwards
- * TODO: Create common class for DbReader and DbWriter (PDO wise)
+ * TODO: Create common trait for DbReader and DbWriter (PDO wise)
  * TODO: Add more debug output
  *
- * @package Flamingo\Writer
+ * @package Flamingo\Processor\Writer
  */
 class DbWriter implements WriterInterface
 {
@@ -21,23 +22,27 @@ class DbWriter implements WriterInterface
     protected $pdo;
 
     /**
+     * @var array
+     */
+    protected $defaultOptions = [
+        'driver' => 'mysql',
+        'server' => 'localhost',
+        'port' => 3306,
+        'username' => 'root',
+        'password' => '',
+        'database' => '',
+        'charset' => 'UTF8',
+        'unique' => [],
+    ];
+
+    /**
      * @param Table $table
      * @param array $options
      */
-    public function write($table, $options)
+    public function write(Table $table, array $options)
     {
-        $defaultOptions = [
-            'driver' => 'mysql',
-            'server' => 'localhost',
-            'port' => 3306,
-            'username' => 'root',
-            'password' => '',
-            'database' => '',
-            'charset' => 'UTF8',
-            'unique' => [],
-        ];
-
-        $options = array_replace($defaultOptions, $options);
+        // Overwrite default options
+        $options = array_replace($this->defaultOptions, $options);
 
         $properties = [
             'host' => $options['server'],

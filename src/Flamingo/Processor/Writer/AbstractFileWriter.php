@@ -1,21 +1,23 @@
 <?php
-namespace Flamingo\Writer;
+
+namespace Flamingo\Processor\Writer;
 
 use Analog\Analog;
+use Flamingo\Core\Table;
 
 /**
  * Class AbstractFileWriter
- * Handles errors for writers putting content in file
- *
- * @package Flamingo\Writer
+ * @package Flamingo\Processor\Writer
  */
 abstract class AbstractFileWriter implements WriterInterface
 {
     /**
-     * @@param \Flamingo\Model\Table $table
+     * Handles errors for writers putting content in file system
+     *
+     * @param Table $table
      * @param array $options
      */
-    public function write($table, $options)
+    public function write(Table $table, array $options)
     {
         if (empty($options['file'])) {
             Analog::error(sprintf('No filename defined - %s', json_encode($options)));
@@ -28,12 +30,11 @@ abstract class AbstractFileWriter implements WriterInterface
     }
 
     /**
-     * Encode table data into a readable string
-     * to put into destination file
+     * Encode table data into a readable string to put into destination file
      *
-     * @param \Flamingo\Model\Table $table
+     * @param Table $table
      * @param array $options
      * @return string
      */
-    protected abstract function tableContent($table, $options);
+    protected abstract function tableContent(Table $table, array $options);
 }

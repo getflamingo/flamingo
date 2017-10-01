@@ -45,7 +45,7 @@ Flamingo:
         className: Flamingo\Processor\Reader\YamlReader
     Writer:
       Cli:
-        className: Flamingo\Processor\Writer\CliWriter
+        className: Flamingo\Processor\Writer\ConsoleWriter
       Csv:
         className: Flamingo\Processor\Writer\CsvWriter
       Db:

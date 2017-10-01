@@ -1,21 +1,23 @@
 <?php
-namespace Flamingo\Writer;
+
+namespace Flamingo\Processor\Writer;
 
 use Analog\Analog;
+use Flamingo\Core\Table;
 
 /**
  * Class ConsoleWriter
- * @package Flamingo\Writer
+ * @package Flamingo\Processor\Writer
  */
 class ConsoleWriter implements WriterInterface
 {
     /**
-     * @param \Flamingo\Model\Table $table
+     * @param Table $table
      * @param array $options
      */
-    public function write($table, $options)
+    public function write(Table $table, array $options)
     {
         Analog::debug(sprintf('Display data from %s', $table->getName()));
-        print_r(iterator_to_array($table));
+        print_r($table->getArrayCopy());
     }
 }

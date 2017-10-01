@@ -59,6 +59,7 @@ class ReaderProcessor extends AbstractProcessor
 
             $streamConfiguration = $this->resolveStreamConfiguration($sourceConfiguration);
             $readerName = $streamConfiguration['parserType'];
+            $readerOptions = $streamConfiguration['options'] ?: [];
 
             // Find class name
             $className = $GLOBALS['FLAMINGO']['Classes']['Reader'][ucwords($readerName)]['className'];
@@ -66,7 +67,7 @@ class ReaderProcessor extends AbstractProcessor
             // Create writer if it exists
             if (class_exists($className) && ($parser = new $className)) {
                 if ($parser instanceof ReaderInterface) {
-                    $taskRuntime->addTable($parser->read($streamConfiguration['options']));
+                    $taskRuntime->addTable($parser->read($readerOptions));
                 }
             }
         }
