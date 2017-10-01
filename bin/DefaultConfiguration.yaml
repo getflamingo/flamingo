@@ -30,6 +30,8 @@ Flamingo:
         className: Flamingo\Processor\MappingProcessor
       Function:
         className: Flamingo\Processor\FunctionProcessor
+      Filter:
+        className: Flamingo\Processor\FilterProcessor
     Reader:
       Csv:
         className: Flamingo\Processor\Reader\CsvReader

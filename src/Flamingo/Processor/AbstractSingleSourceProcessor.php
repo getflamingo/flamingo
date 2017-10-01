@@ -39,7 +39,10 @@ abstract class AbstractSingleSourceProcessor extends AbstractProcessor
      */
     public function execute(TaskRuntime $taskRuntime)
     {
-        if (array_key_exists(self::IDENTIFIER_OPERATOR, $this->configuration)) {
+        if (
+            is_array($this->configuration)
+            && array_key_exists(self::IDENTIFIER_OPERATOR, $this->configuration)
+        ) {
             $identifier = $this->configuration[self::IDENTIFIER_OPERATOR];
             unset($this->configuration[self::IDENTIFIER_OPERATOR]);
         } else {
