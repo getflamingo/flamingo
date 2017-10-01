@@ -171,7 +171,7 @@ class ConfigurationParser
             $configuration = current($configuration);
 
             // Find class name
-            $className = $GLOBALS['FLAMINGO']['Classes']['Processor'][$processorName]['className'];
+            $className = $GLOBALS['FLAMINGO']['Classes']['Processor'][ucwords($processorName)]['className'];
 
             if (!class_exists($className)) {
                 Analog::error(sprintf('The processor "%s" does not exist', $processorName));
