@@ -2,6 +2,8 @@
 
 namespace Flamingo\Core;
 
+use Commando\Command;
+
 /**
  * Class TaskRuntime
  * @package Flamingo\Core
@@ -71,6 +73,16 @@ class TaskRuntime
     }
 
     /**
+     * Insert a new table into the runtime
+     *
+     * @param Table $table
+     */
+    public function addTable(Table $table)
+    {
+        $this->tables[] = $table;
+    }
+
+    /**
      * Get table data by source identifier
      *
      * @param string $identifier
@@ -108,6 +120,16 @@ class TaskRuntime
     public function isRunning()
     {
         return $this->startTime > 0;
+    }
+
+    /**
+     * Get CLI arguments
+     *
+     * @return array
+     */
+    public function getArguments()
+    {
+        return (new Command())->getArguments();
     }
 
     /**

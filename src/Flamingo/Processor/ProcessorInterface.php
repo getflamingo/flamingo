@@ -1,22 +1,22 @@
 <?php
+
 namespace Flamingo\Processor;
+
+use Flamingo\Core\TaskRuntime;
 
 /**
  * Interface ProcessorInterface
- *
- * Processes transform data along the task
- * Note: $data is often a reference
- *
- * @package Flamingo\Process
+ * @package Flamingo\Processor
  */
 interface ProcessorInterface
 {
     /**
-     * Process data using custom functions
+     * Process data tables using custom functions
      * TODO: Add return signal for the task
      *
-     * @param array <\Flamingo\Model\Table> $data
-     * @return array|int
+     * @param array $configuration
+     * @param TaskRuntime $taskRuntime
+     * @return mixed
      */
-    public function execute(&$data);
+    public function execute(array $configuration, TaskRuntime &$taskRuntime);
 }

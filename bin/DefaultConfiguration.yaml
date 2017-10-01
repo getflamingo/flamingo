@@ -39,30 +39,30 @@ Flamingo:
         className: Ubermanu\Flamingo\Processor\FunctionProcessor
     Reader:
       Csv:
-        className: Ubermanu\Flamingo\Reader\CsvReader
+        className: Ubermanu\Flamingo\Processor\Reader\CsvReader
       Db:
-        className: Ubermanu\Flamingo\Reader\DbReader
+        className: Ubermanu\Flamingo\Processor\Reader\DbReader
       Excel:
-        className: Ubermanu\Flamingo\Reader\ExcelReader
+        className: Ubermanu\Flamingo\Processor\Reader\ExcelReader
       Json:
-        className: Ubermanu\Flamingo\Reader\JsonReader
+        className: Ubermanu\Flamingo\Processor\Reader\JsonReader
       Xml:
-        className: Ubermanu\Flamingo\Reader\XmlReader
+        className: Ubermanu\Flamingo\Processor\Reader\XmlReader
       Yaml:
-        className: Ubermanu\Flamingo\Reader\YamlReader
+        className: Ubermanu\Flamingo\Processor\Reader\YamlReader
     Writer:
       Cli:
-        className: Ubermanu\Flamingo\Writer\CliWriter
+        className: Ubermanu\Flamingo\Processor\Writer\CliWriter
       Csv:
-        className: Ubermanu\Flamingo\Writer\CsvWriter
+        className: Ubermanu\Flamingo\Processor\Writer\CsvWriter
       Db:
-        className: Ubermanu\Flamingo\Writer\DbWriter
+        className: Ubermanu\Flamingo\Processor\Writer\DbWriter
       Json:
-        className: Ubermanu\Flamingo\Writer\JsonWriter
+        className: Ubermanu\Flamingo\Processor\Writer\JsonWriter
       Xml:
-        className: Ubermanu\Flamingo\Writer\XmlWriter
+        className: Ubermanu\Flamingo\Processor\Writer\XmlWriter
       Yaml:
-        className: Ubermanu\Flamingo\Writer\YamlWriter
+        className: Ubermanu\Flamingo\Processor\Writer\YamlWriter
 
   # Additional global options
   # These can are accessible through $GLOBALS

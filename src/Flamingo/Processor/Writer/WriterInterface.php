@@ -1,15 +1,18 @@
 <?php
-namespace Flamingo\Writer;
+
+namespace Flamingo\Processor\Writer;
+
+use Flamingo\Core\Table;
 
 /**
  * Interface WriterInterface
- * @package Flamingo\Writer
+ * @package Flamingo\Processor\Writer
  */
 interface WriterInterface
 {
     /**
-     * @param \Flamingo\Model\Table $table
+     * @param Table $table
      * @param array $options
      */
-    public function write($table, $options);
+    public function write(Table $table, array $options);
 }
