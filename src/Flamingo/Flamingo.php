@@ -102,11 +102,11 @@ class Flamingo
      */
     protected function checkVersionRequirements()
     {
-        if (version_compare($GLOBALS['FLAMINGO']['Version'], $GLOBALS['FLAMINGO']['Compatibility'], ">=")) {
+        if (version_compare($GLOBALS['FLAMINGO']['Version'], $GLOBALS['FLAMINGO']['RequiredVersion'], "<")) {
             Analog::alert(sprintf(
                 'The current configuration does not meet the version requirements (current: %s, needed: %s)',
-                $GLOBALS['FLAMINGO']['Compatibility'],
-                $GLOBALS['FLAMINGO']['Version']
+                $GLOBALS['FLAMINGO']['Version'],
+                $GLOBALS['FLAMINGO']['RequiredVersion']
             ));
         }
     }
