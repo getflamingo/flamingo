@@ -109,8 +109,7 @@ Flamingo:
 # EXAMPLES + NEW FEATURES TO IMPLEMENT
 # ------------------------------------
 
-# TODO: Add configuration for the ModifierProcessor
-# Avoid the creation of multiple files for nothing
+# TODO: Fix PhpTransformHelper, original value is not updated
 
 # TODO: Throw error and allow different kind of log connectors
 

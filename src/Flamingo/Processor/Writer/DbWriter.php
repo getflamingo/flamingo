@@ -150,7 +150,7 @@ class DbWriter implements WriterInterface
         // Build query
         $statement = sprintf(
             'INSERT %s INTO %s (%s) VALUES (%s)',
-            $GLOBALS['FLAMINGO']['CONF']['Sql']['Ignore'] ? 'IGNORE' : '',
+            $GLOBALS['FLAMINGO']['Options']['Sql']['InsertIgnore'] ? 'IGNORE' : '',
             $options['table'],
             StatementUtility::keys($record),
             StatementUtility::values($record)
