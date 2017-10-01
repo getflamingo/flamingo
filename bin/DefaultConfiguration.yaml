@@ -83,10 +83,10 @@ Flamingo:
     FileProcessorExtensions:
       Csv: csv
       Db: db
-      Excel: xls, xlsx
-      Json: json, js
+      Excel: xls,xlsx
+      Json: json,js
       Xml: xml
-      Yaml: yaml, yml
+      Yaml: yaml,yml
 
 # ------------------------------------
 # EXAMPLES + NEW FEATURES TO IMPLEMENT

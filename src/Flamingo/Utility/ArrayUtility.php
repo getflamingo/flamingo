@@ -122,46 +122,4 @@ class ArrayUtility
         }
         return $value;
     }
-
-    /**
-     * CLean split of values
-     *
-     * @param string $delimiter
-     * @param string $list
-     * @return array
-     */
-    public static function trimsplit($delimiter, $list)
-    {
-        return array_map('trim', explode($delimiter, $list));
-    }
-
-    /**
-     * Check if a value is in a coma separated list
-     * Note: Does not work with spaces and tabs
-     *
-     * @param mixed $value
-     * @param string $list
-     * @return bool
-     */
-    public static function inList($value, $list)
-    {
-        $list = ArrayUtility::trimsplit(',', $list);
-        return in_array($value, $list);
-    }
-
-    /**
-     * Add a prefix to array keys
-     *
-     * @param array $array
-     * @param string $prefix
-     * @return array
-     */
-    public static function prefixKeys(&$array, $prefix = '')
-    {
-        $newKeys = array_map(function ($key) use ($prefix) {
-            return $prefix . $key;
-        }, array_keys($array));
-
-        return array_combine($newKeys, $array);
-    }
 }

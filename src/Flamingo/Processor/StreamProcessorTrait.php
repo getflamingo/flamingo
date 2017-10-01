@@ -3,7 +3,7 @@
 namespace Flamingo\Processor;
 
 use Analog\Analog;
-use Flamingo\Utility\ArrayUtility;
+use Flamingo\Utility\GeneralUtility;
 
 /**
  * Trait StreamProcessorTrait
@@ -69,7 +69,7 @@ trait StreamProcessorTrait
     protected function getParserType($extension)
     {
         foreach ($GLOBALS['FLAMINGO']['Options']['FileProcessorExtensions'] as $parser => $extensions) {
-            if (ArrayUtility::inList($extension, $extensions)) {
+            if (GeneralUtility::inList($extension, $extensions)) {
                 return $parser;
             }
         }
