@@ -40,6 +40,7 @@ abstract class AbstractSingleSourceProcessor extends AbstractProcessor
     public function execute(TaskRuntime $taskRuntime)
     {
         $identifier = $this->configuration[self::IDENTIFIER_OPERATOR] ?: self::IDENTIFIER_DEFAULT;
+        unset($this->configuration[self::IDENTIFIER_OPERATOR]);
         $this->processSource($taskRuntime->getTableByIdentifier($identifier), $taskRuntime);
 
         return 0;

@@ -78,22 +78,20 @@ Flamingo:
     Sql:
       InsertIgnore: false
 
-    # Parsers allowed extensions
-    # Be careful to not use the same extension for multiple parsers
+    # Parsers allowed file extensions
     FileProcessorExtensions:
-      Csv: csv
-      Db: db
-      Excel: xls,xlsx
-      Json: json,js
-      Xml: xml
-      Yaml: yaml,yml
+      csv: Csv
+      xls: Excel
+      xlsx: Excel
+      json: Json
+      js: Json
+      xml: Xml
+      yaml: Yaml
+      yml: Yaml
 
 # ------------------------------------
 # EXAMPLES + NEW FEATURES TO IMPLEMENT
 # ------------------------------------
-
-# TODO: Add SingleSourceProcessor and MultipleSourceProcessor interfaces (or traits?)
-# Add __source to determine what source to process (for SingleSourceProcessors)
 
 # TODO: Allow streams to persist through tasks
 # Find a way to insert and delete sources inside the stream

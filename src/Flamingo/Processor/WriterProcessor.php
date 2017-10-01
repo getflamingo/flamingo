@@ -36,15 +36,10 @@ class WriterProcessor extends AbstractSingleSourceProcessor
     protected function processSource(Table $source, TaskRuntime $taskRuntime)
     {
         // Use console writer if none is defined
-        $streamConfiguration = [
-            'parserType' => self::WRITER_DEFAULT,
-            'options' => [],
-        ];
+        $configuration = $this->configuration ?: ['type' => self::WRITER_DEFAULT];
 
         // Process configuration as a single stream
-        if (!empty($this->configuration)) {
-            $streamConfiguration = $this->resolveStreamConfiguration($this->configuration);
-        }
+        $streamConfiguration = $this->resolveStreamConfiguration($configuration);
 
         $writerName = $streamConfiguration['parserType'];
         $writerOptions = $streamConfiguration['options'] ?: [];
