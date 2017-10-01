@@ -24,25 +24,23 @@ abstract class AbstractSingleSourceProcessor extends AbstractProcessor
     /**
      * Process data tables using custom functions
      *
-     * @param array $configuration
      * @param Table $source
      * @param TaskRuntime $taskRuntime
      */
-    abstract protected function processSource(array $configuration, Table &$source, TaskRuntime $taskRuntime);
+    abstract protected function processSource(Table &$source, TaskRuntime $taskRuntime);
 
     /**
      * Get identifier from configuration
      * Process selected source
-     * If __source is not defined, throw an error
+     * TODO: If source is unknown, throw an error
      *
-     * @param array $configuration
      * @param TaskRuntime $taskRuntime
      * @return mixed
      */
-    public function execute(array $configuration, TaskRuntime &$taskRuntime)
+    public function execute(TaskRuntime &$taskRuntime)
     {
-        $identifier = $configuration[self::IDENTIFIER_OPERATOR] ?: self::IDENTIFIER_DEFAULT;
-        $this->processSource($configuration, $taskRuntime->getTableByIdentifier($identifier), $taskRuntime);
+        $identifier = $this->configuration[self::IDENTIFIER_OPERATOR] ?: self::IDENTIFIER_DEFAULT;
+        $this->processSource($taskRuntime->getTableByIdentifier($identifier), $taskRuntime);
 
         return 0;
     }

@@ -30,14 +30,13 @@ class DestinationProcessor extends AbstractSingleSourceProcessor
     /**
      * Output a single data table
      *
-     * @param array $configuration
      * @param Table $source
      * @param TaskRuntime $taskRuntime
      */
-    protected function processSource(array $configuration, Table &$source, TaskRuntime $taskRuntime)
+    protected function processSource(Table &$source, TaskRuntime $taskRuntime)
     {
         // Process configuration as a single stream
-        $streamConfiguration = $this->resolveStreamConfiguration($configuration);
+        $streamConfiguration = $this->resolveStreamConfiguration($this->configuration);
 
         // Use console writer if none is defined
         $writerName = $streamConfiguration ? $streamConfiguration['parserType'] : self::WRITER_DEFAULT;

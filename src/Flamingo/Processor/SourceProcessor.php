@@ -38,12 +38,13 @@ class SourceProcessor extends AbstractProcessor
      *      - file: filename.json
      *        type: json
      *
-     * @param array $configuration
      * @param TaskRuntime $taskRuntime
      * @return mixed
      */
-    public function execute(array $configuration, TaskRuntime &$taskRuntime)
+    public function execute(TaskRuntime &$taskRuntime)
     {
+        $configuration = $this->configuration;
+
         // Only one IO was defined
         if (is_string($configuration)) {
             $configuration = [$configuration];

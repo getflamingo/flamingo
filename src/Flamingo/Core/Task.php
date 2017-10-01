@@ -2,13 +2,11 @@
 
 namespace Flamingo\Core;
 
-use Flamingo\Flamingo;
 use Flamingo\Processor\ProcessorInterface;
 
 /**
  * Class Task
  * A task is an entry point to the script execution
- * TODO: Implement a more object oriented way to summon tasks
  *
  * @package Flamingo\Core
  */
@@ -17,36 +15,34 @@ class Task
     /**
      * Values returned by processes
      */
-    const OK = 0;
-    const WARN = 1;
-    const ERROR = 2;
-    const REDIRECT = 3;
-    const SUMMON = 4;
+    const STATUS_OK = 0;
+    const STATUS_WARN = 1;
+    const STATUS_ERROR = 2;
+    const STATUS_REDIRECT = 3;
+    const STATUS_SUMMON = 4;
 
     /**
-     * @var array<\Flamingo\Processor\ProcessorInterface>
+     * @var ProcessorInterface[]
      */
     protected $processors = [];
 
     /**
      * Add a process to the list
      *
-     * @param \Flamingo\Processor\ProcessorInterface $processor
+     * @param ProcessorInterface $processor
      */
-    public function addProcessor($processor)
+    public function addProcessor(ProcessorInterface $processor)
     {
-        if ($processor instanceof ProcessorInterface) {
-            $this->processors[] = $processor;
-        }
+        $this->processors[] = $processor;
     }
 
     /**
-     * Execute each processors
+     * Execute each processors through current runtime
      *
-     * @param \Flamingo\Core\TaskRuntime $taskRuntime
-     * @return \Flamingo\Core\TaskRuntime
+     * @param TaskRuntime $taskRuntime
+     * @return TaskRuntime
      */
-    public function execute($taskRuntime)
+    public function execute(TaskRuntime $taskRuntime)
     {
         foreach ($this->processors as $processor) {
             $processor->execute($taskRuntime);

@@ -11,11 +11,24 @@ use Flamingo\Core\TaskRuntime;
 abstract class AbstractProcessor implements ProcessorInterface
 {
     /**
+     * @var mixed
+     */
+    protected $configuration;
+
+    /**
+     * AbstractProcessor constructor.
+     * @param mixed $configuration
+     */
+    public function __construct($configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
+    /**
      * Process data tables using custom functions
      *
-     * @param array $configuration
      * @param TaskRuntime $taskRuntime
      * @return TaskRuntime
      */
-    abstract public function execute(array $configuration, TaskRuntime &$taskRuntime);
+    abstract public function execute(TaskRuntime &$taskRuntime);
 }

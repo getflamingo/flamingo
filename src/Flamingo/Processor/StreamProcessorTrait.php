@@ -12,22 +12,16 @@ use Flamingo\Utility\ArrayUtility;
 trait StreamProcessorTrait
 {
     /**
-     * Error to display when no type is found
-     * @var string
-     */
-    protected $noTypeFound = '';
-
-    /**
      * Sanitize given stream configuration
      * Allows IO processor to be more flexible and readable
      *
      * Note: This function only resolves an iteration in your source array
      * That case is handled in the SourceProcessor
      *
-     * @param array $configuration
+     * @param mixed $configuration
      * @return array
      */
-    protected function resolveStreamConfiguration(array $configuration)
+    protected function resolveStreamConfiguration($configuration)
     {
         // One file as target
         if (is_string($configuration)) {

@@ -2,8 +2,9 @@
 
 namespace Flamingo\Service;
 
-use Flamingo\Core\Task;
 use Analog\Analog;
+use Flamingo\Core\Task;
+use Flamingo\Processor\ProcessorInterface;
 
 /**
  * Class ConfigurationParser
@@ -49,7 +50,7 @@ class ConfigurationParser
     /**
      * Resolve all inheritances within a configuration.
      *
-     * @return array<Flamingo\Core\Task>
+     * @return Task[]
      */
     public function getResolvedTasks()
     {
@@ -133,7 +134,7 @@ class ConfigurationParser
      * Parse task configuration array
      *
      * @param array $configuration
-     * @return \Flamingo\Core\Task
+     * @return Task
      */
     protected function parseTask($configuration)
     {
@@ -159,7 +160,7 @@ class ConfigurationParser
      * create a new processor object using this conf
      *
      * @param array $configuration
-     * @return \Flamingo\Processor\ProcessorInterface
+     * @return ProcessorInterface
      */
     protected function parseProcessor($configuration)
     {

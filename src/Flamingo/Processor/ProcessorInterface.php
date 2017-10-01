@@ -14,9 +14,8 @@ interface ProcessorInterface
      * Process data tables using custom functions
      * TODO: Add return signal for the task
      *
-     * @param array $configuration
      * @param TaskRuntime $taskRuntime
      * @return mixed
      */
-    public function execute(array $configuration, TaskRuntime &$taskRuntime);
+    public function execute(TaskRuntime &$taskRuntime);
 }
