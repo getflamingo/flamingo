@@ -58,6 +58,20 @@ Flamingo:
         className: Flamingo\Processor\Writer\XmlWriter
       Yaml:
         className: Flamingo\Processor\Writer\YamlWriter
+    TransformHelper:
+      Core:
+        className: Flamingo\Processor\TransformHelper\CoreTransformHelper
+        modifiers: [ set, copy ]
+      Iterator:
+        className: Flamingo\Processor\TransformHelper\IteratorTransformHelper
+        modifiers: [ get, pop, push, shift, unshift, implode, explode ]
+      Math:
+        className: Flamingo\Processor\TransformHelper\MathTransformHelper
+        modifiers: [ add, sub, mul, div ]
+      Php:
+        className: Flamingo\Processor\TransformHelper\PhpTransformHelper
+        modifiers: [ boolval, intval, strval, floatval, html_entity_decode, sha1, md5, strtolower, strtoupper, utf8_decode, utf8_encode ]
+
 
   # Additional global options
   # These can are accessible through $GLOBALS
