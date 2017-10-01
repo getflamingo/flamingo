@@ -3,10 +3,10 @@
 namespace Flamingo\Core;
 
 /**
- * Class Stream
+ * Class TaskRuntime
  * @package Flamingo\Core
  */
-class Stream extends \ArrayIterator implements \Traversable
+class TaskRuntime extends \ArrayIterator implements \Traversable
 {
     /**
      * Get table data by source identifier

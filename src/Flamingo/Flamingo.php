@@ -2,11 +2,12 @@
 
 namespace Flamingo;
 
-use Flamingo\Core\ConfigurationParser;
+use Analog\Analog;
 use Flamingo\Core\Task;
+use Flamingo\Service\ConfigurationParser;
+use Flamingo\Service\InheritancesResolver;
 use Flamingo\Utility\ArrayUtility;
 use Symfony\Component\Yaml\Yaml;
-use Analog\Analog;
 
 /**
  * Class Flamingo
@@ -14,6 +15,11 @@ use Analog\Analog;
  */
 class Flamingo
 {
+    /**
+     * @var array
+     */
+    protected $configuration = [];
+
     /**
      * @var array<\Flamingo\Core\Task>
      */
@@ -28,33 +34,39 @@ class Flamingo
         foreach (func_get_args() as $arg) {
             $this->addConfiguration($arg);
         }
+        $this->parseConfiguration();
     }
 
     /**
-     * Merge configurations into array of tasks
+     * Merge configurations into an array of tasks
+     * String value is interpreted as YAML
+     *
      * @params string|array
      */
     public function addConfiguration()
     {
-        $configuration = [];
-
         foreach (func_get_args() as $arg) {
-            if (is_array($arg)) {
-                $configuration = ArrayUtility::merge($configuration, $arg);
-            }
             if (is_string($arg)) {
-                if (is_array($yaml = Yaml::parse($arg))) {
-                    $configuration = ArrayUtility::merge($configuration, $yaml);
-                }
+                $arg = Yaml::parse($arg);
+            }
+            if (is_array($arg)) {
+                ArrayUtility::mergeRecursiveWithOverrule($this->configuration, $arg);
             }
         }
+    }
 
-        // Compile and add new tasks to the list
-        $this->tasks += (new ConfigurationParser)->parse($configuration);
+    /**
+     * Parse and add new tasks to the list
+     */
+    public function parseConfiguration()
+    {
+        $configuration = InheritancesResolver::create($this->configuration)->getResolvedConfiguration();
+        $this->tasks = ConfigurationParser::create($configuration)->getResolvedTasks();
     }
 
     /**
      * Run flamingo task
+     *
      * @param string $taskName
      * @param bool $mainTask
      */

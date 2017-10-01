@@ -126,17 +126,17 @@ Flamingo:
 # TODO: Enable the use of CLI arguments (not sure which way yet)
 # Arguments an be used using a custom source (as file or stream or anything else)
 
-Hello():
-  __inheritances:
-    10: HelloMixin
-
-HelloMixin:
-  - Source: file.json
-  - Modify:
-      __source: 0 # Source number
-#      __inheritances: []
-      Hey: test
-  - Call:
-      __function: test::test # callable
-      bonjour: Hello
-      param2: [ value2, value3 ]
+#Hello():
+#  __inheritances:
+#    10: HelloMixin
+#
+#HelloMixin:
+#  - Source: file.json
+#  - Modify:
+#      __source: 0 # Source number
+##      __inheritances: []
+#      Hey: test
+#  - Call:
+#      __function: test::test # callable
+#      bonjour: Hello
+#      param2: [ value2, value3 ]

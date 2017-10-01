@@ -2,13 +2,8 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Analog\Analog;
-use Commando\Command;
-use Flamingo\ErrorHandler;
-use Flamingo\Flamingo;
-
 // Create command controller and register options
-$command = new Command;
+$command = new \Commando\Command();
 
 $command
     ->option('v')
@@ -26,15 +21,13 @@ $command
     ->describedAs('Name of the task to execute.');
 
 // Create base task runner
-$flamingo = new Flamingo(
-    file_get_contents(__DIR__ . '/DefaultConfiguration.yaml'),
-    file_get_contents(__DIR__ . '/AdditionalConfiguration.yaml')
-);
+$flamingo = new \Flamingo\Flamingo();
+$flamingo->addConfiguration(file_get_contents(__DIR__ . '/DefaultConfiguration.yaml'));
+$flamingo->addConfiguration(file_get_contents(__DIR__ . '/AdditionalConfiguration.yaml'));
 
 // Output executable version
 if ($command['version']) {
-    $appConf = $GLOBALS['FLAMINGO']['CONF']['App'];
-    echo $appConf['Name'] . ' ' . $appConf['Version'] . PHP_EOL;
+    echo  $GLOBALS['FLAMINGO']['Version'] . PHP_EOL;
     exit;
 }
 
@@ -52,11 +45,12 @@ if (!file_exists($configurationFile)) {
     exit;
 }
 
-// Add project configuration
+// Add custom configuration and parse the whole
 $flamingo->addConfiguration(file_get_contents($configurationFile));
+$flamingo->parseConfiguration();
 
 // Register error handler
-Analog::handler(ErrorHandler::init($GLOBALS['FLAMINGO']['CONF']['Log']['Debug']));
+\Analog\Analog::handler(\Flamingo\Service\ErrorHandler::init($GLOBALS['FLAMINGO']['Debug']));
 
 // Run defined task
 $flamingo->run($command[0] ?: 'default');

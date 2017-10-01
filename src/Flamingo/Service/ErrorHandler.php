@@ -1,19 +1,18 @@
 <?php
 
-namespace Flamingo;
+namespace Flamingo\Service;
 
 use Analog\Analog;
 
 /**
  * Class ErrorHandler
- *
- * DEBUG level is configurable using /Conf/Log/Debug in YAML
- * ERROR must kill the script execution
- *
- * @package Flamingo
+ * @package Flamingo\Service
  */
 class ErrorHandler
 {
+    /**
+     * @var array
+     */
     private static $codeName = [
         Analog::DEBUG => 'DEBUG',
         Analog::INFO => 'INFO',
@@ -40,7 +39,7 @@ class ErrorHandler
                 return;
             }
 
-            $code = ErrorHandler::$codeName[$error['level']];
+            $code = self::$codeName[$error['level']];
             echo '[' . $code . '] ' . $error['message'] . PHP_EOL;
 
             if (!$force && $error['level'] == Analog::ERROR) {
