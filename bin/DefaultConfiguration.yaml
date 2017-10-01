@@ -17,20 +17,13 @@ Flamingo:
   # Can be string or array
   Include:
 
-  # Autoload
+  # Implementation classes
   Classes:
-    Core:
-      Task:
-        className: Flamingo\Core\Task
-      Stream:
-        className: Flamingo\Core\Stream
-      Table:
-        className: Flamingo\Core\Table
     Processor:
       Source:
-        className: Flamingo\Processor\SourceProcessor
+        className: Flamingo\Processor\ReaderProcessor
       Destination:
-        className: Flamingo\Processor\DestinationProcessor
+        className: Flamingo\Processor\WriterProcessor
       Transform:
         className: Flamingo\Processor\TransformProcessor
       Mapping:

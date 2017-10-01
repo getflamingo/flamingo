@@ -9,7 +9,7 @@ use Flamingo\Processor\Reader\ReaderInterface;
  * Class SourceProcessor
  * @package Flamingo\Processor
  */
-class SourceProcessor extends AbstractProcessor
+class ReaderProcessor extends AbstractProcessor
 {
     /**
      * Access to stream configuration resolver
@@ -24,7 +24,7 @@ class SourceProcessor extends AbstractProcessor
     /**
      * Insert a table data into current TaskRuntime
      * Accepts multiple sources at once
-     * TODO: Maybe remove the fact that the SourceProcessor can accept multiple sources at once
+     * TODO: Maybe remove the fact that the ReaderProcessor can accept multiple sources at once
      *
      * Examples:
      *

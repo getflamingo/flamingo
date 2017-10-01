@@ -6,14 +6,12 @@ use Flamingo\Processor\ProcessorInterface;
 
 /**
  * Class Task
- * A task is an entry point to the script execution
- *
  * @package Flamingo\Core
  */
 class Task
 {
     /**
-     * Values returned by processes
+     * Values returned by processors
      */
     const STATUS_OK = 0;
     const STATUS_WARN = 1;
@@ -27,8 +25,6 @@ class Task
     protected $processors = [];
 
     /**
-     * Add a process to the list
-     *
      * @param ProcessorInterface $processor
      */
     public function addProcessor(ProcessorInterface $processor)
@@ -38,6 +34,7 @@ class Task
 
     /**
      * Execute each processors through current runtime
+     * TODO: Keep track of current Runtime status
      *
      * @param TaskRuntime $taskRuntime
      * @return TaskRuntime

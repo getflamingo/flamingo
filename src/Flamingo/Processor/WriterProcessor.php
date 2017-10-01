@@ -7,10 +7,10 @@ use Flamingo\Core\TaskRuntime;
 use Flamingo\Processor\Writer\WriterInterface;
 
 /**
- * Class DestinationProcessor
+ * Class WriterProcessor
  * @package Flamingo\Processor
  */
-class DestinationProcessor extends AbstractSingleSourceProcessor
+class WriterProcessor extends AbstractSingleSourceProcessor
 {
     /**
      * Access to stream configuration resolver
