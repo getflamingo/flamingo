@@ -17,5 +17,5 @@ interface ProcessorInterface
      * @param TaskRuntime $taskRuntime
      * @return mixed
      */
-    public function execute(TaskRuntime &$taskRuntime);
+    public function execute(TaskRuntime $taskRuntime);
 }

@@ -28,7 +28,7 @@ abstract class AbstractProcessor implements ProcessorInterface
      * Process data tables using custom functions
      *
      * @param TaskRuntime $taskRuntime
-     * @return TaskRuntime
+     * @return mixed
      */
-    abstract public function execute(TaskRuntime &$taskRuntime);
+    abstract public function execute(TaskRuntime $taskRuntime);
 }

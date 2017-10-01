@@ -1,12 +1,13 @@
 <?php
-namespace Flamingo\Reader;
+
+namespace Flamingo\Processor\Reader;
 
 use Analog\Analog;
-use Flamingo\Model\Table;
+use Flamingo\Core\Table;
 
 /**
  * Class DbReader
- * @package Flamingo\Reader
+ * @package Flamingo\Processor\Reader
  */
 class DbReader implements ReaderInterface
 {
@@ -16,22 +17,26 @@ class DbReader implements ReaderInterface
     protected $pdo;
 
     /**
-     * @param array $options
-     * @return \Flamingo\Model\Table
+     * @var array
      */
-    public function read($options)
-    {
-        $defaultOptions = [
-            'driver' => 'mysql',
-            'server' => 'localhost',
-            'port' => 3306,
-            'username' => 'root',
-            'password' => '',
-            'database' => '',
-            'charset' => 'UTF8',
-        ];
+    protected $defaultOptions = [
+        'driver' => 'mysql',
+        'server' => 'localhost',
+        'port' => 3306,
+        'username' => 'root',
+        'password' => '',
+        'database' => '',
+        'charset' => 'UTF8',
+    ];
 
-        $options = array_replace($defaultOptions, $options);
+    /**
+     * @param array $options
+     * @return Table
+     */
+    public function read(array $options)
+    {
+        // Overwrite default options
+        $options = array_replace($this->defaultOptions, $options);
 
         $properties = [
             'host' => $options['server'],

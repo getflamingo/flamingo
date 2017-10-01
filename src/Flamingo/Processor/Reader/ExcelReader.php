@@ -1,32 +1,36 @@
 <?php
-namespace Flamingo\Reader;
 
-use Flamingo\Model\Table;
+namespace Flamingo\Processor\Reader;
+
+use Flamingo\Core\Table;
 
 /**
  * Class ExcelReader
- * @package Flamingo\Reader
+ * @package Flamingo\Processor\Reader
  */
 class ExcelReader extends AbstractFileReader
 {
     /**
+     * @var array
+     */
+    protected $defaultOptions = [
+        'header' => true,
+        'sheet' => 0,
+        'readOnly' => true,
+        'nullValue' => null,
+        'calculateFormulas' => false,
+        'formatData' => false,
+    ];
+
+    /**
      * @param string $filename
      * @param array $options
-     * @return \Flamingo\Model\Table
+     * @return \Flamingo\Core\Table
      */
-    protected function fileContent($filename, $options)
+    protected function fileContent($filename, array $options)
     {
-        $defaultOptions = [
-            'header' => true,
-            'sheet' => 0,
-            'readOnly' => true,
-            'nullValue' => null,
-            'calculateFormulas' => false,
-            'formatData' => false,
-        ];
-
         // Overwrite default options
-        $options = array_replace($defaultOptions, $options);
+        $options = array_replace($this->defaultOptions, $options);
 
         // Create file loader
         /** @var $reader \PHPExcel_Reader_Abstract $reader */

@@ -1,28 +1,32 @@
 <?php
 
-namespace Flamingo\Reader;
+namespace Flamingo\Processor\Reader;
 
-use Flamingo\Model\Table;
+use Flamingo\Core\Table;
 
 /**
  * Class XmlReader
- * @package Flamingo\Reader
+ * @package Flamingo\Processor\Reader
  */
 class XmlReader extends AbstractFileReader
 {
     /**
+     * @var array
+     */
+    protected $defaultOptions = [
+        'path' => null,
+        'nocdata' => true,
+    ];
+
+    /**
      * @param string $filename
      * @param array $options
-     * @return \Flamingo\Model\Table
+     * @return Table
      */
-    protected function fileContent($filename, $options)
+    protected function fileContent($filename, array $options)
     {
-        $defaultOptions = [
-            'path' => null,
-            'nocdata' => true,
-        ];
-
-        $options = array_replace($defaultOptions, $options);
+        // Overwrite default options
+        $options = array_replace($this->defaultOptions, $options);
 
         // Read data from the file and hide namespace
         $xml = file_get_contents($filename);

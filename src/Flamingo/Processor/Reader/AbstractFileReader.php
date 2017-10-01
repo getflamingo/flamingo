@@ -1,23 +1,23 @@
 <?php
-namespace Flamingo\Reader;
+
+namespace Flamingo\Processor\Reader;
 
 use Analog\Analog;
+use Flamingo\Core\Table;
 
 /**
  * Class AbstractFileReader
- *
- * Handles errors for readers
- * reading data from file system
- *
- * @package Flamingo\Reader
+ * @package Flamingo\Processor\Reader
  */
 abstract class AbstractFileReader implements ReaderInterface
 {
     /**
+     * Handles errors for parsers reading data from file system
+     *
      * @param array $options
-     * @return \Flamingo\Model\Table
+     * @return Table
      */
-    public function read($options)
+    public function read(array $options)
     {
         if (empty($options['file'])) {
             Analog::error(sprintf('No filename defined - %s', json_encode($options)));
@@ -39,7 +39,7 @@ abstract class AbstractFileReader implements ReaderInterface
      *
      * @param string $filename
      * @param array $options
-     * @return \Flamingo\Model\Table
+     * @return Table
      */
-    protected abstract function fileContent($filename, $options);
+    protected abstract function fileContent($filename, array $options);
 }

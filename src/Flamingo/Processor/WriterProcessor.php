@@ -25,7 +25,7 @@ class WriterProcessor extends AbstractSingleSourceProcessor
     /**
      * @var string
      */
-    protected $noTypeFound = 'No type found for this destination - %s';
+    protected $noTypeFound = 'No writer found for the type - %s';
 
     /**
      * Output a single data table
@@ -33,10 +33,14 @@ class WriterProcessor extends AbstractSingleSourceProcessor
      * @param Table $source
      * @param TaskRuntime $taskRuntime
      */
-    protected function processSource(Table &$source, TaskRuntime $taskRuntime)
+    protected function processSource(Table $source, TaskRuntime $taskRuntime)
     {
+        $streamConfiguration = [];
+
         // Process configuration as a single stream
-        $streamConfiguration = $this->resolveStreamConfiguration($this->configuration);
+        if (!empty($this->configuration)) {
+            $streamConfiguration = $this->resolveStreamConfiguration($this->configuration);
+        }
 
         // Use console writer if none is defined
         $writerName = $streamConfiguration ? $streamConfiguration['parserType'] : self::WRITER_DEFAULT;

@@ -27,7 +27,7 @@ abstract class AbstractSingleSourceProcessor extends AbstractProcessor
      * @param Table $source
      * @param TaskRuntime $taskRuntime
      */
-    abstract protected function processSource(Table &$source, TaskRuntime $taskRuntime);
+    abstract protected function processSource(Table $source, TaskRuntime $taskRuntime);
 
     /**
      * Get identifier from configuration
@@ -37,7 +37,7 @@ abstract class AbstractSingleSourceProcessor extends AbstractProcessor
      * @param TaskRuntime $taskRuntime
      * @return mixed
      */
-    public function execute(TaskRuntime &$taskRuntime)
+    public function execute(TaskRuntime $taskRuntime)
     {
         $identifier = $this->configuration[self::IDENTIFIER_OPERATOR] ?: self::IDENTIFIER_DEFAULT;
         $this->processSource($taskRuntime->getTableByIdentifier($identifier), $taskRuntime);

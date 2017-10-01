@@ -1,31 +1,35 @@
 <?php
-namespace Flamingo\Reader;
 
-use Flamingo\Model\Table;
+namespace Flamingo\Processor\Reader;
+
+use Flamingo\Core\Table;
 use League\Csv\Reader as LCsvReader;
 
 /**
  * Class CsvReader
- * @package Flamingo\Reader
+ * @package Flamingo\Processor\Reader
  */
 class CsvReader extends AbstractFileReader
 {
     /**
+     * @var array
+     */
+    protected $defaultOptions = [
+        'delimiter' => ',',
+        'enclosure' => '"',
+        'escape' => '\\',
+        'newline' => "\n",
+    ];
+
+    /**
      * @param string $filename
      * @param array $options
-     * @return \Flamingo\Model\Table
+     * @return Table
      */
-    protected function fileContent($filename, $options)
+    protected function fileContent($filename, array $options)
     {
-        $defaultOptions = [
-            'delimiter' => ',',
-            'enclosure' => '"',
-            'escape' => '\\',
-            'newline' => "\n",
-        ];
-
         // Overwrite default options
-        $options = array_replace($defaultOptions, $options);
+        $options = array_replace($this->defaultOptions, $options);
 
         $firstLineHeader = !empty($options['header']) ? $options['header'] : true;
 

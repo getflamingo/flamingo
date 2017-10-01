@@ -41,7 +41,7 @@ class ReaderProcessor extends AbstractProcessor
      * @param TaskRuntime $taskRuntime
      * @return mixed
      */
-    public function execute(TaskRuntime &$taskRuntime)
+    public function execute(TaskRuntime $taskRuntime)
     {
         $configuration = $this->configuration;
 
