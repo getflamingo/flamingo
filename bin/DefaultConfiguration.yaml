@@ -9,6 +9,14 @@ Flamingo:
   # Continue execution if an error has been thrown
   Force: false
 
+  # Minimum version needed in order to run your custom configuration
+  # Need to be a standard format: http://php.net/manual/fr/function.version-compare.php
+  Compatibility:
+
+  # Include these PHP files and get access to custom functions
+  # Can be string or array
+  Include:
+
   # Autoload
   Classes:
     Core:
@@ -90,8 +98,6 @@ Flamingo:
 # ------------------------------------
 # EXAMPLES + NEW FEATURES TO IMPLEMENT
 # ------------------------------------
-
-# TODO: Add Flamingo version requirements
 
 # TODO: Add SingleSourceProcessor and MultipleSourceProcessor interfaces (or traits?)
 # Add __source to determine what source to process (for SingleSourceProcessors)

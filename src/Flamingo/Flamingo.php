@@ -73,6 +73,9 @@ class Flamingo
      */
     public function run($taskName = 'default', $taskRuntime = null)
     {
+        // Check version constraint
+        $this->checkVersionRequirements();
+
         // Get task from list
         $task = $this->getTask(strtolower($taskName));
 
@@ -90,6 +93,21 @@ class Flamingo
             Analog::info(sprintf('Running "%s"...', $taskName));
             $task->execute($taskRuntime);
             Analog::info(sprintf('Finished "%s" in %fs', $taskName, $taskRuntime->getElapsedTime()));
+        }
+    }
+
+    /**
+     * Check if the configuration version is compatible
+     * with the current flamingo version
+     */
+    protected function checkVersionRequirements()
+    {
+        if (version_compare($GLOBALS['FLAMINGO']['Version'], $GLOBALS['FLAMINGO']['Compatibility'], ">=")) {
+            Analog::alert(sprintf(
+                'The current configuration does not meet the version requirements (current: %s, needed: %s)',
+                $GLOBALS['FLAMINGO']['Compatibility'],
+                $GLOBALS['FLAMINGO']['Version']
+            ));
         }
     }
 
