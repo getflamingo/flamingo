@@ -12,6 +12,11 @@ use Flamingo\Core\TaskRuntime;
 class FunctionProcessor extends AbstractSingleSourceProcessor
 {
     /**
+     * The operator which is used to declare user function
+     */
+    const FUNCTION_OPERATOR = '__function';
+
+    /**
      * Call user function
      *
      * @param Table $source
@@ -19,9 +24,12 @@ class FunctionProcessor extends AbstractSingleSourceProcessor
      */
     protected function processSource(Table $source, TaskRuntime $taskRuntime)
     {
-        $configuration = is_string($this->configuration) ? ['__function' => $this->configuration] : $this->configuration;
-        $userFunction = $configuration['__function'];
-        unset($configuration['__function']);
+        $configuration = is_string($this->configuration)
+            ? [self::FUNCTION_OPERATOR => $this->configuration]
+            : $this->configuration;
+
+        $userFunction = $configuration[self::FUNCTION_OPERATOR];
+        unset($configuration[self::FUNCTION_OPERATOR]);
 
         call_user_func($userFunction, $configuration, $taskRuntime);
     }
