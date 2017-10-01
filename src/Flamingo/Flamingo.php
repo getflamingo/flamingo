@@ -4,6 +4,7 @@ namespace Flamingo;
 
 use Analog\Analog;
 use Flamingo\Core\Task;
+use Flamingo\Core\TaskRuntime;
 use Flamingo\Service\ConfigurationParser;
 use Flamingo\Service\InheritancesResolver;
 use Flamingo\Utility\ArrayUtility;
@@ -68,37 +69,51 @@ class Flamingo
      * Run flamingo task
      *
      * @param string $taskName
-     * @param bool $mainTask
+     * @param TaskRuntime $taskRuntime
      */
-    public function run($taskName = 'default', $mainTask = true)
+    public function run($taskName = 'default', $taskRuntime = null)
     {
-        $taskName = strtolower($taskName);
+        // Get task from list
+        $task = $this->getTask(strtolower($taskName));
 
+        // Create taskRuntime if it does not exist
+        if ($taskRuntime === null) {
+            $taskRuntime = new TaskRuntime($task);
+        } else {
+            $taskRuntime->setCurrentTask($task);
+        }
+
+        // If the task is not at root level, do not display info logs
+        if ($taskRuntime->isSubTask()) {
+            $task->execute($taskRuntime);
+        } else {
+            Analog::info(sprintf('Running "%s"...', $taskName));
+            $task->execute($taskRuntime);
+            Analog::info(sprintf('Finished "%s" in %fs', $taskName, $taskRuntime->getElapsedTime()));
+        }
+    }
+
+    /**
+     * Find a task in the current application
+     *
+     * @param string $taskName
+     * @return Task
+     * @internal
+     */
+    public function getTask($taskName)
+    {
         if (!array_key_exists($taskName, $this->tasks)) {
             Analog::error(sprintf('The task "%s" does not exist!', $taskName));
-            return;
+            return null;
         }
 
         $task = $this->tasks[$taskName];
 
         if (!($task instanceof Task)) {
             Analog::error(sprintf('Registered task "%s" is not valid!', $taskName));
-            return;
+            return null;
         }
 
-        if ($mainTask) {
-
-            $startTime = microtime(true);
-            Analog::info(sprintf('Running "%s"...', $taskName));
-
-            $task->execute($this);
-
-            $execTime = microtime(true) - $startTime;
-            Analog::info(sprintf('Finished "%s" in %fs', $taskName, $execTime));
-
-        } else {
-
-            $task->execute($this);
-        }
+        return $task;
     }
 }

@@ -1,11 +1,11 @@
 <?php
-namespace Flamingo\Process;
+namespace Flamingo\Processor;
 
 /**
- * Class AbstractProcess
+ * Class AbstractProcessor
  * @package Flamingo\Process
  */
-abstract class AbstractProcess implements ProcessInterface
+abstract class AbstractProcessor implements ProcessorInterface
 {
     /**
      * @var mixed
@@ -13,7 +13,7 @@ abstract class AbstractProcess implements ProcessInterface
     protected $configuration;
 
     /**
-     * AbstractProcess constructor.
+     * AbstractProcessor constructor.
      * @param $configuration
      */
     public function __construct($configuration)

@@ -1,5 +1,5 @@
 <?php
-namespace Flamingo\Process;
+namespace Flamingo\Processor;
 
 use Analog\Analog;
 use Flamingo\Model\Table;
@@ -9,7 +9,7 @@ use Flamingo\Utility\ArrayUtility;
  * Class QueryProcess
  * @package Flamingo\Process
  */
-class QueryProcess extends AbstractProcess
+class QueryProcess extends AbstractProcessor
 {
     /**
      * Execute a LINQ query on multiple sources

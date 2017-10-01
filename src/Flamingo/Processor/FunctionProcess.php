@@ -1,11 +1,11 @@
 <?php
-namespace Flamingo\Process;
+namespace Flamingo\Processor;
 
 /**
  * Class FunctionProcess
  * @package Flamingo\Process
  */
-class FunctionProcess extends AbstractProcess
+class FunctionProcess extends AbstractProcessor
 {
     /**
      * FunctionProcess constructor.

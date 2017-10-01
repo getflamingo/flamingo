@@ -1,6 +1,6 @@
 <?php
 
-namespace Flamingo\Process;
+namespace Flamingo\Processor;
 
 use Analog\Analog;
 use Flamingo\Core\Task;
@@ -9,7 +9,7 @@ use Flamingo\Core\Task;
  * Class FilterProcess
  * @package Flamingo\Process
  */
-class FilterProcess extends AbstractProcess
+class FilterProcess extends AbstractProcessor
 {
     /**
      * FilterProcess constructor.

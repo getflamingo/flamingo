@@ -1,15 +1,15 @@
 <?php
-namespace Flamingo\Process;
+namespace Flamingo\Processor;
 
 /**
- * Interface ProcessInterface
+ * Interface ProcessorInterface
  *
  * Processes transform data along the task
  * Note: $data is often a reference
  *
  * @package Flamingo\Process
  */
-interface ProcessInterface
+interface ProcessorInterface
 {
     /**
      * Process data using custom functions

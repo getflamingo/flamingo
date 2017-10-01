@@ -1,5 +1,5 @@
 <?php
-namespace Flamingo\Process;
+namespace Flamingo\Processor;
 
 use Flamingo\Core\Task;
 use Flamingo\Utility\NamespaceUtility;
@@ -8,7 +8,7 @@ use Flamingo\Utility\NamespaceUtility;
  * Class ModifyProcess
  * @package Flamingo\Process
  */
-class ModifyProcess extends AbstractProcess
+class ModifyProcess extends AbstractProcessor
 {
     /**
      * ModifyProcess constructor.

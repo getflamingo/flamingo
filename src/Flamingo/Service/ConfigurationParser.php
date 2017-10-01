@@ -144,9 +144,9 @@ class ConfigurationParser
             return $task;
         }
 
-        foreach ($configuration as $processIdentifier => $processConf) {
-            if ($process = $this->parseProcess($processConf)) {
-                $task->addProcess($process);
+        foreach ($configuration as $processorIdentifier => $processorConfiguration) {
+            if ($processor = $this->parseProcessor($processorConfiguration)) {
+                $task->addProcessor($processor);
             }
         }
 
@@ -158,9 +158,9 @@ class ConfigurationParser
      * create a new processor object using this conf
      *
      * @param array $configuration
-     * @return \Flamingo\Process\ProcessInterface
+     * @return \Flamingo\Processor\ProcessorInterface
      */
-    protected function parseProcess($configuration)
+    protected function parseProcessor($configuration)
     {
         if (is_array($configuration)) {
 
@@ -172,16 +172,16 @@ class ConfigurationParser
             $className = $GLOBALS['FLAMINGO']['Classes']['Processor'][$processorName]['className'];
 
             if (!class_exists($className)) {
-                Analog::error(sprintf('The process "%s" does not exist', $processorName));
+                Analog::error(sprintf('The processor "%s" does not exist', $processorName));
                 return null;
             }
 
             // Create process if it exists
-            Analog::debug(sprintf('Register process "%s"', $className));
+            Analog::debug(sprintf('Register processor "%s"', $className));
             return new $className($configuration);
         }
 
-        Analog::debug('Process configuration is empty or null');
+        Analog::debug('Processor configuration is empty or null');
         return null;
     }
 }

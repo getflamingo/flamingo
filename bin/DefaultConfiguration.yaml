@@ -91,15 +91,7 @@ Flamingo:
 # EXAMPLES + NEW FEATURES TO IMPLEMENT
 # ------------------------------------
 
-# TODO: Tasks now are ending with (), to represent a function
-
 # TODO: Add Flamingo version requirements
-
-# TODO: Add __inheritances option to overwrite values
-# Avoid the use of internal references
-# The __inheritances applies at the very end of all configuration merges (like ext:form on TYPO3)
-# Check out ext:form implementation to avoid errors
-# https://docs.typo3.org/typo3cms/extensions/form/Concepts/Configuration/Index.html#inheritances
 
 # TODO: Add SingleSourceProcessor and MultipleSourceProcessor interfaces (or traits?)
 # Add __source to determine what source to process (for SingleSourceProcessors)
@@ -112,6 +104,8 @@ Flamingo:
 
 # TODO: Add configuration for the ModifierProcessor
 # Avoid the creation of multiple files for nothing
+
+# TODO: Throw error and allow different kind of log connectors
 
 # TODO: Optimize the DB writer using commits
 

@@ -1,5 +1,5 @@
 <?php
-namespace Flamingo\Process;
+namespace Flamingo\Processor;
 
 use Flamingo\Reader\ReaderInterface;
 

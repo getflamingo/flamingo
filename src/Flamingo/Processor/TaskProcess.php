@@ -1,5 +1,5 @@
 <?php
-namespace Flamingo\Process;
+namespace Flamingo\Processor;
 
 use Flamingo\Core\Task;
 
@@ -11,7 +11,7 @@ use Flamingo\Core\Task;
  *
  * @package Flamingo\Process
  */
-class TaskProcess extends AbstractProcess
+class TaskProcess extends AbstractProcessor
 {
     /**
      * Returns a signal to the task to call another task

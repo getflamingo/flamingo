@@ -3,7 +3,7 @@
 namespace Flamingo\Core;
 
 use Flamingo\Flamingo;
-use Flamingo\Process\ProcessInterface;
+use Flamingo\Processor\ProcessorInterface;
 
 /**
  * Class Task
@@ -24,60 +24,34 @@ class Task
     const SUMMON = 4;
 
     /**
-     * @var array<\Flamingo\Core\Process>
+     * @var array<\Flamingo\Processor\ProcessorInterface>
      */
-    protected $processes = [];
+    protected $processors = [];
 
     /**
      * Add a process to the list
-     * @param \Flamingo\Process\ProcessInterface $process
+     *
+     * @param \Flamingo\Processor\ProcessorInterface $processor
      */
-    public function addProcess($process)
+    public function addProcessor($processor)
     {
-        if ($process instanceof ProcessInterface) {
-            $this->processes[] = $process;
+        if ($processor instanceof ProcessorInterface) {
+            $this->processors[] = $processor;
         }
     }
 
     /**
-     * Execute each processes
+     * Execute each processors
      *
-     * @param \Flamingo\Flamingo $flamingo
-     * @return array<\Flamingo\Model\Table> $data
+     * @param \Flamingo\Core\TaskRuntime $taskRuntime
+     * @return \Flamingo\Core\TaskRuntime
      */
-    public function execute($flamingo = null)
+    public function execute($taskRuntime)
     {
-        $data = [];
-
-        foreach ($this->processes as $process) {
-
-            // Reset iterator index
-            reset($data);
-
-            // Execute process
-            $signal = $process->execute($data);
-
-            // A summon action has been called
-            if (
-                is_array($signal) &&
-                count($signal) == 2 &&
-                $signal[0] == Task::SUMMON &&
-                !empty($takList = $signal[1]) &&
-                ($flamingo instanceof Flamingo)
-            ) {
-
-                // Support one task as a string
-                if (!is_array($takList)) {
-                    $takList = [$takList];
-                }
-
-                // Run tasks
-                foreach ($takList as $task) {
-                    $flamingo->run($task, false);
-                }
-            }
+        foreach ($this->processors as $processor) {
+            $processor->execute($taskRuntime);
         }
 
-        return $data;
+        return $taskRuntime;
     }
 }

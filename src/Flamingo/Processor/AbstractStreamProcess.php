@@ -1,5 +1,5 @@
 <?php
-namespace Flamingo\Process;
+namespace Flamingo\Processor;
 
 use Analog\Analog;
 use Flamingo\Core\Task;
@@ -14,7 +14,7 @@ use Flamingo\Utility\NamespaceUtility;
  *
  * @package Flamingo\Process
  */
-abstract class AbstractStreamProcess extends AbstractProcess
+abstract class AbstractStreamProcess extends AbstractProcessor
 {
     /**
      * Error to display when no type is found
