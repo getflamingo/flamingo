@@ -55,12 +55,16 @@ class ConfigurationParser
     {
         $tasks = [];
 
+        // TODO: Maybe move this elsewhere
         // Insert global configuration
         if (array_key_exists('Flamingo', $this->referenceConfiguration)) {
             $GLOBALS['FLAMINGO'] = $this->referenceConfiguration['Flamingo'];
-        }
 
-        // TODO: Insert required files
+            // Include once required PHP files
+            if (array_key_exists('Include', $this->referenceConfiguration['Flamingo'])) {
+                $this->parseInclude($this->referenceConfiguration['Flamingo']['Include']);
+            }
+        }
 
         foreach ($this->referenceConfiguration as $name => $conf) {
             if ($taskName = $this->extractTaskName($name)) {
@@ -88,48 +92,45 @@ class ConfigurationParser
 
     /**
      * Include all the required files
-     * It can be used to call some Composer dependencies
-     * TODO: Add YAML configuration support
+     * It can be used to call some Composer dependencies, see documentation
      *
-     * @param mixed $requires
+     * @param mixed $files
      */
-    protected function parseRequire($requires)
+    protected function parseInclude($files)
     {
-        if (is_string($requires)) {
-            $requires = [$requires];
+        if (is_string($files)) {
+            $files = [$files];
         }
 
-        if (!is_array($requires)) {
-            Analog::debug('Require array is empty or null');
+        if (!is_array($files)) {
+            Analog::debug('Include array is empty or null');
             return;
         }
 
-        foreach ($requires as $require) {
+        foreach ($files as $filename) {
 
-            if (!is_string($require)) {
-                Analog::warning(sprintf('Require list must contain only strings, %s given', gettype($require)));
+            if (!is_string($filename)) {
+                Analog::warning(sprintf('Require list must contain only strings, %s given', gettype($filename)));
                 continue;
             }
 
-//            if (NamespaceUtility::getExtension($require) !== 'php') {
-//                Analog::warning('Require array only accepts PHP files for the moment!');
-//                continue;
-//            }
-
-            if (!file_exists($require)) {
-                Analog::warning(sprintf('Required file "%s" does not exist', $require));
+            if (pathinfo($filename, PATHINFO_EXTENSION) !== 'php') {
+                Analog::warning('Include array only accepts PHP files!');
                 continue;
             }
 
-            Analog::debug(sprintf('Require file "%s"', $require));
-            require_once $require;
+            if (!file_exists($filename)) {
+                Analog::warning(sprintf('Included file "%s" does not exist', $filename));
+                continue;
+            }
+
+            Analog::debug(sprintf('Include file "%s"', $filename));
+            include_once($filename);
         }
     }
 
     /**
-     * Parse task conf
-     * Note: Each process conf must have no key
-     * TODO: Add exception on process key
+     * Parse task configuration array
      *
      * @param array $configuration
      * @return \Flamingo\Core\Task
