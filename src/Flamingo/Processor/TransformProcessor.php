@@ -64,7 +64,7 @@ class TransformProcessor extends AbstractSingleSourceProcessor
 
                     // Invoke TransformHelper and update value
                     $transformHelper = $this->invokeTransformHelper($method, $source, $taskRuntime);
-                    $runtime = new TransformHelperRuntime($row[$field], $options, $row);
+                    $runtime = new TransformHelperRuntime($row[$field], $options, $row, $field);
                     $transformHelper->$method($runtime);
                     $row[$field] = $runtime['value'];
                 }

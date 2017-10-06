@@ -26,4 +26,12 @@ class CoreTransformHelper extends AbstractTransformHelper
         $runtime['value'] = array_key_exists($runtime['parameters'], $runtime['row'])
             ? $runtime['row'][$runtime['parameters']] : null;
     }
+
+    /**
+     * @param TransformHelperRuntime $runtime
+     */
+    public function remove(TransformHelperRuntime $runtime)
+    {
+        unset($runtime['row'][$runtime['property']]);
+    }
 }

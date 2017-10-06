@@ -13,13 +13,15 @@ class TransformHelperRuntime extends \ArrayIterator
      * @param mixed $value
      * @param mixed $parameters
      * @param array $row
+     * @param string $property
      */
-    public function __construct($value, $parameters, array $row)
+    public function __construct($value, $parameters, array $row, $property)
     {
         parent::__construct([
             'value' => $value,
             'parameters' => $parameters,
             'row' => $row,
+            'property' => $property,
         ]);
     }
 }

@@ -55,17 +55,42 @@ Flamingo:
     TransformHelper:
       Core:
         className: Flamingo\Processor\TransformHelper\CoreTransformHelper
-        modifiers: [ set, copy ]
+        modifiers:
+          - set
+          - copy
+          - remove
       Iterator:
         className: Flamingo\Processor\TransformHelper\IteratorTransformHelper
-        modifiers: [ get, pop, push, shift, unshift, implode, explode ]
+        modifiers:
+          - get
+          - pop
+          - push
+          - shift
+          - unshift
+          - implode
+          - explode
       Math:
         className: Flamingo\Processor\TransformHelper\MathTransformHelper
-        modifiers: [ add, sub, mul, div ]
+        modifiers:
+          - add
+          - sub
+          - mul
+          - div
       Php:
         className: Flamingo\Processor\TransformHelper\PhpTransformHelper
-        modifiers: [ boolval, intval, strval, floatval, html_entity_decode, sha1, md5, strtolower, strtoupper, utf8_decode, utf8_encode ]
-
+        modifiers:
+          - boolval
+          - intval
+          - strval
+          - floatval
+          - html_entity_decode
+          - sha1
+          - md5
+          - strtolower
+          - strtoupper
+          - utf8_decode
+          - utf8_encode
+          - time
 
   # Additional global options
   # These can are accessible through $GLOBALS
