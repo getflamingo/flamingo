@@ -15,7 +15,7 @@ class PhpTransformHelper extends AbstractTransformHelper
     public function __call($function, $parameters)
     {
         if (is_callable($function)) {
-            $parameters[0] = $function($parameters[0]);
+            $parameters[0]['value'] = $function($parameters[0]['value']);
         }
     }
 }

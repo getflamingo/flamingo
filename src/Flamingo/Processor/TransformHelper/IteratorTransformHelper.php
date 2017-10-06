@@ -2,6 +2,8 @@
 
 namespace Flamingo\Processor\TransformHelper;
 
+use Flamingo\Core\TransformHelperRuntime;
+
 /**
  * Class ArrayTransformHelper
  * @package Flamingo\Processor\TransformHelper
@@ -9,72 +11,59 @@ namespace Flamingo\Processor\TransformHelper;
 class IteratorTransformHelper extends AbstractTransformHelper
 {
     /**
-     * @param $value
-     * @param $parameter
-     * @param array $row
+     * @param TransformHelperRuntime $runtime
      */
-    public function get(&$value, $parameter, array $row)
+    public function get(TransformHelperRuntime $runtime)
     {
-        $value = array_key_exists($parameter, $value) ? $value[$parameter] : null;
+        $runtime['value'] = array_key_exists($runtime['parameters'], $runtime['value'])
+            ? $runtime['value'][$runtime['parameters']] : null;
     }
 
     /**
-     * @param $value
-     * @param $parameter
-     * @param array $row
+     * @param TransformHelperRuntime $runtime
      */
-    public function pop(&$value, $parameter, array $row)
+    public function pop(TransformHelperRuntime $runtime)
     {
-        array_pop($value);
+        array_pop($runtime['value']);
     }
 
     /**
-     * @param $value
-     * @param $parameter
-     * @param array $row
+     * @param TransformHelperRuntime $runtime
      */
-    public function push(&$value, $parameter, array $row)
+    public function push(TransformHelperRuntime $runtime)
     {
-        array_push($value, $parameter);
+        array_push($runtime['value'], $runtime['parameters']);
     }
 
     /**
-     * @param $value
-     * @param $parameter
-     * @param array $row
+     * @param TransformHelperRuntime $runtime
      */
-    public function shift(&$value, $parameter, array $row)
+    public function shift(TransformHelperRuntime $runtime)
     {
-        array_shift($value);
+        array_shift($runtime['value']);
     }
 
     /**
-     * @param $value
-     * @param $parameter
-     * @param array $row
+     * @param TransformHelperRuntime $runtime
      */
-    public function unshift(&$value, $parameter, array $row)
+    public function unshift(TransformHelperRuntime $runtime)
     {
-        array_unshift($value, $parameter);
+        array_unshift($runtime['value'], $runtime['parameters']);
     }
 
     /**
-     * @param $value
-     * @param $parameter
-     * @param array $row
+     * @param TransformHelperRuntime $runtime
      */
-    public function implode(&$value, $parameter, array $row)
+    public function implode(TransformHelperRuntime $runtime)
     {
-        $value = implode($parameter, $value);
+        $runtime['value'] = implode($runtime['parameters'], $runtime['value']);
     }
 
     /**
-     * @param $value
-     * @param $parameter
-     * @param array $row
+     * @param TransformHelperRuntime $runtime
      */
-    public function explode(&$value, $parameter, array $row)
+    public function explode(TransformHelperRuntime $runtime)
     {
-        $value = explode($parameter, $value);
+        $runtime['value'] = explode($runtime['parameters'], $runtime['value']);
     }
 }

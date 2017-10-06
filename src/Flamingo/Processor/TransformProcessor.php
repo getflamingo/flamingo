@@ -4,6 +4,7 @@ namespace Flamingo\Processor;
 
 use Flamingo\Core\Table;
 use Flamingo\Core\TaskRuntime;
+use Flamingo\Core\TransformHelperRuntime;
 use Flamingo\Processor\TransformHelper\AbstractTransformHelper;
 
 /**
@@ -63,7 +64,9 @@ class TransformProcessor extends AbstractSingleSourceProcessor
 
                     // Invoke TransformHelper and update value
                     $transformHelper = $this->invokeTransformHelper($method, $source, $taskRuntime);
-                    $transformHelper->$method($row[$field], $options, $row);
+                    $runtime = new TransformHelperRuntime($row[$field], $options, $row);
+                    $transformHelper->$method($runtime);
+                    $row[$field] = $runtime['value'];
                 }
             }
         }

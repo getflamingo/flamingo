@@ -2,6 +2,8 @@
 
 namespace Flamingo\Processor\TransformHelper;
 
+use Flamingo\Core\TransformHelperRuntime;
+
 /**
  * Class MathTransformHelper
  * @package Flamingo\Processor\TransformHelper
@@ -9,42 +11,34 @@ namespace Flamingo\Processor\TransformHelper;
 class MathTransformHelper extends AbstractTransformHelper
 {
     /**
-     * @param $value
-     * @param $parameter
-     * @param array $row
+     * @param TransformHelperRuntime $runtime
      */
-    public function add(&$value, $parameter, array $row)
+    public function add(TransformHelperRuntime $runtime)
     {
-        $value += $parameter;
+        $runtime['value'] = $runtime['value'] + $runtime['parameters'];
     }
 
     /**
-     * @param $value
-     * @param $parameter
-     * @param array $row
+     * @param TransformHelperRuntime $runtime
      */
-    public function sub(&$value, $parameter, array $row)
+    public function sub(TransformHelperRuntime $runtime)
     {
-        $value -= $parameter;
+        $runtime['value'] = $runtime['value'] - $runtime['parameters'];
     }
 
     /**
-     * @param $value
-     * @param $parameter
-     * @param array $row
+     * @param TransformHelperRuntime $runtime
      */
-    public function mul(&$value, $parameter, array $row)
+    public function mul(TransformHelperRuntime $runtime)
     {
-        $value *= $parameter;
+        $runtime['value'] = $runtime['value'] * $runtime['parameters'];
     }
 
     /**
-     * @param $value
-     * @param $parameter
-     * @param array $row
+     * @param TransformHelperRuntime $runtime
      */
-    public function div(&$value, $parameter, array $row)
+    public function div(TransformHelperRuntime $runtime)
     {
-        $value /= $parameter;
+        $runtime['value'] = $runtime['value'] / $runtime['parameters'];
     }
 }

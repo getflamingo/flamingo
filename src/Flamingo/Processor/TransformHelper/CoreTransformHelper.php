@@ -2,6 +2,8 @@
 
 namespace Flamingo\Processor\TransformHelper;
 
+use Flamingo\Core\TransformHelperRuntime;
+
 /**
  * Class CoreTransformHelper
  * @package Flamingo\Processor\TransformHelper
@@ -9,22 +11,19 @@ namespace Flamingo\Processor\TransformHelper;
 class CoreTransformHelper extends AbstractTransformHelper
 {
     /**
-     * @param $value
-     * @param $parameter
-     * @param array $row
+     * @param TransformHelperRuntime $runtime
      */
-    public function set(&$value, $parameter, array $row)
+    public function set(TransformHelperRuntime $runtime)
     {
-        $value = $parameter;
+        $runtime['value'] = $runtime['parameters'];
     }
 
     /**
-     * @param $value
-     * @param $parameter
-     * @param array $row
+     * @param TransformHelperRuntime $runtime
      */
-    public function copy(&$value, $parameter, array $row)
+    public function copy(TransformHelperRuntime $runtime)
     {
-        $value = array_key_exists($parameter, $row) ? $row[$parameter] : null;
+        $runtime['value'] = array_key_exists($runtime['parameters'], $runtime['row'])
+            ? $runtime['row'][$runtime['parameters']] : null;
     }
 }
