@@ -25,6 +25,9 @@ $command
     ->option()
     ->describedAs('Name of the task to execute.');
 
+// Register error handler
+Analog::handler(ErrorHandler::init(false));
+
 // Create base task runner
 $flamingo = new Flamingo(file_get_contents(__DIR__ . '/default.yml'));
 
