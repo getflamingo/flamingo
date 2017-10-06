@@ -1,0 +1,126 @@
+Flamingo:
+
+  # Flamingo application version
+  Version: 1.0.0
+
+  # Minimum version needed in order to run your custom configuration
+  # Need to be a standard format: http://php.net/manual/fr/function.version-compare.php
+  RequiredVersion: 0
+
+  # Include these PHP files and get access to custom functions
+  # Can be string or array
+  Include: []
+
+  # Implementation classes
+  Classes:
+    Processor:
+      Source:
+        className: Flamingo\Processor\ReaderProcessor
+      Destination:
+        className: Flamingo\Processor\WriterProcessor
+      Transform:
+        className: Flamingo\Processor\TransformProcessor
+      Mapping:
+        className: Flamingo\Processor\MappingProcessor
+      Function:
+        className: Flamingo\Processor\FunctionProcessor
+      Filter:
+        className: Flamingo\Processor\FilterProcessor
+    Reader:
+      Csv:
+        className: Flamingo\Processor\Reader\CsvReader
+      Db:
+        className: Flamingo\Processor\Reader\DbReader
+      Excel:
+        className: Flamingo\Processor\Reader\ExcelReader
+      Json:
+        className: Flamingo\Processor\Reader\JsonReader
+      Xml:
+        className: Flamingo\Processor\Reader\XmlReader
+      Yaml:
+        className: Flamingo\Processor\Reader\YamlReader
+    Writer:
+      Cli:
+        className: Flamingo\Processor\Writer\ConsoleWriter
+      Csv:
+        className: Flamingo\Processor\Writer\CsvWriter
+      Db:
+        className: Flamingo\Processor\Writer\DbWriter
+      Json:
+        className: Flamingo\Processor\Writer\JsonWriter
+      Xml:
+        className: Flamingo\Processor\Writer\XmlWriter
+      Yaml:
+        className: Flamingo\Processor\Writer\YamlWriter
+    TransformHelper:
+      Core:
+        className: Flamingo\Processor\TransformHelper\CoreTransformHelper
+        modifiers:
+          - set
+          - copy
+          - remove
+      Iterator:
+        className: Flamingo\Processor\TransformHelper\IteratorTransformHelper
+        modifiers:
+          - get
+          - pop
+          - push
+          - shift
+          - unshift
+          - implode
+          - explode
+      Math:
+        className: Flamingo\Processor\TransformHelper\MathTransformHelper
+        modifiers:
+          - add
+          - sub
+          - mul
+          - div
+      Php:
+        className: Flamingo\Processor\TransformHelper\PhpTransformHelper
+        modifiers:
+          - boolval
+          - intval
+          - strval
+          - floatval
+          - html_entity_decode
+          - sha1
+          - md5
+          - strtolower
+          - strtoupper
+          - utf8_decode
+          - utf8_encode
+          - time
+
+  # Additional global options
+  # These can are accessible through $GLOBALS
+  Options:
+
+    # Keep old fields after new ones are mapped
+    Mapping:
+      KeepOldProperties: false
+
+    # Don't apply processor if field does not exist
+    Transform:
+      PropertyMustExist: false
+
+    # Trim header keys and use the first line
+    # Useful if you have a column name on 2 lines (separated by EOL)
+    Header:
+      FirstLine: true
+
+    # Execute inserts with ignore clause
+    # Can be useful to ignore NULL values
+    Sql:
+      InsertIgnore: false
+
+    # Parsers allowed file extensions
+    FileProcessorExtensions:
+      csv: Csv
+      xls: Excel
+      xlsx: Excel
+      json: Json
+      js: Json
+      xml: Xml
+      yaml: Yaml
+      yml: Yaml

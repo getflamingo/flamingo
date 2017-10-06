@@ -1,82 +1,50 @@
 <?php
+
 namespace Flamingo\Core;
 
-use Flamingo\Flamingo;
-use Flamingo\Process\ProcessInterface;
+use Flamingo\Processor\ProcessorInterface;
 
 /**
  * Class Task
- * A task is an entry point to the script execution
- * TODO: Implement a more object oriented way to summon tasks
- *
  * @package Flamingo\Core
  */
 class Task
 {
     /**
-     * Values returned by processes
+     * Values returned by processors
      */
-    const OK = 0;
-    const WARN = 1;
-    const ERROR = 2;
-    const REDIRECT = 3;
-    const SUMMON = 4;
+    const STATUS_OK = 0;
+    const STATUS_WARN = 1;
+    const STATUS_ERROR = 2;
+    const STATUS_REDIRECT = 3;
+    const STATUS_SUMMON = 4;
 
     /**
-     * @var array<\Flamingo\Core\Process>
+     * @var ProcessorInterface[]
      */
-    protected $processes = [];
+    protected $processors = [];
 
     /**
-     * Add a process to the list
-     * @param \Flamingo\Process\ProcessInterface $process
+     * @param ProcessorInterface $processor
      */
-    public function addProcess($process)
+    public function addProcessor(ProcessorInterface $processor)
     {
-        if ($process instanceof ProcessInterface) {
-            $this->processes[] = $process;
-        }
+        $this->processors[] = $processor;
     }
 
     /**
-     * Execute each processes
+     * Execute each processors through current runtime
+     * TODO: Keep track of current Runtime status
      *
-     * @param \Flamingo\Flamingo $flamingo
-     * @return array<\Flamingo\Model\Table> $data
+     * @param TaskRuntime $taskRuntime
+     * @return TaskRuntime
      */
-    public function execute($flamingo = null)
+    public function execute(TaskRuntime $taskRuntime)
     {
-        $data = [];
-
-        foreach ($this->processes as $process) {
-
-            // Reset iterator index
-            reset($data);
-
-            // Execute process
-            $signal = $process->execute($data);
-
-            // A summon action has been called
-            if (
-                is_array($signal) &&
-                count($signal) == 2 &&
-                $signal[0] == Task::SUMMON &&
-                !empty($takList = $signal[1]) &&
-                ($flamingo instanceof Flamingo)
-            ) {
-
-                // Support one task as a string
-                if (!is_array($takList)) {
-                    $takList = [$takList];
-                }
-
-                // Run tasks
-                foreach ($takList as $task) {
-                    $flamingo->run($task, false);
-                }
-            }
+        foreach ($this->processors as $processor) {
+            $processor->execute($taskRuntime);
         }
 
-        return $data;
+        return $taskRuntime;
     }
 }

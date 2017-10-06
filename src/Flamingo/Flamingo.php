@@ -2,11 +2,13 @@
 
 namespace Flamingo;
 
-use Flamingo\Core\Compiler;
+use Analog\Analog;
 use Flamingo\Core\Task;
+use Flamingo\Core\TaskRuntime;
+use Flamingo\Service\ConfigurationParser;
+use Flamingo\Service\InheritancesResolver;
 use Flamingo\Utility\ArrayUtility;
 use Symfony\Component\Yaml\Yaml;
-use Analog\Analog;
 
 /**
  * Class Flamingo
@@ -14,6 +16,11 @@ use Analog\Analog;
  */
 class Flamingo
 {
+    /**
+     * @var array
+     */
+    protected $configuration = [];
+
     /**
      * @var array<\Flamingo\Core\Task>
      */
@@ -28,65 +35,103 @@ class Flamingo
         foreach (func_get_args() as $arg) {
             $this->addConfiguration($arg);
         }
+        $this->parseConfiguration();
     }
 
     /**
-     * Merge configurations into array of tasks
+     * Merge configurations into an array of tasks
+     * String value is interpreted as YAML
+     *
      * @params string|array
      */
     public function addConfiguration()
     {
-        $configuration = [];
-
         foreach (func_get_args() as $arg) {
-            if (is_array($arg)) {
-                $configuration = ArrayUtility::merge($configuration, $arg);
-            }
             if (is_string($arg)) {
-                if (is_array($yaml = Yaml::parse($arg))) {
-                    $configuration = ArrayUtility::merge($configuration, $yaml);
-                }
+                $arg = Yaml::parse($arg);
+            }
+            if (is_array($arg)) {
+                ArrayUtility::mergeRecursiveWithOverrule($this->configuration, $arg);
             }
         }
+    }
 
-        // Compile and add new tasks to the list
-        $this->tasks += (new Compiler)->parse($configuration);
+    /**
+     * Parse and add new tasks to the list
+     */
+    public function parseConfiguration()
+    {
+        $configuration = InheritancesResolver::create($this->configuration)->getResolvedConfiguration();
+        $this->tasks = ConfigurationParser::create($configuration)->getResolvedTasks();
     }
 
     /**
      * Run flamingo task
+     *
      * @param string $taskName
-     * @param bool $mainTask
+     * @param TaskRuntime $taskRuntime
      */
-    public function run($taskName = 'default', $mainTask = true)
+    public function run($taskName = 'default', $taskRuntime = null)
     {
-        $taskName = strtolower($taskName);
+        // Check version constraint
+        $this->checkVersionRequirements();
 
+        // Get task from list
+        $task = $this->getTask(strtolower($taskName));
+
+        // Create taskRuntime if it does not exist
+        if ($taskRuntime === null) {
+            $taskRuntime = new TaskRuntime($task);
+        } else {
+            $taskRuntime->setCurrentTask($task);
+        }
+
+        // If the task is not at root level, do not display info logs
+        if ($taskRuntime->isSubTask()) {
+            $task->execute($taskRuntime);
+        } else {
+            Analog::info(sprintf('Running "%s"...', $taskName));
+            $task->execute($taskRuntime);
+            Analog::info(sprintf('Finished "%s" in %fs', $taskName, $taskRuntime->getElapsedTime()));
+        }
+    }
+
+    /**
+     * Check if the configuration version is compatible
+     * with the current flamingo version
+     */
+    protected function checkVersionRequirements()
+    {
+        if (version_compare($GLOBALS['FLAMINGO']['Version'], $GLOBALS['FLAMINGO']['RequiredVersion'], "<")) {
+            Analog::alert(sprintf(
+                'The current configuration does not meet the version requirements (current: %s, needed: %s)',
+                $GLOBALS['FLAMINGO']['Version'],
+                $GLOBALS['FLAMINGO']['RequiredVersion']
+            ));
+        }
+    }
+
+    /**
+     * Find a task in the current application
+     *
+     * @param string $taskName
+     * @return Task
+     * @internal
+     */
+    public function getTask($taskName)
+    {
         if (!array_key_exists($taskName, $this->tasks)) {
             Analog::error(sprintf('The task "%s" does not exist!', $taskName));
-            return;
+            return null;
         }
 
         $task = $this->tasks[$taskName];
 
         if (!($task instanceof Task)) {
             Analog::error(sprintf('Registered task "%s" is not valid!', $taskName));
-            return;
+            return null;
         }
 
-        if ($mainTask) {
-
-            $startTime = microtime(true);
-            Analog::info(sprintf('Running "%s"...', $taskName));
-
-            $task->execute($this);
-
-            $execTime = microtime(true) - $startTime;
-            Analog::info(sprintf('Finished "%s" in %fs', $taskName, $execTime));
-
-        } else {
-
-            $task->execute($this);
-        }
+        return $task;
     }
 }
