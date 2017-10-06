@@ -42,6 +42,7 @@ $flamingo->addConfiguration(file_get_contents(__DIR__ . '/AdditionalConfiguratio
 
 // Output executable version
 if ($command['version']) {
+    $flamingo->parseConfiguration();
     echo $GLOBALS['FLAMINGO']['Version'] . PHP_EOL;
     exit;
 }
