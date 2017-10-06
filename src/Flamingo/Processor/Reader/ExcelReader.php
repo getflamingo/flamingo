@@ -52,7 +52,7 @@ class ExcelReader extends AbstractFileReader
         $header = $options['header'] ? array_shift($data) : [];
 
         // Clean up header keys
-        if ($GLOBALS['FLAMINGO']['CONF']['Header']['FirstLine']) {
+        if ($GLOBALS['FLAMINGO']['Options']['Header']['FirstLine']) {
             foreach ($header as &$column) {
                 $column = current(explode(PHP_EOL, $column));
             }

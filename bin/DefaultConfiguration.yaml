@@ -3,19 +3,13 @@ Flamingo:
   # Flamingo application version
   Version: 1.0.0
 
-  # Report low level logs
-  Debug: false
-
-  # Continue execution if an error has been thrown
-  Force: false
-
   # Minimum version needed in order to run your custom configuration
   # Need to be a standard format: http://php.net/manual/fr/function.version-compare.php
-  RequiredVersion:
+  RequiredVersion: 0
 
   # Include these PHP files and get access to custom functions
   # Can be string or array
-  Include:
+  Include: []
 
   # Implementation classes
   Classes:
@@ -85,9 +79,10 @@ Flamingo:
     Transform:
       PropertyMustExist: false
 
-    # Use first line in files as header key list
+    # Trim header keys and use the first line
+    # Useful if you have a column name on 2 lines (separated by EOL)
     Header:
-      Line: 0
+      FirstLine: true
 
     # Execute inserts with ignore clause
     # Can be useful to ignore NULL values

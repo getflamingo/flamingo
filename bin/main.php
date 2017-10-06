@@ -12,13 +12,28 @@ $command
     ->boolean();
 
 $command
-    ->option('f')
-    ->aka('file')
+    ->option('c')
+    ->aka('config')
     ->describedAs('Use a custom configuration file.');
+
+$command
+    ->option('d')
+    ->aka('debug')
+    ->describedAs('Output debug information.')
+    ->boolean();
+
+$command
+    ->option('f')
+    ->aka('force')
+    ->describedAs('Force execution of the tasks on error.')
+    ->boolean();
 
 $command
     ->option()
     ->describedAs('Name of the task to execute.');
+
+// Register error handler
+\Analog\Analog::handler(\Flamingo\Service\ErrorHandler::init($command['debug'], $command['force']));
 
 // Create base task runner
 $flamingo = new \Flamingo\Flamingo();
@@ -27,7 +42,7 @@ $flamingo->addConfiguration(file_get_contents(__DIR__ . '/AdditionalConfiguratio
 
 // Output executable version
 if ($command['version']) {
-    echo  $GLOBALS['FLAMINGO']['Version'] . PHP_EOL;
+    echo $GLOBALS['FLAMINGO']['Version'] . PHP_EOL;
     exit;
 }
 
@@ -48,9 +63,6 @@ if (!file_exists($configurationFile)) {
 // Add custom configuration and parse the whole
 $flamingo->addConfiguration(file_get_contents($configurationFile));
 $flamingo->parseConfiguration();
-
-// Register error handler
-\Analog\Analog::handler(\Flamingo\Service\ErrorHandler::init($GLOBALS['FLAMINGO']['Debug']));
 
 // Run defined task
 $flamingo->run($command[0] ?: 'default');
