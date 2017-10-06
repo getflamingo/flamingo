@@ -28,7 +28,11 @@
       "in": "vendor"
     },
     {
-      "name": "default.yml",
+      "name": "DefaultConfiguration.yaml",
+      "in": "bin"
+    },
+    {
+      "name": "AdditionalConfiguration.yaml",
       "in": "bin"
     }
   ],
