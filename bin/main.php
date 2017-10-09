@@ -48,13 +48,13 @@ if ($command['version']) {
 }
 
 // Get configuration file from option or current dir
-$configurationFile = $command['file'] ?: getcwd() . '/flamingo.yml';
+$configurationFile = $command['config'] ?: getcwd() . '/flamingo.yml';
 
 // No configuration file found
 if (!file_exists($configurationFile)) {
 
-    echo $command['file']
-        ? sprintf('The configuration file "%s" does not exist!', $command['file'])
+    echo $command['config']
+        ? sprintf('The configuration file "%s" does not exist!', $command['config'])
         : sprintf('No flamingo.yml file found in %s', getcwd());
 
     echo PHP_EOL;
