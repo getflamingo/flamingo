@@ -1,7 +1,7 @@
 Flamingo:
 
   # Flamingo application version
-  Version: 1.0.3
+  Version: 1.0.4
 
   # Minimum version needed in order to run your custom configuration
   # Need to be a standard format: http://php.net/manual/fr/function.version-compare.php

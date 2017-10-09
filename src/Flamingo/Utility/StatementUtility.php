@@ -1,11 +1,12 @@
 <?php
+
 namespace Flamingo\Utility;
 
 /**
  * Class StatementUtility
  * @package Flamingo\Utility
  */
-class StatementUtility implements UtilityInterface
+class StatementUtility
 {
     /**
      * @var string
