@@ -64,7 +64,8 @@ class TransformProcessor extends AbstractSingleSourceProcessor
 
                     // Invoke TransformHelper and update value
                     $transformHelper = $this->invokeTransformHelper($method, $source, $taskRuntime);
-                    $runtime = new TransformHelperRuntime($row[$field], $options, $row, $field);
+                    $value = array_key_exists($field, $row) ? $row[$field] : null;
+                    $runtime = new TransformHelperRuntime($value, $options, $row, $field);
                     $transformHelper->$method($runtime);
 
                     // Apply changes on row
@@ -74,7 +75,7 @@ class TransformProcessor extends AbstractSingleSourceProcessor
                     }
 
                     // Apply changes on column
-                    if ($row[$field] !== $runtime['value']) {
+                    if ($value !== $runtime['value']) {
                         $row[$field] = $runtime['value'];
                         continue;
                     }
