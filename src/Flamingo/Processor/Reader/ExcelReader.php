@@ -32,13 +32,8 @@ class ExcelReader extends AbstractFileReader
         // Overwrite default options
         $options = array_replace($this->defaultOptions, $options);
 
-        // Create file loader
-        /** @var $reader \PHPExcel_Reader_Abstract $reader */
-        $reader = \PHPExcel_IOFactory::createReaderForFile($filename);
-        $reader->setReadDataOnly($options['readOnly']);
-
         /** @var \PHPExcel $excel */
-        $excel = $reader->load($filename);
+        $excel = \PHPExcel_IOFactory::load($filename);
         $excel->setActiveSheetIndex($options['sheet']);
 
         // Fetch all lines
