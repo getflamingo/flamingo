@@ -22,13 +22,14 @@ class StatementUtility
      * Return an array of formatted value constraints
      *
      * @param array $record
+     * @param string $tableName
      * @param string $delimiter
      * @return string
      */
-    public static function equals($record, $delimiter = ',')
+    public static function equals($record, $tableName, $delimiter = ',')
     {
-        return implode($delimiter, array_map(function ($k) {
-            return $k . '=?';
+        return implode($delimiter, array_map(function ($k) use ($tableName) {
+            return $tableName . '.' . $k . '=?';
         }, array_keys($record)));
     }
 
@@ -47,10 +48,14 @@ class StatementUtility
      * Return a list of keys
      *
      * @param array $record
+     * @param string $tableName
+     * @param string $delimiter
      * @return string
      */
-    public static function keys($record)
+    public static function keys($record, $tableName, $delimiter = ',')
     {
-        return implode(',', array_keys($record));
+        return implode($delimiter, array_map(function ($k) use ($tableName) {
+            return $tableName . '.' . $k;
+        }, array_keys($record)));
     }
 }

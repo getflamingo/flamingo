@@ -129,7 +129,7 @@ class DbWriter implements WriterInterface
         $statement = sprintf(
             'SELECT * FROM %s WHERE %s',
             $options['table'],
-            StatementUtility::equals($unique, ' AND ')
+            StatementUtility::equals($unique, $options['table'], ' AND ')
         );
 
         // Execute and return found records
@@ -152,7 +152,7 @@ class DbWriter implements WriterInterface
             'INSERT %s INTO %s (%s) VALUES (%s)',
             $GLOBALS['FLAMINGO']['Options']['Sql']['InsertIgnore'] ? 'IGNORE' : '',
             $options['table'],
-            StatementUtility::keys($record),
+            StatementUtility::keys($record, $options['table']),
             StatementUtility::values($record)
         );
 
@@ -190,12 +190,12 @@ class DbWriter implements WriterInterface
         $statement = sprintf(
             'UPDATE %s SET %s',
             $options['table'],
-            StatementUtility::equals($record)
+            StatementUtility::equals($record, $options['table'])
         );
 
         // Add where constraint based on unique fields
         if (count($unique)) {
-            $statement .= ' WHERE ' . StatementUtility::equals($unique, ' AND ');
+            $statement .= ' WHERE ' . StatementUtility::equals($unique, $options['table'], ' AND ');
         }
 
         // Execute update
