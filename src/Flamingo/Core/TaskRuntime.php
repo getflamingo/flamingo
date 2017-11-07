@@ -105,6 +105,7 @@ class TaskRuntime
 
     /**
      * Return the elapsed time
+     *
      * @return int|mixed
      */
     public function getElapsedTime()

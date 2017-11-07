@@ -10,6 +10,7 @@ class TransformHelperRuntime extends \ArrayIterator
 {
     /**
      * TransformHelperValues constructor.
+     *
      * @param mixed $value
      * @param mixed $parameters
      * @param array $row

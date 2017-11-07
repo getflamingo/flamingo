@@ -5,7 +5,7 @@ namespace Flamingo\Processor\TransformHelper;
 use Flamingo\Core\TransformHelperRuntime;
 
 /**
- * Class ArrayTransformHelper
+ * Class IteratorTransformHelper
  * @package Flamingo\Processor\TransformHelper
  */
 class IteratorTransformHelper extends AbstractTransformHelper
