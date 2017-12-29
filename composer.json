@@ -1,32 +1,32 @@
 {
-    "name": "ubermanu/flamingo",
-    "description": "Task runner for data processing with PHP + YAML",
-    "keywords": [
-        "task-runner",
-        "flamingo",
-        "import",
-        "export",
-        "data-processing"
-    ],
-    "type": "software",
-    "support": {
-        "issues": "https://github.com/ubermanu/flamingo/issues",
-        "docs": "https://github.com/ubermanu/flamingo/wiki"
-    },
-    "require": {
-        "symfony/yaml": "^2.8",
-        "league/csv": "^8.1",
-        "sabre/uri": "^1.2.0",
-        "sabre/xml": "^1.5",
-        "analog/analog": "^1.0",
-        "phpoffice/phpexcel": "^1.8",
-        "athari/yalinqo": "^2.4",
-        "nategood/commando": "^0.2.9"
-    },
-    "autoload": {
-        "psr-0": {
-            "Flamingo\\": "src/"
-        }
-    },
-    "license": "MIT"
+  "name": "ubermanu/flamingo",
+  "description": "Task runner for data processing with PHP and YAML",
+  "keywords": [
+    "task-runner",
+    "flamingo",
+    "import",
+    "export",
+    "data-processing"
+  ],
+  "type": "software",
+  "support": {
+    "issues": "https://github.com/ubermanu/flamingo/issues",
+    "docs": "https://github.com/ubermanu/flamingo/wiki"
+  },
+  "require": {
+    "symfony/yaml": "^2.8",
+    "league/csv": "^8.1",
+    "sabre/uri": "^1.2.0",
+    "sabre/xml": "^1.5",
+    "analog/analog": "^1.0",
+    "phpoffice/phpexcel": "^1.8",
+    "athari/yalinqo": "^2.4",
+    "nategood/commando": "^0.2.9"
+  },
+  "autoload": {
+    "psr-0": {
+      "Flamingo\\": "src/"
+    }
+  },
+  "license": "MIT"
 }
