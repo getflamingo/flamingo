@@ -36,7 +36,7 @@
       "in": "bin"
     }
   ],
-  "main": "bin/main.php",
+  "main": "bin/flamingo",
   "output": "flamingo.phar",
   "stub": true
 }

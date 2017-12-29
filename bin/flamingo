@@ -1,6 +1,13 @@
+#!/usr/bin/env php
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
+if (file_exists(__DIR__ . '/../autoload.php')) {
+    require_once __DIR__ . '/../autoload.php';
+} elseif (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once __DIR__ . '/../vendor/autoload.php';
+} elseif (file_exists(__DIR__ . '/../../../autoload.php')) {
+    require_once __DIR__ . '/../../../autoload.php';
+}
 
 // Create command controller and register options
 $command = new \Commando\Command();
@@ -33,7 +40,8 @@ $command
     ->describedAs('Name of the task to execute.');
 
 // Register error handler
-\Analog\Analog::handler(\Flamingo\Service\ErrorHandler::init($command['debug'], $command['force']));
+$handler = \Flamingo\Service\ErrorHandler::init($command['debug'], $command['force']);
+\Analog\Analog::handler($handler);
 
 // Create base task runner
 $flamingo = new \Flamingo\Flamingo();
