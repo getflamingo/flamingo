@@ -20,14 +20,13 @@ abstract class AbstractFileWriter implements WriterInterface
      */
     public function write(Table $table, array $options)
     {
-        $filename = FileUtility::getAbsoluteFilename($options['file']);
-
-        if (empty($filename)) {
+        if (empty($options['file'])) {
             Analog::error(sprintf('No filename defined - %s', json_encode($options)));
         }
 
         $data = $this->tableContent($table, $options);
 
+        $filename = FileUtility::getAbsoluteFilename($options['file']);
         Analog::debug(sprintf('Write data into %s - %s', $filename, json_encode($options)));
         file_put_contents($filename, $data);
     }

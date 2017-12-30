@@ -20,12 +20,12 @@ abstract class AbstractFileReader implements ReaderInterface
      */
     public function read(array $options)
     {
-        $filename = FileUtility::getAbsoluteFilename($options['file']);
-
-        if (empty($filename)) {
+        if (empty($options['file'])) {
             Analog::error(sprintf('No filename defined - %s', json_encode($options)));
             return null;
         }
+
+        $filename = FileUtility::getAbsoluteFilename($options['file']);
 
         if (!file_exists($filename)) {
             Analog::error(sprintf('The file "%s" does not exist', $filename));
