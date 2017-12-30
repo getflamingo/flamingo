@@ -45,8 +45,8 @@ $handler = \Flamingo\Service\ErrorHandler::init($command['debug'], $command['for
 
 // Create base task runner
 $flamingo = new \Flamingo\Flamingo();
-$flamingo->addConfiguration(file_get_contents(__DIR__ . '/DefaultConfiguration.yaml'));
-$flamingo->addConfiguration(file_get_contents(__DIR__ . '/AdditionalConfiguration.yaml'));
+$flamingo->addConfigurationFromFile(__DIR__ . '/DefaultConfiguration.yaml');
+$flamingo->addConfigurationFromFile(__DIR__ . '/AdditionalConfiguration.yaml');
 
 // Output executable version
 if ($command['version']) {
@@ -70,7 +70,7 @@ if (!file_exists($configurationFile)) {
 }
 
 // Add custom configuration and parse the whole
-$flamingo->addConfiguration(file_get_contents($configurationFile));
+$flamingo->addConfigurationFromFile($configurationFile);
 $flamingo->parseConfiguration();
 
 // Run defined task

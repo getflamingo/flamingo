@@ -1,7 +1,7 @@
 Flamingo:
 
   # Flamingo application version
-  Version: 1.1.3
+  Version: 1.2.0
 
   # Minimum version needed in order to run your custom configuration
   # Need to be a standard format: http://php.net/manual/fr/function.version-compare.php
@@ -10,6 +10,12 @@ Flamingo:
   # Include these PHP files and get access to custom functions
   # Can be string or array
   Include: []
+
+  # Determine if the current script should be at the root level of cwd
+  # FALSE: Set the executable working directory as root level if not already defined (default)
+  # TRUE: Set the configuration file dir as root level, all the relative resources will be resolved from that folder
+  # STRING: Set a custom path to handle, must be absolute
+  Root: false
 
   # Implementation classes
   Classes:

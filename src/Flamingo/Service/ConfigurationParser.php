@@ -48,16 +48,13 @@ class ConfigurationParser
     }
 
     /**
-     * Resolve all inheritances within a configuration.
+     * Inject global FLAMINGO configuration.
+     * TODO: Remove its call from the getResolvedTasks method
      *
-     * @return Task[]
+     * @internal
      */
-    public function getResolvedTasks()
+    public function loadGlobalConfiguration()
     {
-        $tasks = [];
-
-        // TODO: Maybe move this elsewhere
-        // Insert global configuration
         if (array_key_exists('Flamingo', $this->referenceConfiguration)) {
             $GLOBALS['FLAMINGO'] = $this->referenceConfiguration['Flamingo'];
 
@@ -65,7 +62,23 @@ class ConfigurationParser
             if (array_key_exists('Include', $this->referenceConfiguration['Flamingo'])) {
                 $this->parseInclude($this->referenceConfiguration['Flamingo']['Include']);
             }
+
+            // Resolve root dir
+            if (array_key_exists('Root', $this->referenceConfiguration['Flamingo'])) {
+                $this->parseRoot($this->referenceConfiguration['Flamingo']['Root']);
+            }
         }
+    }
+
+    /**
+     * Resolve all inheritances within a configuration.
+     *
+     * @return Task[]
+     */
+    public function getResolvedTasks()
+    {
+        $this->loadGlobalConfiguration();
+        $tasks = [];
 
         foreach ($this->referenceConfiguration as $name => $conf) {
             if ($taskName = $this->extractTaskName($name)) {
@@ -185,5 +198,22 @@ class ConfigurationParser
 
         Analog::debug('Processor configuration is empty or null');
         return null;
+    }
+
+    /**
+     * Set root directory globally to be accessed.
+     * This can't be a constant, because it can be changed at any moment.
+     * This can only be a string, otherwise, skip that option.
+     * The rootDir value should be resolved when the configuration is imported into the main container.
+     *
+     * @see \Flamingo\Flamingo::resolveRootDir
+     *
+     * @param string $rootDir
+     */
+    protected function parseRoot($rootDir)
+    {
+        if (is_string($rootDir)) {
+            $GLOBALS['FLAMINGO']['rootDir'] = getcwd() . DIRECTORY_SEPARATOR . $rootDir;
+        }
     }
 }

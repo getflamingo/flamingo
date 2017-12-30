@@ -39,20 +39,49 @@ class Flamingo
     }
 
     /**
-     * Merge configurations into an array of tasks
-     * String value is interpreted as YAML
+     * Merge configurations into an array of tasks.
+     * String value is interpreted as YAML.
      *
-     * @params string|array
+     * @param string|array $configuration
      */
-    public function addConfiguration()
+    public function addConfiguration($configuration)
     {
-        foreach (func_get_args() as $arg) {
-            if (is_string($arg)) {
-                $arg = Yaml::parse($arg);
+        if (is_string($configuration)) {
+            $configuration = Yaml::parse($configuration);
+        }
+
+        if (is_array($configuration)) {
+            ArrayUtility::mergeRecursiveWithOverrule($this->configuration, $configuration);
+        }
+    }
+
+    /**
+     * Load configuration from file and merge it with the current array of tasks.
+     * TODO: Test if file exists before reading its content
+     *
+     * The filename folder is used to resolve the current root dir.
+     * If FALSE, skip that option (default).
+     * If TRUE, use the filename folder as root dir.
+     * If STRING, it's a custom path, don't touch that.
+     *
+     * @see \Flamingo\Service\ConfigurationParser::loadGlobalConfiguration
+     *
+     * @param string $filename
+     */
+    public function addConfigurationFromFile($filename)
+    {
+        $configuration = file_get_contents($filename);
+        $configuration = Yaml::parse($configuration);
+
+        if (is_array($configuration)) {
+
+            if (isset($configuration['Flamingo']['Root'])) {
+                if ($configuration['Flamingo']['Root'] === true) {
+                    $configuration['Flamingo']['Root'] = dirname($filename);
+                }
             }
-            if (is_array($arg)) {
-                ArrayUtility::mergeRecursiveWithOverrule($this->configuration, $arg);
-            }
+
+            ArrayUtility::mergeRecursiveWithOverrule($this->configuration, $configuration);
         }
     }
 

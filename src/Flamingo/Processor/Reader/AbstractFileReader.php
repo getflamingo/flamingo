@@ -4,6 +4,7 @@ namespace Flamingo\Processor\Reader;
 
 use Analog\Analog;
 use Flamingo\Core\Table;
+use Flamingo\Utility\FileUtility;
 
 /**
  * Class AbstractFileReader
@@ -19,18 +20,20 @@ abstract class AbstractFileReader implements ReaderInterface
      */
     public function read(array $options)
     {
-        if (empty($options['file'])) {
+        $filename = FileUtility::getAbsoluteFilename($options['file']);
+
+        if (empty($filename)) {
             Analog::error(sprintf('No filename defined - %s', json_encode($options)));
             return null;
         }
 
-        if (!file_exists($options['file'])) {
-            Analog::error(sprintf('The file "%s" does not exist', $options['file']));
+        if (!file_exists($filename)) {
+            Analog::error(sprintf('The file "%s" does not exist', $filename));
         }
 
-        $table = $this->fileContent($options['file'], $options);
+        $table = $this->fileContent($filename, $options);
 
-        Analog::debug(sprintf('Read data from %s - %s', $options['file'], json_encode($options)));
+        Analog::debug(sprintf('Read data from %s - %s', $filename, json_encode($options)));
         return $table;
     }
 

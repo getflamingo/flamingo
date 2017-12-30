@@ -4,6 +4,7 @@ namespace Flamingo\Processor\Writer;
 
 use Analog\Analog;
 use Flamingo\Core\Table;
+use Flamingo\Utility\FileUtility;
 
 /**
  * Class AbstractFileWriter
@@ -19,14 +20,16 @@ abstract class AbstractFileWriter implements WriterInterface
      */
     public function write(Table $table, array $options)
     {
-        if (empty($options['file'])) {
+        $filename = FileUtility::getAbsoluteFilename($options['file']);
+
+        if (empty($filename)) {
             Analog::error(sprintf('No filename defined - %s', json_encode($options)));
         }
 
         $data = $this->tableContent($table, $options);
 
-        Analog::debug(sprintf('Write data into %s - %s', $options['file'], json_encode($options)));
-        file_put_contents($options['file'], $data);
+        Analog::debug(sprintf('Write data into %s - %s', $filename, json_encode($options)));
+        file_put_contents($filename, $data);
     }
 
     /**
