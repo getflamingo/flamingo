@@ -11,7 +11,7 @@ Create a configuration file `flamingo.yml`.
 
 > This configuration converts a \*.csv file into a \*.json one.
 
-    Flamingo/Task/Default:
+    Default():
         - Source: file.csv
         - Destination: result.json
 
