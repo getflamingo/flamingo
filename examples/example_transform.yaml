@@ -10,9 +10,8 @@ Default():
   - Mod:
       price:
         - intval
-        - mul: 1.1
+        - mul: 1.12
   - Map:
       price: PriceEUR
       sale_date: Date
-#  - Dest: ../TransformedTransactions.json
-  - Dest:
+  - Dest: ../TransformedTransactions.json
