@@ -1,7 +1,7 @@
 Flamingo:
 
   # Flamingo application version
-  Version: 1.2.2
+  Version: 1.2.3
 
   # Minimum version needed in order to run your custom configuration
   # Need to be a standard format: http://php.net/manual/fr/function.version-compare.php
@@ -58,19 +58,19 @@ Flamingo:
         className: Flamingo\Processor\Writer\XmlWriter
       Yaml:
         className: Flamingo\Processor\Writer\YamlWriter
-    TransformHelper:
+    TransformCollection:
       Core:
-        className: Flamingo\Processor\TransformHelper\CoreTransformHelper
+        className: Flamingo\Transform\CoreTransformCollection
         modifiers:
           - set
           - copy
           - remove
       String:
-        className: Flamingo\Processor\TransformHelper\StringTransformHelper
+        className: Flamingo\Transform\StringTransformCollection
         modifiers:
           - str_replace
       Iterator:
-        className: Flamingo\Processor\TransformHelper\IteratorTransformHelper
+        className: Flamingo\Transform\IteratorTransformCollection
         modifiers:
           - get
           - pop
@@ -80,14 +80,14 @@ Flamingo:
           - implode
           - explode
       Math:
-        className: Flamingo\Processor\TransformHelper\MathTransformHelper
+        className: Flamingo\Transform\MathTransformCollection
         modifiers:
           - add
           - sub
           - mul
           - div
       Php:
-        className: Flamingo\Processor\TransformHelper\PhpTransformHelper
+        className: Flamingo\Transform\PhpTransformCollection
         modifiers:
           - boolval
           - intval

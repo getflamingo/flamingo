@@ -4,8 +4,8 @@ namespace Flamingo\Processor;
 
 use Flamingo\Core\Table;
 use Flamingo\Core\TaskRuntime;
-use Flamingo\Core\TransformHelperRuntime;
-use Flamingo\Processor\TransformHelper\AbstractTransformHelper;
+use Flamingo\Core\TransformRuntime;
+use Flamingo\Transform\AbstractTransformCollection;
 
 /**
  * Class TransformProcessor
@@ -58,25 +58,25 @@ class TransformProcessor extends AbstractSingleSourceProcessor
                         continue;
                     }
 
-                    // Get modifier name and options
+                    // Get modifier method and arguments
                     $method = current(array_keys($modConf));
-                    $options = current($modConf);
+                    $arguments = current($modConf);
 
                     // Invoke TransformHelper and update value
-                    $transformHelper = $this->invokeTransformHelper($method, $source, $taskRuntime);
+                    $transformHelper = $this->invokeTransformCollection($method, $source, $taskRuntime);
                     $value = array_key_exists($field, $row) ? $row[$field] : null;
-                    $runtime = new TransformHelperRuntime($value, $options, $row, $field);
+                    $runtime = new TransformRuntime($value, $arguments, $row, $field);
                     $transformHelper->$method($runtime);
 
                     // Apply changes on row
-                    if ($row !== $runtime['row']) {
-                        $row = $runtime['row'];
+                    if ($row !== $runtime->getRow()) {
+                        $row = $runtime->getRow();
                         continue;
                     }
 
                     // Apply changes on column
-                    if ($value !== $runtime['value']) {
-                        $row[$field] = $runtime['value'];
+                    if ($value !== $runtime->getValue()) {
+                        $row[$field] = $runtime->getValue();
                         continue;
                     }
                 }
@@ -87,23 +87,24 @@ class TransformProcessor extends AbstractSingleSourceProcessor
     /**
      * @var array
      */
-    protected $helperInstances = [];
+    protected $transformCollectionInstances = [];
 
     /**
-     * Get transform helper instance
+     * Get transform collection instance, according to the needed modifier.
+     * TODO: Remove the $source and $taskRuntime parameters since its out of context
      *
      * @param string $identifier
      * @param Table $source
      * @param TaskRuntime $taskRuntime
-     * @return AbstractTransformHelper
+     * @return AbstractTransformCollection
      */
-    protected function invokeTransformHelper($identifier, Table $source, TaskRuntime $taskRuntime)
+    protected function invokeTransformCollection($identifier, Table $source, TaskRuntime $taskRuntime)
     {
         $className = null;
 
-        foreach ($GLOBALS['FLAMINGO']['Classes']['TransformHelper'] as $helperConf) {
-            if (in_array($identifier, $helperConf['modifiers'])) {
-                $className = $helperConf['className'];
+        foreach ($GLOBALS['FLAMINGO']['Classes']['TransformCollection'] as $collectionConf) {
+            if (in_array($identifier, $collectionConf['modifiers'])) {
+                $className = $collectionConf['className'];
             }
         }
 
@@ -111,10 +112,10 @@ class TransformProcessor extends AbstractSingleSourceProcessor
             return null;
         }
 
-        if (!array_key_exists($className, $this->helperInstances)) {
-            $this->helperInstances[$className] = new $className($source, $taskRuntime);
+        if (!array_key_exists($className, $this->transformCollectionInstances)) {
+            $this->transformCollectionInstances[$className] = new $className($source, $taskRuntime);
         }
 
-        return $this->helperInstances[$className];
+        return $this->transformCollectionInstances[$className];
     }
 }

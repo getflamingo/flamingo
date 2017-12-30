@@ -1,28 +1,30 @@
 <?php
 
-namespace Flamingo\Processor\TransformHelper;
+namespace Flamingo\Transform;
 
 use Flamingo\Core\Table;
 use Flamingo\Core\TaskRuntime;
 
 /**
- * Class AbstractTransformHelper
- * @package Flamingo\Processor\TransformHelper
+ * Class AbstractTransformCollection
+ * @package Flamingo\Transform
  */
-abstract class AbstractTransformHelper
+abstract class AbstractTransformCollection
 {
     /**
      * @var TaskRuntime
+     * @deprecated
      */
     protected $taskRuntime;
 
     /**
      * @var Table
+     * @deprecated
      */
     protected $source;
 
     /**
-     * AbstractTransformHelper constructor.
+     * AbstractTransformCollection constructor.
      * @param Table $source
      * @param TaskRuntime $taskRuntime
      */
