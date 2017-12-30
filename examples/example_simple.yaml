@@ -1,0 +1,10 @@
+
+# This example shows a basic import/export task
+# The generated JSON file will be exported into the package root dir
+
+Flamingo:
+  Root: true
+
+Default():
+  - Src: Fixtures/Transactions.csv
+  - Dest: ../Transactions.json
