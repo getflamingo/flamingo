@@ -86,7 +86,7 @@ class TaskRuntime
      * Get table data by source identifier
      *
      * @param string $identifier
-     * @return mixed
+     * @return Table
      */
     public function getTableByIdentifier($identifier)
     {
@@ -101,6 +101,16 @@ class TaskRuntime
     public function getTables()
     {
         return $this->tables;
+    }
+
+    /**
+     * Return the first available source
+     *
+     * @return Table
+     */
+    public function getFirstTable()
+    {
+        return current($this->tables);
     }
 
     /**
