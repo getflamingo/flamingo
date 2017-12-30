@@ -1,0 +1,13 @@
+
+# This example shows the usage of the UserFunction processor
+# Can also be applied to an autoload file to inject a whole namespace in the application runtime
+
+Flamingo:
+  Root: true
+  Include:
+    - Fixtures/NearestFromLocationUserFunction.php
+
+Default():
+  - Src: Fixtures/Transactions.csv
+  - Func: NearestFromLocationUserFunction::run
+  - Dest: ../NearTransactions.json

@@ -5,6 +5,7 @@ namespace Flamingo\Service;
 use Analog\Analog;
 use Flamingo\Core\Task;
 use Flamingo\Processor\ProcessorInterface;
+use Flamingo\Utility\FileUtility;
 
 /**
  * Class ConfigurationParser
@@ -58,14 +59,14 @@ class ConfigurationParser
         if (array_key_exists('Flamingo', $this->referenceConfiguration)) {
             $GLOBALS['FLAMINGO'] = $this->referenceConfiguration['Flamingo'];
 
-            // Include once required PHP files
-            if (array_key_exists('Include', $this->referenceConfiguration['Flamingo'])) {
-                $this->parseInclude($this->referenceConfiguration['Flamingo']['Include']);
-            }
-
             // Resolve root dir
             if (array_key_exists('Root', $this->referenceConfiguration['Flamingo'])) {
                 $this->parseRoot($this->referenceConfiguration['Flamingo']['Root']);
+            }
+
+            // Include once required PHP files
+            if (array_key_exists('Include', $this->referenceConfiguration['Flamingo'])) {
+                $this->parseInclude($this->referenceConfiguration['Flamingo']['Include']);
             }
         }
     }
@@ -105,8 +106,28 @@ class ConfigurationParser
     }
 
     /**
-     * Include all the required files
-     * It can be used to call some Composer dependencies, see documentation
+     * Set root directory globally to be accessed.
+     * This can't be a constant, because it can be changed at any moment.
+     * This can only be a string, otherwise, skip that option.
+     * The rootDir value should be resolved when the configuration is imported into the main container.
+     *
+     * @see \Flamingo\Flamingo::resolveRootDir
+     *
+     * @param string $rootDir
+     */
+    protected function parseRoot($rootDir)
+    {
+        if (is_string($rootDir)) {
+            $GLOBALS['FLAMINGO']['rootDir'] = getcwd() . DIRECTORY_SEPARATOR . $rootDir;
+        }
+    }
+
+    /**
+     * Include all the required files.
+     * It can be used to call some Composer dependencies, see documentation.
+     * Filename is resolved from the rootDir GLOBALS setting, that's why "parseRoot" should be first.
+     *
+     * @see \Flamingo\Service\ConfigurationParser::loadGlobalConfiguration
      *
      * @param mixed $files
      */
@@ -127,6 +148,8 @@ class ConfigurationParser
                 Analog::warning(sprintf('Require list must contain only strings, %s given', gettype($filename)));
                 continue;
             }
+
+            $filename = FileUtility::getAbsoluteFilename($filename);
 
             if (pathinfo($filename, PATHINFO_EXTENSION) !== 'php') {
                 Analog::warning('Include array only accepts PHP files!');
@@ -198,22 +221,5 @@ class ConfigurationParser
 
         Analog::debug('Processor configuration is empty or null');
         return null;
-    }
-
-    /**
-     * Set root directory globally to be accessed.
-     * This can't be a constant, because it can be changed at any moment.
-     * This can only be a string, otherwise, skip that option.
-     * The rootDir value should be resolved when the configuration is imported into the main container.
-     *
-     * @see \Flamingo\Flamingo::resolveRootDir
-     *
-     * @param string $rootDir
-     */
-    protected function parseRoot($rootDir)
-    {
-        if (is_string($rootDir)) {
-            $GLOBALS['FLAMINGO']['rootDir'] = getcwd() . DIRECTORY_SEPARATOR . $rootDir;
-        }
     }
 }
