@@ -3,12 +3,13 @@
 namespace Flamingo\Processor\Reader;
 
 use Flamingo\Core\Table;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 /**
- * Class ExcelReader
+ * Class SpreadsheetReader
  * @package Flamingo\Processor\Reader
  */
-class ExcelReader extends AbstractFileReader
+class SpreadsheetReader extends AbstractFileReader
 {
     /**
      * @var array
@@ -32,12 +33,11 @@ class ExcelReader extends AbstractFileReader
         // Overwrite default options
         $options = array_replace($this->defaultOptions, $options);
 
-        /** @var \PHPExcel $excel */
-        $excel = \PHPExcel_IOFactory::load($filename);
-        $excel->setActiveSheetIndex($options['sheet']);
+        $spreadsheet = IOFactory::load($filename);
+        $spreadsheet->setActiveSheetIndex($options['sheet']);
 
         // Fetch all lines
-        $data = $excel->getActiveSheet()->toArray(
+        $data = $spreadsheet->getActiveSheet()->toArray(
             $options['nullValue'],
             $options['calculateFormulas'],
             $options['formatData']

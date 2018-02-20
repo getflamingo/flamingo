@@ -19,9 +19,9 @@
     "sabre/uri": "^1.2.0",
     "sabre/xml": "^1.5",
     "analog/analog": "^1.0",
-    "phpoffice/phpexcel": "^1.8",
     "athari/yalinqo": "^2.4",
-    "nategood/commando": "^0.2.9"
+    "nategood/commando": "^0.2.9",
+    "phpoffice/phpspreadsheet": "^1.1"
   },
   "autoload": {
     "psr-0": {
