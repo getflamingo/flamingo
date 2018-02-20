@@ -32,6 +32,7 @@ class ConfigurationParser
         /** @var ConfigurationParser $configurationParser */
         $configurationParser = new ConfigurationParser();
         $configurationParser->setReferenceConfiguration($configuration);
+
         return $configurationParser;
     }
 
@@ -45,6 +46,7 @@ class ConfigurationParser
     public function setReferenceConfiguration(array $referenceConfiguration)
     {
         $this->referenceConfiguration = $referenceConfiguration;
+
         return $this;
     }
 
@@ -118,7 +120,9 @@ class ConfigurationParser
     protected function parseRoot($rootDir)
     {
         if (is_string($rootDir)) {
-            $GLOBALS['FLAMINGO']['rootDir'] = getcwd() . DIRECTORY_SEPARATOR . $rootDir;
+            $GLOBALS['FLAMINGO']['rootDir'] = FileUtility::isAbsolute($rootDir)
+                ? $rootDir
+                : getcwd() . DIRECTORY_SEPARATOR . $rootDir;
         }
     }
 

@@ -20,7 +20,7 @@ class FileUtility
      */
     public static function getAbsoluteFilename($filename)
     {
-        if (strpos($filename, '/') === 0) {
+        if (self::isAbsolute($filename)) {
             return $filename;
         }
 
@@ -51,7 +51,7 @@ class FileUtility
             }
         }
 
-        return implode(DIRECTORY_SEPARATOR, $absolutes);
+        return DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $absolutes);
     }
 
     /**
@@ -66,5 +66,16 @@ class FileUtility
         }
 
         return getcwd();
+    }
+
+    /**
+     * Returns TRUE if the given path is absolute.
+     *
+     * @param string $path
+     * @return bool
+     */
+    public static function isAbsolute($path)
+    {
+        return substr($path, 0, 1) === DIRECTORY_SEPARATOR;
     }
 }
