@@ -30,3 +30,6 @@ Flamingo:
       Call:
         __inheritances:
           10: Flamingo.Classes.Processor.Function
+      Redirect:
+        __inheritances:
+          10: Flamingo.Classes.Processor.Task

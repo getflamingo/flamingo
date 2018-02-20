@@ -22,7 +22,7 @@ class Flamingo
     protected $configuration = [];
 
     /**
-     * @var array<\Flamingo\Core\Task>
+     * @var \Flamingo\Core\Task[]
      */
     protected $tasks = [];
 
@@ -110,7 +110,7 @@ class Flamingo
 
         // Create taskRuntime if it does not exist
         if ($taskRuntime === null) {
-            $taskRuntime = new TaskRuntime($task);
+            $taskRuntime = new TaskRuntime($this, $task);
         } else {
             $taskRuntime->setCurrentTask($task);
         }

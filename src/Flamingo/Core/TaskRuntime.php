@@ -3,6 +3,7 @@
 namespace Flamingo\Core;
 
 use Commando\Command;
+use Flamingo\Flamingo;
 
 /**
  * Class TaskRuntime
@@ -10,6 +11,11 @@ use Commando\Command;
  */
 class TaskRuntime
 {
+    /**
+     * @var Flamingo
+     */
+    protected $container;
+
     /**
      * @var Task
      */
@@ -26,17 +32,19 @@ class TaskRuntime
     protected $tables = [];
 
     /**
-     * @var int
+     * @var float
      */
     protected $startTime = 0;
 
     /**
      * TaskRuntime constructor.
+     * @param Flamingo $container
      * @param Task $task
      * @param array $tables
      */
-    public function __construct(Task $task, array $tables = [])
+    public function __construct(Flamingo $container, Task $task, array $tables = [])
     {
+        $this->container = $container;
         $this->currentTask = $task;
         $this->rootTask = $task;
         $this->tables = $tables;
@@ -44,7 +52,7 @@ class TaskRuntime
     }
 
     /**
-     * Return current executed task
+     * Return current executed task.
      *
      * @return Task
      */
@@ -62,8 +70,7 @@ class TaskRuntime
     }
 
     /**
-     * Tells if the current runtime is at root level
-     * TODO: Implement this using return codes
+     * Tells if the current runtime is at root level.
      *
      * @return bool
      */
@@ -73,7 +80,33 @@ class TaskRuntime
     }
 
     /**
-     * Insert a new table into the runtime
+     * Forward to another task.
+     * This method preserves the Table data between tasks.
+     * TODO: Find a way to send a signal to the container, so both can be separated
+     *
+     * @param string $taskName
+     */
+    public function forward($taskName)
+    {
+        $this->container->run($taskName, $this);
+    }
+
+    /**
+     * Redirects to a another task.
+     * The current data is not preserved in that environment.
+     * TODO: Find a way to send a signal to the container, so both can be separated
+     *
+     * @param string $taskName
+     */
+    public function redirect($taskName)
+    {
+        $this->tables = [];
+        $this->rootTask = true;
+        $this->forward($taskName);
+    }
+
+    /**
+     * Insert a new table into the runtime.
      *
      * @param Table $table
      */
@@ -83,7 +116,7 @@ class TaskRuntime
     }
 
     /**
-     * Get table data by source identifier
+     * Get table data by source identifier.
      *
      * @param string $identifier
      * @return Table
@@ -94,7 +127,7 @@ class TaskRuntime
     }
 
     /**
-     * Return a copy of the stream tables
+     * Return a copy of the stream tables.
      *
      * @return array
      */
@@ -104,7 +137,7 @@ class TaskRuntime
     }
 
     /**
-     * Return the first available source
+     * Return the first available source.
      *
      * @return Table
      */
@@ -114,9 +147,9 @@ class TaskRuntime
     }
 
     /**
-     * Return the elapsed time
+     * Return the elapsed time.
      *
-     * @return int|mixed
+     * @return float
      */
     public function getElapsedTime()
     {
@@ -124,7 +157,7 @@ class TaskRuntime
     }
 
     /**
-     * Tells if the application is currently running
+     * Tells if the application is currently running.
      *
      * @return bool
      */
@@ -134,7 +167,7 @@ class TaskRuntime
     }
 
     /**
-     * Get CLI arguments
+     * Get CLI arguments.
      *
      * @return array
      */
