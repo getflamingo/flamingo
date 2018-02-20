@@ -1,57 +1,49 @@
 <?php
+
 namespace Flamingo\Processor;
 
-use Analog\Analog;
-use Flamingo\Model\Table;
-use Flamingo\Utility\ArrayUtility;
+use Flamingo\Core\Table;
+use Flamingo\Core\TaskRuntime;
 
 /**
- * Class QueryProcess
- * @package Flamingo\Process
+ * Class QueryProcessor
+ * @package Flamingo\Processor
  */
-class QueryProcess extends AbstractProcessor
+class QueryProcessor extends AbstractProcessor
 {
     /**
-     * Execute a LINQ query on multiple sources
+     * Execute a LINQ query on multiple sources.
      *
-     * @param array $data
-     * @return void
+     * @param TaskRuntime $taskRuntime
      */
-    public function execute(&$data)
+    public function execute(TaskRuntime $taskRuntime)
     {
-        $newData = [];
-
         foreach ($this->configuration as $configuration) {
 
             // Execute 1st level query
-            $request = $this->executeQuery($data, $configuration);
+            $request = $this->executeQuery($taskRuntime, $configuration);
 
             // Insert request data into a new table
-            $table = new Table;
+            $table = new Table();
             $table->copy($request);
 
-            // Push to data
-            $newData[] = $table;
+            $taskRuntime->addTable($table);
         }
-
-        $data = $newData;
     }
 
     /**
-     * Execute a query on data array
-     *
-     * @param array $data
+     * @param TaskRuntime $taskRuntime
      * @param array $configuration
-     * @return \YaLinqo\Enumerable
+     * @return array
      */
-    protected function executeQuery(&$data, $configuration)
+    protected function executeQuery(TaskRuntime $taskRuntime, array $configuration)
     {
         // Determine source identifier
         $identifier = $configuration['from'];
         unset($configuration['from']);
 
         // Fetch source from original
-        $source = iterator_to_array($data[$identifier]);
+        $source = iterator_to_array($taskRuntime->getTableByIdentifier($identifier));
         $source = \from($source);
 
         // Use query options on source
@@ -62,10 +54,10 @@ class QueryProcess extends AbstractProcessor
                 $parameters = [$parameters];
             }
 
-            // Handle joinned queries
+            // Handle joined queries
             foreach ($parameters as &$param) {
                 if (is_array($param) && array_key_exists('from', $param)) {
-                    $param = $this->executeQuery($data, $param);
+                    $param = $this->executeQuery($taskRuntime, $param);
                 }
             }
 

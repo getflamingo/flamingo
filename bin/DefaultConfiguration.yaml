@@ -1,7 +1,7 @@
 Flamingo:
 
   # Flamingo application version
-  Version: 1.6.0
+  Version: 1.7.0
 
   # Minimum version needed in order to run your custom configuration
   # Need to be a standard format: http://php.net/manual/fr/function.version-compare.php
@@ -34,6 +34,8 @@ Flamingo:
         className: Flamingo\Processor\FilterProcessor
       Task:
         className: Flamingo\Processor\TaskProcessor
+      Query:
+        className: Flamingo\Processor\QueryProcessor
     Reader:
       Csv:
         className: Flamingo\Processor\Reader\CsvReader
