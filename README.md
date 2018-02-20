@@ -21,10 +21,10 @@ Then run flamingo in the same folder:
 
 ### Build
 
-To build the **flamingo.phar** file, you will need to clone this project and [Box2](https://github.com/box-project/box2).
+To build the **flamingo.phar** file, you will need to clone this project and [Box](https://github.com/humbug/box).
 
-> You can find some information about how to install it on their github page.
+> You can find some information about how to install it on the github page.
 
 Then you can go in your project folder and run:
 
-    $ box build -v
+    $ box build
