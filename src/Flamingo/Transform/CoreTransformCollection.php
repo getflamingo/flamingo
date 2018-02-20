@@ -1,9 +1,8 @@
 <?php
 
-namespace Flamingo\Processor\TransformHelper;
+namespace Flamingo\Transform;
 
 use Flamingo\Core\TransformRuntime;
-use Flamingo\Transform\AbstractTransformCollection;
 
 /**
  * Class CoreTransformCollection
