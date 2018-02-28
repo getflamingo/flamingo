@@ -19,5 +19,6 @@ class ConsoleWriter implements WriterInterface
     {
         Analog::debug(sprintf('Display data from %s', $table->getName()));
         print_r($table->getArrayCopy());
+        Analog::info(sprintf('Rows: %d', $table->count()));
     }
 }
