@@ -2,14 +2,13 @@
 
 namespace Flamingo\Processor;
 
-use Flamingo\Core\Table;
 use Flamingo\Core\TaskRuntime;
 
 /**
  * Class FunctionProcessor
  * @package Flamingo\Processor
  */
-class FunctionProcessor extends AbstractSingleSourceProcessor
+class FunctionProcessor extends AbstractProcessor
 {
     /**
      * The operator which is used to declare user function
@@ -17,12 +16,11 @@ class FunctionProcessor extends AbstractSingleSourceProcessor
     const FUNCTION_OPERATOR = '__function';
 
     /**
-     * Call user function
+     * Call user function (can be a public method of a class name)
      *
-     * @param Table $source
      * @param TaskRuntime $taskRuntime
      */
-    protected function processSource(Table $source, TaskRuntime $taskRuntime)
+    public function execute(TaskRuntime $taskRuntime)
     {
         $configuration = is_string($this->configuration)
             ? [self::FUNCTION_OPERATOR => $this->configuration]
