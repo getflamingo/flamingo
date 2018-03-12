@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5bf2645555eddca34c04179aa5ac85c9",
-    "content-hash": "181906ee2d1aefc7970b2fe7aa426305",
+    "hash": "70c4bef9b994329c67e899e9ccabccd9",
+    "content-hash": "a8b7e2140cafb2f7b4c3f83bed00acc2",
     "packages": [
         {
             "name": "analog/analog",
@@ -112,6 +112,52 @@
                 "statistic"
             ],
             "time": "2016-01-11 12:32:40"
+        },
+        {
+            "name": "joshtronic/php-loremipsum",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joshtronic/php-loremipsum.git",
+                "reference": "24b768a63091400200bf70d9f278d0569ae78a5c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joshtronic/php-loremipsum/zipball/24b768a63091400200bf70d9f278d0569ae78a5c",
+                "reference": "24b768a63091400200bf70d9f278d0569ae78a5c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "satooshi/php-coveralls": "~1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "joshtronic\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Sherman",
+                    "email": "hello@joshtronic.com",
+                    "homepage": "https://joshtronic.com"
+                }
+            ],
+            "description": "Lorem ipsum generator in PHP without dependencies",
+            "homepage": "https://github.com/joshtronic/php-loremipsum",
+            "keywords": [
+                "generator",
+                "ipsum",
+                "lorem"
+            ],
+            "time": "2018-01-09 05:57:45"
         },
         {
             "name": "kevinlebrun/colors.php",

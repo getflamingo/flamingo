@@ -21,7 +21,8 @@
     "analog/analog": "^1.0",
     "athari/yalinqo": "^2.4",
     "nategood/commando": "^0.2.9",
-    "phpoffice/phpspreadsheet": "^1.1"
+    "phpoffice/phpspreadsheet": "^1.1",
+    "joshtronic/php-loremipsum": "^1.0"
   },
   "autoload": {
     "psr-0": {

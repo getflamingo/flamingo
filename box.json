@@ -22,7 +22,8 @@
         "symfony/yaml/Tests",
         "nategood/commando/examples",
         "nategood/commando/tests",
-        "kevinlebrun/colors.php/tests"
+        "kevinlebrun/colors.php/tests",
+        "joshtronic/php-loremipsum/tests"
       ],
       "in": "vendor"
     },
