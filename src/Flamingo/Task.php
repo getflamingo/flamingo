@@ -2,6 +2,7 @@
 
 namespace Flamingo;
 
+use Flamingo\Processor\MappingProcessor;
 use Flamingo\Reader\ReaderInterface;
 use Flamingo\Writer\WriterInterface;
 
@@ -17,32 +18,60 @@ abstract class Task
     abstract public function __invoke();
 
     /**
-     * Create a reader object with options.
+     * Read a source and determines the adapted reader according to target type (if a filename).
      *
-     * @param string $readerType
+     * @param string $filename
      * @param array $options
-     * @return ReaderInterface
+     * @param string $readerType
+     * @return Table
      */
-    public function createReader($readerType, array $options = [])
+    protected function read($filename, array $options = [], $readerType = '')
     {
-        $className = sprintf('Flamingo\\Reader\\%sReader', ucwords($readerType));
+        if (empty($readerType)) {
+            $readerType = pathinfo($filename, PATHINFO_EXTENSION);
+        }
 
-        return $className($options);
+        /** @var ReaderInterface $reader */
+        $className = sprintf('Flamingo\\Reader\\%sReader', ucwords($readerType));
+        $reader = new $className($options);
+
+        return $reader->load($filename);
     }
 
     /**
-     * Create a writer object with options.
+     * Output the table data to a filename.
      *
-     * @param string $writerType
      * @param Table $table
+     * @param string $filename
      * @param array $options
-     * @return WriterInterface
+     * @param string $writerType
      */
-    public function createWriter($writerType, Table $table, array $options = [])
+    protected function write(Table $table, $filename, array $options = [], $writerType = '')
     {
-        $className = sprintf('Flamingo\\Writer\\%sWriter', ucwords($writerType));
+        if (empty($writerType)) {
+            $writerType = pathinfo($filename, PATHINFO_EXTENSION);
+        }
 
-        return $className($table, $options);
+        /** @var WriterInterface $writer */
+        $className = sprintf('Flamingo\\Writer\\%sWriter', ucwords($writerType));
+        $writer = new $className($table, $options);
+
+        $writer->save($filename);
+    }
+
+    /**
+     * Remap column names of a table object.
+     *
+     * @param Table $table
+     * @param array $mapping
+     * @return Table
+     */
+    protected function map(Table $table, array $mapping)
+    {
+        $data = clone $table;
+        (new MappingProcessor($data, $mapping))->run();
+
+        return $data;
     }
 
     /**

@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Class DefaultTask.
+ * Class SimpleExampleTask.
  */
-class DefaultTask extends \Flamingo\Task
+class SimpleExampleTask extends \Flamingo\Task
 {
     /**
      * Transform a CSV file into a JSON one.
      */
     public function __invoke()
     {
-        $data = $this->createReader('Csv')->load('Fixtures/Transactions.csv');
-        $this->createWriter('Json', $data)->save('Results/Transactions.json');
+        $data = $this->read('Fixtures/Transactions.csv');
+        $this->write($data, 'Results/Transactions.json');
     }
 }

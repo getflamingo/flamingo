@@ -2,8 +2,6 @@
 
 namespace Flamingo\Processor;
 
-use Flamingo\TaskRuntime;
-
 /**
  * Class MappingProcessor
  * @package Flamingo\Processor
@@ -12,10 +10,8 @@ class MappingProcessor extends AbstractProcessor
 {
     /**
      * Rename columns recursively.
-     *
-     * @param TaskRuntime $taskRuntime
      */
-    public function execute(TaskRuntime $taskRuntime)
+    public function run()
     {
         foreach ($this->table as &$record) {
 

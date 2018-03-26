@@ -10,10 +10,7 @@ class FileUtility
 {
     /**
      * Resolves the absolute filename according to GLOBALS rootDir if defined.
-     * This utility is mainly used by the Source and Destination processors.
-     *
-     * @see \Flamingo\Processor\Reader\AbstractFileReader::read
-     * @see \Flamingo\Processor\Writer\AbstractFileWriter::write
+     * This utility is mainly used by the Reader and Writer processors.
      *
      * @param string $filename
      * @return string

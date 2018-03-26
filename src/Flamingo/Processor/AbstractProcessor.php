@@ -3,7 +3,6 @@
 namespace Flamingo\Processor;
 
 use Flamingo\Table;
-use Flamingo\TaskRuntime;
 
 /**
  * Class AbstractProcessor
@@ -34,10 +33,6 @@ abstract class AbstractProcessor implements ProcessorInterface
 
     /**
      * Process data tables using custom functions.
-     * TODO: Add configuration as argument
-     *
-     * @param TaskRuntime $taskRuntime
-     * @return mixed
      */
-    abstract public function execute(TaskRuntime $taskRuntime);
+    abstract public function run();
 }
