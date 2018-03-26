@@ -3,7 +3,7 @@
 namespace Flamingo\Service;
 
 use Analog\Analog;
-use Flamingo\Core\Task;
+use Flamingo\Task;
 use Flamingo\Processor\ProcessorInterface;
 use Flamingo\Utility\FileUtility;
 

@@ -1,28 +1,20 @@
 <?php
 
-namespace Flamingo\Core;
+namespace Flamingo;
 
 /**
  * Class Table
- * @package Flamingo\Core
+ * @package Flamingo
  */
 class Table extends \ArrayIterator implements \Traversable
 {
     /**
-     * @var string
-     */
-    protected $name;
-
-    /**
      * Table constructor.
-     * @param string $name
      * @param array $columns
      * @param array $records
      */
-    public function __construct($name = null, array $columns = [], array $records = [])
+    public function __construct(array $columns = [], array $records = [])
     {
-        $this->name = $name;
-
         if (count($columns) * count($records) > 0) {
 
             // Add keys to $records
@@ -32,22 +24,6 @@ class Table extends \ArrayIterator implements \Traversable
 
             parent::__construct($records);
         }
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**

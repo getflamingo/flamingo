@@ -1,6 +1,6 @@
 {
   "name": "ubermanu/flamingo",
-  "version": "1.10.1",
+  "version": "2.0.0",
   "description": "Task runner for data processing with PHP and YAML",
   "keywords": [
     "task-runner",

@@ -1,12 +1,12 @@
 <?php
 
-namespace Flamingo\Core;
+namespace Flamingo;
 
 use Flamingo\Processor\ProcessorInterface;
 
 /**
  * Class Task
- * @package Flamingo\Core
+ * @package Flamingo
  */
 class Task
 {

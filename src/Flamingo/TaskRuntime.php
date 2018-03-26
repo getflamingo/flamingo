@@ -1,13 +1,12 @@
 <?php
 
-namespace Flamingo\Core;
+namespace Flamingo;
 
 use Commando\Command;
-use Flamingo\Flamingo;
 
 /**
  * Class TaskRuntime
- * @package Flamingo\Core
+ * @package Flamingo
  */
 class TaskRuntime
 {

@@ -3,8 +3,6 @@
 namespace Flamingo;
 
 use Analog\Analog;
-use Flamingo\Core\Task;
-use Flamingo\Core\TaskRuntime;
 use Flamingo\Service\ConfigurationParser;
 use Flamingo\Service\InheritancesResolver;
 use Flamingo\Utility\ArrayUtility;
@@ -22,7 +20,7 @@ class Flamingo
     protected $configuration = [];
 
     /**
-     * @var \Flamingo\Core\Task[]
+     * @var Task[]
      */
     protected $tasks = [];
 

@@ -19,11 +19,6 @@ $command
     ->boolean();
 
 $command
-    ->option('c')
-    ->aka('config')
-    ->describedAs('Use a custom configuration file.');
-
-$command
     ->option('d')
     ->aka('debug')
     ->describedAs('Output debug information.')
@@ -37,7 +32,7 @@ $command
 
 $command
     ->option()
-    ->describedAs('Name of the task to execute.');
+    ->describedAs('Name of the task file to execute.');
 
 // Register error handler
 $handler = \Flamingo\Service\ErrorHandler::init($command['debug'], $command['force']);
@@ -45,33 +40,13 @@ $handler = \Flamingo\Service\ErrorHandler::init($command['debug'], $command['for
 
 // Create base task runner
 $flamingo = new \Flamingo\Flamingo();
-$flamingo->addConfigurationFromFile(__DIR__ . '/DefaultConfiguration.yaml');
-$flamingo->addConfigurationFromFile(__DIR__ . '/AdditionalConfiguration.yaml');
 
 // Output executable version
 if ($command['version']) {
-    $flamingo->parseConfiguration();
     echo $GLOBALS['FLAMINGO']['Version'] . PHP_EOL;
     exit;
 }
 
-// Get configuration file from option or current dir
-$configurationFile = $command['config'] ?: getcwd() . '/flamingo.yml';
-
-// No configuration file found
-if (!file_exists($configurationFile)) {
-
-    echo $command['config']
-        ? sprintf('The configuration file "%s" does not exist!', $command['config'])
-        : sprintf('No flamingo.yml file found in %s', getcwd());
-
-    echo PHP_EOL;
-    exit;
-}
-
-// Add custom configuration and parse the whole
-$flamingo->addConfigurationFromFile($configurationFile);
-$flamingo->parseConfiguration();
-
 // Run defined task
-$flamingo->run($command[0] ?: 'default');
+// TODO: Add support for inline options
+$flamingo->run($command[0]);
