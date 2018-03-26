@@ -7,10 +7,10 @@ use Flamingo\Exception\RuntimeException;
 use Flamingo\Table;
 
 /**
- * Class DbReader
+ * Class DatabaseReader
  * @package Flamingo\Reader
  */
-class DbReader implements ReaderInterface
+class DatabaseReader implements ReaderInterface
 {
     /**
      * @var \PDO

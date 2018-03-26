@@ -8,10 +8,10 @@ use Flamingo\Table;
 use Flamingo\Utility\StatementUtility;
 
 /**
- * Class DbWriter
+ * Class DatabaseWriter
  * @package Flamingo\Writer
  */
-class DbWriter implements WriterInterface
+class DatabaseWriter implements WriterInterface
 {
     /**
      * @var \PDO

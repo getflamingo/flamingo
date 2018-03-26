@@ -90,7 +90,6 @@ abstract class Task
             );
         }
 
-
         if (strlen($versions[1]) && version_compare($GLOBALS['FLAMINGO']['Version'], $versions[1], '>')) {
             throw new RuntimeException(
                 'The Flamingo version is too high (current: %s, needed: %s)',
