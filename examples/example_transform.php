@@ -10,7 +10,7 @@ class TransformExampleTask extends \Flamingo\Task
      */
     public function __invoke()
     {
-        $data = $this->read('Fixtures/Transactions.csv');
+        $data = $this->read('examples/Fixtures/Transactions.csv');
 
         foreach ($data as &$row) {
             $row['price'] = (int)$row['price'] * 1.12;
@@ -24,6 +24,6 @@ class TransformExampleTask extends \Flamingo\Task
             ]
         );
 
-        $this->write($data, 'Results/TransformedTransactions.json');
+        $this->write($data, 'TransformedTransactions.json');
     }
 }

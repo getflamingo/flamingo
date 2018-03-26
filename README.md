@@ -3,21 +3,25 @@
 ![Logo](https://cdn.rawgit.com/ubermanu/flamingo/master/icons/flamingo.png)
 
 **Flamingo** is a task runner oriented on data processing.<br>
-Like other task runners, it runs its own configuration file, **flamingo.yml**.<br>
 For more information, check out the [wiki](https://github.com/ubermanu/flamingo/wiki).
 
 ### Usage
 
-Create a configuration file *flamingo.yml*.<br>
+Create a Task using PHP.<br>
 This example configuration converts a \*.csv file into a \*.json one.
 
-    Default():
-        - Source: file.csv
-        - Destination: result.json
+    class ExampleTask extends \Flamingo\Task
+    {
+        function __invoke()
+        {
+            $data = $this->read('file.csv');
+            $this->write($data, 'file.json');
+        }
+    }
 
 Then run flamingo in the same folder:
 
-    $ flamingo
+    $ flamingo ExampleTask
 
 ### Build
 

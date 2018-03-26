@@ -2,6 +2,7 @@
 
 namespace Flamingo;
 
+use Flamingo\Exception\RuntimeException;
 use Flamingo\Processor\MappingProcessor;
 use Flamingo\Reader\ReaderInterface;
 use Flamingo\Writer\WriterInterface;
@@ -13,11 +14,6 @@ use Flamingo\Writer\WriterInterface;
 abstract class Task
 {
     /**
-     * Implement this class.
-     */
-    abstract public function __invoke();
-
-    /**
      * Read a source and determines the adapted reader according to target type (if a filename).
      *
      * @param string $filename
@@ -28,7 +24,8 @@ abstract class Task
     protected function read($filename, array $options = [], $readerType = '')
     {
         if (empty($readerType)) {
-            $readerType = pathinfo($filename, PATHINFO_EXTENSION);
+            $extension = pathinfo($filename, PATHINFO_EXTENSION);
+            $readerType = $GLOBALS['FLAMINGO']['FileProcessorExtensions'][$extension];
         }
 
         /** @var ReaderInterface $reader */
@@ -49,7 +46,8 @@ abstract class Task
     protected function write(Table $table, $filename, array $options = [], $writerType = '')
     {
         if (empty($writerType)) {
-            $writerType = pathinfo($filename, PATHINFO_EXTENSION);
+            $extension = pathinfo($filename, PATHINFO_EXTENSION);
+            $writerType = $GLOBALS['FLAMINGO']['FileProcessorExtensions'][$extension];
         }
 
         /** @var WriterInterface $writer */
@@ -72,6 +70,34 @@ abstract class Task
         (new MappingProcessor($data, $mapping))->run();
 
         return $data;
+    }
+
+    /**
+     * Check if the configuration version is compatible with the current flamingo version.
+     *
+     * @param string $versions
+     * @throws RuntimeException
+     */
+    protected function checkVersion($versions)
+    {
+        $versions = explode('-', $versions);
+
+        if (strlen($versions[0]) && version_compare($GLOBALS['FLAMINGO']['Version'], $versions[0], '<')) {
+            throw new RuntimeException(
+                'The Flamingo version is too low (current: %s, needed: %s)',
+                $GLOBALS['FLAMINGO']['Version'],
+                $versions[0]
+            );
+        }
+
+
+        if (strlen($versions[1]) && version_compare($GLOBALS['FLAMINGO']['Version'], $versions[1], '>')) {
+            throw new RuntimeException(
+                'The Flamingo version is too high (current: %s, needed: %s)',
+                $GLOBALS['FLAMINGO']['Version'],
+                $versions[1]
+            );
+        }
     }
 
     /**
