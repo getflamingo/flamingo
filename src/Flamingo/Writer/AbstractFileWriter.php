@@ -3,6 +3,7 @@
 namespace Flamingo\Writer;
 
 use Analog\Analog;
+use Flamingo\Exception\RuntimeException;
 use Flamingo\Table;
 use Flamingo\Utility\FileUtility;
 
@@ -37,11 +38,12 @@ abstract class AbstractFileWriter implements WriterInterface
      * Handles errors for writers putting content in file system.
      *
      * @param string $filename
+     * @throws RuntimeException
      */
     public function save($filename)
     {
         if (empty($filename)) {
-            Analog::error('No filename defined');
+            throw new RuntimeException('No filename defined');
         }
 
         $data = $this->tableContents();

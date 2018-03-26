@@ -3,6 +3,7 @@
 namespace Flamingo\Writer;
 
 use Analog\Analog;
+use Flamingo\Exception\RuntimeException;
 use Flamingo\Table;
 use Flamingo\Utility\StatementUtility;
 
@@ -37,25 +38,16 @@ class DbWriter implements WriterInterface
     ];
 
     /**
-     * AbstractFileWriter constructor.
+     * DbWriter constructor.
      * @param Table $table
      * @param array $options
+     * @throws RuntimeException
      */
     public function __construct(Table $table, array $options)
     {
         $this->table = $table;
         $this->options = array_replace($this->options, $options);
-    }
 
-    /**
-     * TODO: Prepare only one statement, execute and commit changes in db afterwards
-     * TODO: Create common trait for DbReader and DbWriter (PDO wise)
-     * TODO: Add more debug output
-     *
-     * @param string $tableName
-     */
-    public function save($tableName)
-    {
         $properties = [
             'host' => $this->options['server'],
             'port' => $this->options['port'],
@@ -76,20 +68,31 @@ class DbWriter implements WriterInterface
             $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         } catch (\PDOException $e) {
-            Analog::error('PDO: ' . $e->getMessage());
+            throw new RuntimeException($e->getMessage());
         }
+    }
 
-        if (empty($this->options['table'])) {
-            Analog::debug('No destination table defined');
+    /**
+     * TODO: Prepare only one statement, execute and commit changes in db afterwards
+     * TODO: Create common trait for DbReader and DbWriter (PDO wise)
+     * TODO: Add more debug output
+     *
+     * @param string $tableName
+     * @throws RuntimeException
+     */
+    public function save($tableName)
+    {
+        if (empty($tableName)) {
+            throw new RuntimeException('No destination table defined');
         }
 
         try {
 
             Analog::debug(sprintf(
                 'Prepare %s records for %s.%s',
-                count($this->table),
+                $this->table->count(),
                 $this->options['database'],
-                $this->options['table']
+                $tableName
             ));
 
             if (count($this->options['unique'])) {
@@ -101,10 +104,10 @@ class DbWriter implements WriterInterface
 
             // Execute queries
             foreach ($this->table as $record) {
-                if ($this->itemExists($record)) {
-                    $this->updateItem($record);
+                if ($this->itemExists($record, $tableName)) {
+                    $this->updateItem($record, $tableName);
                 } else {
-                    $this->insertItem($record);
+                    $this->insertItem($record, $tableName);
                 }
             }
 
@@ -114,17 +117,18 @@ class DbWriter implements WriterInterface
                 Analog::debug('PDO: ' . $request->queryString);
             }
 
-            Analog::error('PDO: ' . $e->getMessage());
+            throw new RuntimeException($e->getMessage());
         }
     }
 
     /**
-     * Check if a record already exists
+     * Check if a record already exists.
      *
      * @param array $record
+     * @param string $tableName
      * @return bool
      */
-    protected function itemExists($record)
+    protected function itemExists($record, $tableName)
     {
         // No unique field has been set
         if (count($this->options['unique']) == 0) {
@@ -132,15 +136,13 @@ class DbWriter implements WriterInterface
         }
 
         // Get values from unique constraint
-        $unique = array_intersect_key(
-            $record, array_flip($this->options['unique'])
-        );
+        $unique = array_intersect_key($record, array_flip($this->options['unique']));
 
         // Create statement
         $statement = sprintf(
             'SELECT * FROM %s WHERE %s',
-            $this->options['table'],
-            StatementUtility::equals($unique, $this->options['table'], ' AND ')
+            $tableName,
+            StatementUtility::equals($unique, $tableName, ' AND ')
         );
 
         // Execute and return found records
@@ -151,18 +153,19 @@ class DbWriter implements WriterInterface
     }
 
     /**
-     * Insert a new record
+     * Insert a new record.
      *
      * @param array $record
+     * @param string $tableName
      */
-    protected function insertItem($record)
+    protected function insertItem($record, $tableName)
     {
         // Build query
         $statement = sprintf(
             'INSERT %s INTO %s (%s) VALUES (%s)',
             $GLOBALS['FLAMINGO']['Options']['Sql']['InsertIgnore'] ? 'IGNORE' : '',
-            $this->options['table'],
-            StatementUtility::keys($record, $this->options['table']),
+            $tableName,
+            StatementUtility::keys($record, $tableName),
             StatementUtility::values($record)
         );
 
@@ -172,11 +175,12 @@ class DbWriter implements WriterInterface
     }
 
     /**
-     * Update an existing record based on unique fields
+     * Update an existing record based on unique fields.
      *
      * @param array $record
+     * @param string $tableName
      */
-    protected function updateItem($record)
+    protected function updateItem($record, $tableName)
     {
         // Fetch unique data
         $unique = array_intersect_key(
@@ -198,13 +202,13 @@ class DbWriter implements WriterInterface
         // Build query
         $statement = sprintf(
             'UPDATE %s SET %s',
-            $this->options['table'],
-            StatementUtility::equals($record, $this->options['table'])
+            $tableName,
+            StatementUtility::equals($record, $tableName)
         );
 
         // Add where constraint based on unique fields
         if (count($unique)) {
-            $statement .= ' WHERE ' . StatementUtility::equals($unique, $this->options['table'], ' AND ');
+            $statement .= ' WHERE ' . StatementUtility::equals($unique, $tableName, ' AND ');
         }
 
         // Execute update
