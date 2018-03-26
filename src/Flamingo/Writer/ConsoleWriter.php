@@ -1,24 +1,43 @@
 <?php
 
-namespace Flamingo\Processor\Writer;
+namespace Flamingo\Writer;
 
 use Analog\Analog;
-use Flamingo\Core\Table;
+use Flamingo\Table;
 
 /**
  * Class ConsoleWriter
- * @package Flamingo\Processor\Writer
+ * @package Flamingo\Writer
  */
 class ConsoleWriter implements WriterInterface
 {
     /**
+     * @var Table
+     */
+    protected $table = null;
+
+    /**
+     * @var array
+     */
+    protected $options = [];
+
+    /**
+     * ConsoleWriter constructor.
      * @param Table $table
      * @param array $options
      */
-    public function write(Table $table, array $options)
+    public function __construct(Table $table, array $options)
     {
-        Analog::debug(sprintf('Display data from %s', $table->getName()));
-        print_r($table->getArrayCopy());
-        Analog::info(sprintf('Rows: %d', $table->count()));
+        $this->table = $table;
+        $this->options = array_replace($this->options, $options);
+    }
+
+    /**
+     * @param string $none
+     */
+    public function save($none = '')
+    {
+        print_r($this->table->getArrayCopy());
+        Analog::info(sprintf('Rows: %d', $this->table->count()));
     }
 }

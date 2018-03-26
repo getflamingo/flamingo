@@ -1,28 +1,24 @@
 <?php
 
-namespace Flamingo\Processor\Writer;
+namespace Flamingo\Writer;
 
-use Flamingo\Core\Table;
 use Sabre\Xml\Service;
 
 /**
  * Class XmlWriter
- * TODO: Add namespace as table name
- * TODO: Add record tag name option
- *
- * @package Flamingo\Processor\Writer
+ * @package Flamingo\Writer
  */
 class XmlWriter extends AbstractFileWriter
 {
     /**
-     * @param Table $table
-     * @param array $options
+     * TODO: Add namespace as table name
+     * TODO: Add record tag name option
      * @return string
      */
-    protected function tableContent(Table $table, array $options)
+    protected function tableContents()
     {
         // Cast table into classic array
-        $data = $table->getArrayCopy();
+        $data = $this->table->getArrayCopy();
 
         // Convert data in correct XML format
         foreach ($data as &$record) {

@@ -2,49 +2,54 @@
 
 namespace Flamingo;
 
-use Flamingo\Processor\ProcessorInterface;
+use Flamingo\Reader\ReaderInterface;
+use Flamingo\Writer\WriterInterface;
 
 /**
  * Class Task
  * @package Flamingo
  */
-class Task
+abstract class Task
 {
     /**
-     * Values returned by processors
+     * Implement this class.
      */
-    const STATUS_OK = 0;
-    const STATUS_WARN = 1;
-    const STATUS_ERROR = 2;
-    const STATUS_REDIRECT = 3;
-    const STATUS_SUMMON = 4;
+    abstract public function __invoke();
 
     /**
-     * @var ProcessorInterface[]
+     * Create a reader object with options.
+     *
+     * @param string $readerType
+     * @param array $options
+     * @return ReaderInterface
      */
-    protected $processors = [];
-
-    /**
-     * @param ProcessorInterface $processor
-     */
-    public function addProcessor(ProcessorInterface $processor)
+    public function createReader($readerType, array $options = [])
     {
-        $this->processors[] = $processor;
+        $className = sprintf('Flamingo\\Reader\\%sReader', ucwords($readerType));
+
+        return $className($options);
     }
 
     /**
-     * Execute each processors through current runtime
-     * TODO: Keep track of current Runtime status
+     * Create a writer object with options.
      *
-     * @param TaskRuntime $taskRuntime
-     * @return TaskRuntime
+     * @param string $writerType
+     * @param Table $table
+     * @param array $options
+     * @return WriterInterface
      */
-    public function execute(TaskRuntime $taskRuntime)
+    public function createWriter($writerType, Table $table, array $options = [])
     {
-        foreach ($this->processors as $processor) {
-            $processor->execute($taskRuntime);
-        }
+        $className = sprintf('Flamingo\\Writer\\%sWriter', ucwords($writerType));
 
-        return $taskRuntime;
+        return $className($table, $options);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return get_class($this);
     }
 }

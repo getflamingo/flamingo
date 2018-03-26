@@ -1,20 +1,20 @@
 <?php
 
-namespace Flamingo\Processor\Reader;
+namespace Flamingo\Reader;
 
-use Flamingo\Core\Table;
+use Flamingo\Table;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 /**
  * Class SpreadsheetReader
- * @package Flamingo\Processor\Reader
+ * @package Flamingo\Reader
  */
 class SpreadsheetReader extends AbstractFileReader
 {
     /**
      * @var array
      */
-    protected $defaultOptions = [
+    protected $options = [
         'header' => true,
         'sheet' => 0,
         'readOnly' => true,
@@ -25,26 +25,22 @@ class SpreadsheetReader extends AbstractFileReader
 
     /**
      * @param string $filename
-     * @param array $options
-     * @return \Flamingo\Core\Table
+     * @return Table
      */
-    protected function fileContent($filename, array $options)
+    protected function fileContents($filename)
     {
-        // Overwrite default options
-        $options = array_replace($this->defaultOptions, $options);
-
         $spreadsheet = IOFactory::load($filename);
-        $spreadsheet->setActiveSheetIndex($options['sheet']);
+        $spreadsheet->setActiveSheetIndex($this->options['sheet']);
 
         // Fetch all lines
         $data = $spreadsheet->getActiveSheet()->toArray(
-            $options['nullValue'],
-            $options['calculateFormulas'],
-            $options['formatData']
+            $this->options['nullValue'],
+            $this->options['calculateFormulas'],
+            $this->options['formatData']
         );
 
         // Use first line as header keys
-        $header = $options['header'] ? array_shift($data) : [];
+        $header = $this->options['header'] ? array_shift($data) : [];
 
         // Clean up header keys
         if ($GLOBALS['FLAMINGO']['Options']['Header']['FirstLine']) {
@@ -54,6 +50,6 @@ class SpreadsheetReader extends AbstractFileReader
             reset($header);
         }
 
-        return new Table($filename, $header, array_values($data));
+        return new Table($header, array_values($data));
     }
 }

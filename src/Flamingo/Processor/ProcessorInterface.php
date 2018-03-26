@@ -2,7 +2,7 @@
 
 namespace Flamingo\Processor;
 
-use Flamingo\Core\TaskRuntime;
+use Flamingo\Table;
 
 /**
  * Interface ProcessorInterface
@@ -11,11 +11,9 @@ use Flamingo\Core\TaskRuntime;
 interface ProcessorInterface
 {
     /**
-     * Process data tables using custom functions
-     * TODO: Add return signal for the task
-     *
-     * @param TaskRuntime $taskRuntime
-     * @return mixed
+     * ProcessorInterface constructor.
+     * @param Table $table
+     * @param array $options
      */
-    public function execute(TaskRuntime $taskRuntime);
+    public function __construct(Table $table, array $options);
 }

@@ -1,18 +1,24 @@
 <?php
 
-namespace Flamingo\Processor\Reader;
+namespace Flamingo\Reader;
 
-use Flamingo\Core\Table;
+use Flamingo\Table;
 
 /**
  * Interface ReaderInterface
- * @package Flamingo\Processor\Reader
+ * @package Flamingo\Reader
  */
 interface ReaderInterface
 {
     /**
+     * ReaderInterface constructor.
      * @param array $options
+     */
+    public function __construct(array $options);
+
+    /**
+     * @param string $target
      * @return Table
      */
-    public function read(array $options);
+    public function load($target);
 }

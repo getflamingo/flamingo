@@ -1,25 +1,26 @@
 <?php
 
-namespace Flamingo\Processor\Reader;
+namespace Flamingo\Reader;
 
 use Analog\Analog;
-use Flamingo\Core\Table;
+use Flamingo\Exception\RuntimeException;
+use Flamingo\Table;
 
 /**
  * Class DbReader
- * @package Flamingo\Processor\Reader
+ * @package Flamingo\Reader
  */
 class DbReader implements ReaderInterface
 {
     /**
      * @var \PDO
      */
-    protected $pdo;
+    protected $pdo = null;
 
     /**
      * @var array
      */
-    protected $defaultOptions = [
+    protected $options = [
         'driver' => 'mysql',
         'server' => 'localhost',
         'port' => 3306,
@@ -30,27 +31,27 @@ class DbReader implements ReaderInterface
     ];
 
     /**
+     * DbReader constructor.
      * @param array $options
-     * @return Table
+     * @throws RuntimeException
      */
-    public function read(array $options)
+    public function __construct(array $options)
     {
-        // Overwrite default options
-        $options = array_replace($this->defaultOptions, $options);
+        $this->options = array_replace($this->options, $options);
 
         $properties = [
-            'host' => $options['server'],
-            'port' => $options['port'],
-            'dbname' => $options['database'],
-            'charset' => $options['charset'],
+            'host' => $this->options['server'],
+            'port' => $this->options['port'],
+            'dbname' => $this->options['database'],
+            'charset' => $this->options['charset'],
         ];
 
         try {
 
             $this->pdo = new \PDO(
-                $options['driver'] . ':' . http_build_query($properties, null, ';'),
-                $options['username'],
-                $options['password']
+                $this->options['driver'] . ':' . http_build_query($properties, null, ';'),
+                $this->options['username'],
+                $this->options['password']
             );
 
             // PDO should throw exceptions on error
@@ -58,44 +59,35 @@ class DbReader implements ReaderInterface
             $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         } catch (\PDOException $e) {
-            Analog::error('PDO: ' . $e->getMessage());
-
-            return null;
+            throw new RuntimeException($e->getMessage());
         }
+    }
 
-        if (!empty($options['table'])) {
-            $query = "SELECT * FROM " . $options['table'];
-            Analog::debug(sprintf('Building query from table name - "%s"', $query));
-        }
-
-        if (!empty($options['query'])) {
-            $query = $options['query'];
-            Analog::debug(sprintf('Using query from options - "%s"', $query));
-        }
-
-        if (empty($query)) {
-            Analog::error(sprintf('No table name or query defined - %s', json_encode($options)));
-
-            return null;
+    /**
+     * @param string $tableName
+     * @return Table
+     * @throws RuntimeException
+     */
+    public function load($tableName)
+    {
+        if (empty($tableName)) {
+            throw new RuntimeException('No table name defined');
         }
 
         try {
 
-            Analog::debug(sprintf('Get records from DB - "%s"', $query));
+            Analog::debug(sprintf('Building query from table name - "%s"', $tableName));
+            $query = 'SELECT * FROM ' . $tableName;
 
             // Execute query
             $query = $this->pdo->query($query, \PDO::FETCH_ASSOC)->fetchAll();
-
-            // Get columns
             $columns = count($query) ? array_keys(current($query)) : [];
 
             // Build and return table
-            return new Table('', $columns, array_map('array_values', $query));
+            return new Table($columns, array_map('array_values', $query));
 
         } catch (\PDOException $e) {
-            Analog::error('PDO: ' . $e->getMessage());
-
-            return null;
+            throw new RuntimeException($e->getMessage());
         }
     }
 }

@@ -2,7 +2,8 @@
 
 namespace Flamingo\Processor;
 
-use Flamingo\Core\TaskRuntime;
+use Flamingo\Table;
+use Flamingo\TaskRuntime;
 
 /**
  * Class AbstractProcessor
@@ -11,17 +12,24 @@ use Flamingo\Core\TaskRuntime;
 abstract class AbstractProcessor implements ProcessorInterface
 {
     /**
-     * @var mixed
+     * @var Table
      */
-    protected $configuration;
+    protected $table = null;
+
+    /**
+     * @var array
+     */
+    protected $options = [];
 
     /**
      * AbstractProcessor constructor.
-     * @param mixed $configuration
+     * @param Table $table
+     * @param array $options
      */
-    public function __construct($configuration)
+    public function __construct(Table $table, array $options)
     {
-        $this->configuration = $configuration;
+        $this->table = $table;
+        $this->options = array_replace($this->options, $options);
     }
 
     /**

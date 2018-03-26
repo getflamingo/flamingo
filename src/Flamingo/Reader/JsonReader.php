@@ -1,25 +1,24 @@
 <?php
 
-namespace Flamingo\Processor\Reader;
+namespace Flamingo\Reader;
 
-use Flamingo\Core\Table;
+use Flamingo\Table;
 
 /**
  * Class JsonReader
- * @package Flamingo\Processor\Reader
+ * @package Flamingo\Reader
  */
 class JsonReader extends AbstractFileReader
 {
     /**
      * @param string $filename
-     * @param array $options
      * @return Table
      */
-    protected function fileContent($filename, array $options)
+    protected function fileContents($filename)
     {
         $data = json_decode(file_get_contents($filename), true);
         $header = count($data) ? array_keys(current($data)) : [];
 
-        return new Table($filename, $header, array_values($data));
+        return new Table($header, array_values($data));
     }
 }

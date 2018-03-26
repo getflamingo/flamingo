@@ -1,20 +1,19 @@
 <?php
 
-namespace Flamingo\Processor\Writer;
+namespace Flamingo\Writer;
 
-use Flamingo\Core\Table;
 use League\Csv\Writer as LCsvWriter;
 
 /**
  * Class CsvWriter
- * @package Flamingo\Processor\Writer
+ * @package Flamingo\Writer
  */
 class CsvWriter extends AbstractFileWriter
 {
     /**
      * @var array
      */
-    protected $defaultOptions = [
+    protected $options = [
         'delimiter' => ',',
         'enclosure' => '"',
         'escape' => '\\',
@@ -22,26 +21,21 @@ class CsvWriter extends AbstractFileWriter
     ];
 
     /**
-     * @param Table $table
-     * @param array $options
      * @return string
      */
-    protected function tableContent(Table $table, array $options)
+    protected function tableContents()
     {
-        // Overwrite default options
-        $options = array_replace($this->defaultOptions, $options);
-
         // Cast into array
-        $data = $table->getArrayCopy();
+        $data = $this->table->getArrayCopy();
 
         // Create writer
         $writer = LCsvWriter::createFromFileObject(new \SplTempFileObject());
 
         // Set up writer controls from options
-        $writer->setDelimiter($options['delimiter']);
-        $writer->setEnclosure($options['enclosure']);
-        $writer->setEscape($options['escape']);
-        $writer->setNewline($options['newline']);
+        $writer->setDelimiter($this->options['delimiter']);
+        $writer->setEnclosure($this->options['enclosure']);
+        $writer->setEscape($this->options['escape']);
+        $writer->setNewline($this->options['newline']);
 
         // Add header
         if (count($data)) {

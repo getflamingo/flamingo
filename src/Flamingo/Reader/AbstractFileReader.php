@@ -1,48 +1,63 @@
 <?php
 
-namespace Flamingo\Processor\Reader;
+namespace Flamingo\Reader;
 
 use Analog\Analog;
-use Flamingo\Core\Table;
+use Flamingo\Exception\RuntimeException;
+use Flamingo\Table;
 use Flamingo\Utility\FileUtility;
 
 /**
  * Class AbstractFileReader
- * @package Flamingo\Processor\Reader
+ * @package Flamingo\Reader
  */
 abstract class AbstractFileReader implements ReaderInterface
 {
     /**
-     * Handles errors for parsers reading data from file system
-     *
-     * @param array $options
-     * @return Table
+     * @var array
      */
-    public function read(array $options)
+    protected $options = [];
+
+    /**
+     * AbstractFileReader constructor.
+     * @param array $options
+     */
+    public function __construct(array $options)
     {
-        if (empty($options['file'])) {
-            Analog::error(sprintf('No filename defined - %s', json_encode($options)));
-            return null;
-        }
-
-        $filename = FileUtility::getAbsoluteFilename($options['file']);
-
-        if (!file_exists($filename)) {
-            Analog::error(sprintf('The file "%s" does not exist', $filename));
-        }
-
-        $table = $this->fileContent($filename, $options);
-
-        Analog::debug(sprintf('Read data from %s - %s', $filename, json_encode($options)));
-        return $table;
+        $this->options = array_replace($this->options, $options);
     }
 
     /**
-     * Read and return formatted file content
+     * Handles errors for parsers reading data from file system.
      *
      * @param string $filename
      * @param array $options
      * @return Table
+     * @throws RuntimeException
      */
-    protected abstract function fileContent($filename, array $options);
+    public function load($filename, array $options = [])
+    {
+        if (empty($filename)) {
+            throw new RuntimeException('No filename defined');
+        }
+
+        $filename = FileUtility::getAbsoluteFilename($filename);
+
+        if (!file_exists($filename)) {
+            throw new RuntimeException(sprintf('The file "%s" does not exist', $filename));
+        }
+
+        $table = $this->fileContents($filename);
+        Analog::debug(sprintf('Read data from %s - %s', $filename, json_encode($options)));
+
+        return $table;
+    }
+
+    /**
+     * Read and return formatted file content.
+     *
+     * @param string $filename
+     * @return Table
+     */
+    protected abstract function fileContents($filename);
 }

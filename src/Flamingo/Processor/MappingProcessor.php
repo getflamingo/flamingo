@@ -2,24 +2,22 @@
 
 namespace Flamingo\Processor;
 
-use Flamingo\Core\Table;
-use Flamingo\Core\TaskRuntime;
+use Flamingo\TaskRuntime;
 
 /**
  * Class MappingProcessor
  * @package Flamingo\Processor
  */
-class MappingProcessor extends AbstractSingleSourceProcessor
+class MappingProcessor extends AbstractProcessor
 {
     /**
-     * Rename some columns
+     * Rename columns recursively.
      *
-     * @param Table $source
      * @param TaskRuntime $taskRuntime
      */
-    protected function processSource(Table $source, TaskRuntime $taskRuntime)
+    public function execute(TaskRuntime $taskRuntime)
     {
-        foreach ($source as &$record) {
+        foreach ($this->table as &$record) {
 
             // Backup current record
             $baseRecord = $record;
@@ -30,7 +28,7 @@ class MappingProcessor extends AbstractSingleSourceProcessor
             }
 
             // Apply mapping
-            foreach ($this->configuration as $key => $newKey) {
+            foreach ($this->options as $key => $newKey) {
 
                 if (array_key_exists($key, $baseRecord)) {
                     $record[$newKey] = $baseRecord[$key];

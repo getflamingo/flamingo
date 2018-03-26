@@ -1,26 +1,25 @@
 <?php
 
-namespace Flamingo\Processor\Reader;
+namespace Flamingo\Reader;
 
-use Flamingo\Core\Table;
+use Flamingo\Table;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class YamlReader
- * @package Flamingo\Processor\Reader
+ * @package Flamingo\Reader
  */
 class YamlReader extends AbstractFileReader
 {
     /**
      * @param string $filename
-     * @param array $options
      * @return Table
      */
-    protected function fileContent($filename, array $options)
+    protected function fileContents($filename)
     {
         $data = Yaml::parse(file_get_contents($filename));
         $header = count($data) ? array_keys(current($data)) : [];
 
-        return new Table($filename, $header, array_values($data));
+        return new Table($header, array_values($data));
     }
 }

@@ -1,33 +1,29 @@
 <?php
 
-namespace Flamingo\Processor\Reader;
+namespace Flamingo\Reader;
 
-use Flamingo\Core\Table;
+use Flamingo\Table;
 
 /**
  * Class XmlReader
- * @package Flamingo\Processor\Reader
+ * @package Flamingo\Reader
  */
 class XmlReader extends AbstractFileReader
 {
     /**
      * @var array
      */
-    protected $defaultOptions = [
+    protected $options = [
         'path' => null,
         'nocdata' => true,
     ];
 
     /**
      * @param string $filename
-     * @param array $options
      * @return Table
      */
-    protected function fileContent($filename, array $options)
+    protected function fileContents($filename)
     {
-        // Overwrite default options
-        $options = array_replace($this->defaultOptions, $options);
-
         // Read data from the file and hide namespace
         $xml = file_get_contents($filename);
         $xml = str_replace(' xmlns=', ' ns=', $xml);
@@ -36,7 +32,7 @@ class XmlReader extends AbstractFileReader
         $parameters = 0;
 
         // Trim CDATA tags
-        if ($options['nocdata']) {
+        if ($this->options['nocdata']) {
             $parameters += LIBXML_NOCDATA;
         }
 
@@ -44,8 +40,8 @@ class XmlReader extends AbstractFileReader
         $document = new \SimpleXMLElement($xml, $parameters);
 
         // Use path if defined
-        $data = $options['path']
-            ? $document->xpath($options['path'])
+        $data = $this->options['path']
+            ? $document->xpath($this->options['path'])
             : $document->children();
 
         // Cast to array
@@ -70,6 +66,6 @@ class XmlReader extends AbstractFileReader
             return array_replace($dummyRecord, $record);
         }, $data);
 
-        return new Table($filename, $header, $values);
+        return new Table($header, $values);
     }
 }

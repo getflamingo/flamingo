@@ -1,20 +1,20 @@
 <?php
 
-namespace Flamingo\Processor\Reader;
+namespace Flamingo\Reader;
 
-use Flamingo\Core\Table;
+use Flamingo\Table;
 use League\Csv\Reader as LCsvReader;
 
 /**
  * Class CsvReader
- * @package Flamingo\Processor\Reader
+ * @package Flamingo\Reader
  */
 class CsvReader extends AbstractFileReader
 {
     /**
      * @var array
      */
-    protected $defaultOptions = [
+    protected $options = [
         'delimiter' => ',',
         'enclosure' => '"',
         'escape' => '\\',
@@ -23,24 +23,20 @@ class CsvReader extends AbstractFileReader
 
     /**
      * @param string $filename
-     * @param array $options
      * @return Table
      */
-    protected function fileContent($filename, array $options)
+    protected function fileContents($filename)
     {
-        // Overwrite default options
-        $options = array_replace($this->defaultOptions, $options);
-
-        $firstLineHeader = !empty($options['header']) ? $options['header'] : true;
+        $firstLineHeader = !empty($this->options['header']) ? $this->options['header'] : true;
 
         // Read data from the file
         $csv = LCsvReader::createFromPath($filename);
 
         // Set up controls from options
-        $csv->setDelimiter($options['delimiter']);
-        $csv->setEnclosure($options['enclosure']);
-        $csv->setEscape($options['escape']);
-        $csv->setNewline($options['newline']);
+        $csv->setDelimiter($this->options['delimiter']);
+        $csv->setEnclosure($this->options['enclosure']);
+        $csv->setEscape($this->options['escape']);
+        $csv->setNewline($this->options['newline']);
 
         // Fetch all lines
         $data = $csv->fetchAll();
@@ -48,6 +44,6 @@ class CsvReader extends AbstractFileReader
         // Use first line as header keys
         $header = $firstLineHeader ? array_shift($data) : [];
 
-        return new Table($filename, $header, array_values($data));
+        return new Table($header, array_values($data));
     }
 }

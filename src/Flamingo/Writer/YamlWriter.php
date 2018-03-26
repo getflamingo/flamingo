@@ -1,23 +1,20 @@
 <?php
 
-namespace Flamingo\Processor\Writer;
+namespace Flamingo\Writer;
 
-use Flamingo\Core\Table;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class YamlWriter
- * @package Flamingo\Processor\Writer
+ * @package Flamingo\Writer
  */
 class YamlWriter extends AbstractFileWriter
 {
     /**
-     * @param Table $table
-     * @param array $options
      * @return string
      */
-    protected function tableContent(Table $table, array $options)
+    protected function tableContents()
     {
-        return Yaml::dump($table->getArrayCopy());
+        return Yaml::dump($this->table->getArrayCopy());
     }
 }
