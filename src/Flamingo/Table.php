@@ -88,12 +88,12 @@ class Table extends \ArrayIterator implements \Traversable
      * @param bool $invert
      * @return $this
      */
-    public function filter($property, $value = null, $invert = true)
+    public function filter($property, $value = null, $invert = false)
     {
         $options = [
             'property' => $property,
             'value' => $value,
-            'invert' => $invert,
+            'invert' => is_null($value) ? true : $invert,
         ];
 
         (new FilterProcessor($this, $options))->run();
