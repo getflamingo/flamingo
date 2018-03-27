@@ -13,6 +13,21 @@ use Flamingo\Writer\WriterInterface;
 abstract class Task
 {
     /**
+     * @var array
+     */
+    protected $processorExtensions = [
+        'csv' => 'Csv',
+        'xls' => 'Spreadsheet',
+        'xlsx' => 'Spreadsheet',
+        'ods' => 'Spreadsheet',
+        'json' => 'Json',
+        'js' => 'Json',
+        'xml' => 'Xml',
+        'yaml' => 'Yaml',
+        'yml' => 'Yaml',
+    ];
+
+    /**
      * Read a source and determines the adapted reader according to target type (if a filename).
      *
      * @param string $filename
@@ -24,7 +39,7 @@ abstract class Task
     {
         if (empty($readerType)) {
             $extension = pathinfo($filename, PATHINFO_EXTENSION);
-            $readerType = $GLOBALS['FLAMINGO']['FileProcessorExtensions'][$extension];
+            $readerType = $this->processorExtensions[$extension];
         }
 
         /** @var ReaderInterface $reader */
@@ -46,7 +61,7 @@ abstract class Task
     {
         if (empty($writerType)) {
             $extension = pathinfo($filename, PATHINFO_EXTENSION);
-            $writerType = $GLOBALS['FLAMINGO']['FileProcessorExtensions'][$extension];
+            $writerType = $this->processorExtensions[$extension];
         }
 
         /** @var WriterInterface $writer */

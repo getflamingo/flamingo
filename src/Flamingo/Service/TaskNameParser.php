@@ -73,4 +73,31 @@ class TaskNameParser
     {
         return $this->method;
     }
+
+    /**
+     * Include external resource if defined.
+     * Run main class + method.
+     *
+     * @param array $arguments
+     * @internal
+     */
+    public function run(array $arguments = [])
+    {
+        if ($this->filename) {
+            require_once $this->filename;
+        }
+
+        if ($this->class) {
+            if ($this->method) {
+                call_user_func_array([$this->class, $this->method], $arguments);
+            } else {
+                // TODO: Check for __invoke method
+                call_user_func_array(new $this->class, $arguments);
+            }
+        } else {
+            if ($this->method) {
+                call_user_func_array($this->method, $arguments);
+            }
+        }
+    }
 }

@@ -34,19 +34,34 @@ $command
     ->option()
     ->describedAs('Name of the task file to execute.');
 
+// Decode the composer.json configuration
+$composer = json_decode(file_get_contents(__DIR__ . '/../composer.json'), true);
+$GLOBALS['FLAMINGO']['Version'] = $composer['version'];
+
+// Output executable version
+if ($command['version']) {
+    echo $composer['version'] . PHP_EOL;
+    exit;
+}
+
 // Register error handler
 $handler = \Flamingo\Service\ErrorHandler::init($command['debug'], $command['force']);
 \Analog\Analog::handler($handler);
 
-// Create base task runner
-$flamingo = new \Flamingo\Flamingo();
-
-// Output executable version
-if ($command['version']) {
-    echo $GLOBALS['FLAMINGO']['Version'] . PHP_EOL;
-    exit;
-}
-
-// Run defined task
 // TODO: Add support for inline options
-$flamingo->run($command[0]);
+$task = $command[0];
+$arguments = [];
+
+// Decode the given task
+$parser = new \Flamingo\Service\TaskNameParser($task);
+$className = $parser->getClass();
+$method = $parser->getMethod();
+
+Analog::info(sprintf('Running "%s"...', $className ?: $method));
+$startTime = microtime(true);
+
+// Run the task with arguments
+$parser->run($arguments);
+
+$elapsedTime = microtime(true) - $startTime;
+Analog::info(sprintf('Finished "%s" in %fs', $className ?: $method, $elapsedTime));
