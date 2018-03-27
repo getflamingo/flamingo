@@ -30,7 +30,7 @@ class Table extends \ArrayIterator implements \Traversable
     }
 
     /**
-     * Remove null and empty values
+     * Remove null and empty values.
      */
     public function sanitize()
     {
@@ -44,7 +44,8 @@ class Table extends \ArrayIterator implements \Traversable
     }
 
     /**
-     * Copy an array into object storage
+     * Copy an array into object storage.
+     *
      * @param array $array
      */
     public function copy($array)
@@ -69,7 +70,7 @@ class Table extends \ArrayIterator implements \Traversable
     }
 
     /**
-     * Remove values using a filtering.
+     * Remove values using the filtering processor.
      *
      * @param string $property
      * @param mixed|null $value
