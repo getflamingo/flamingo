@@ -15,13 +15,11 @@ class TransformProcessor extends AbstractProcessor
      */
     protected $options = [
         'propertyMustExist' => false,
-        'placeholder' => '{?}',
         'modifiers' => [],
     ];
 
     /**
      * Run inline methods to quickly update properties.
-     * TODO: Add security check of som sort, for the eval() function
      *
      * @throws RuntimeException
      */
@@ -37,18 +35,34 @@ class TransformProcessor extends AbstractProcessor
                     continue;
                 }
 
-                $value = $record[$property];
-
                 try {
-                    $code = str_replace($this->options['placeholder'], '$value', $code);
-                    $code = sprintf('$value = %s;', rtrim($code, ';'));
-                    eval($code);
+                    $function = $this->createFunction($code, $record);
+                    $value = call_user_func_array($function, array_values($record));
                 } catch (\Exception $e) {
                     throw new RuntimeException($e->getMessage());
                 }
 
-                $record[$property] = $value;
+                if (isset($value)) {
+                    $record[$property] = $value;
+                }
             }
         }
+    }
+
+    /**
+     * Create a user function with a defined return statement.
+     * The names of the columns are translated to variables.
+     *
+     * @param string $code
+     * @param array $record
+     * @return string
+     */
+    protected function createFunction($code, array $record)
+    {
+        $code = sprintf('return %s;', rtrim($code, ';'));
+        $args = preg_filter('/^/', '$', array_keys($record));
+        $function = create_function(implode(',', $args), $code);
+
+        return $function;
     }
 }

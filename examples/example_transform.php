@@ -14,7 +14,7 @@ class TransformExampleTask extends \Flamingo\Task
 
         $data->mod(
             [
-                'price' => '(int){?} * 1.12',
+                'price' => '(int)$price * 1.12',
             ]
         );
 
