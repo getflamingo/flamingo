@@ -30,7 +30,7 @@ class TransformProcessor extends AbstractProcessor
 
                 if (
                     array_key_exists($property, $record) === false
-                    && $this->options['propertyMustExist'] === false
+                    && $this->options['propertyMustExist'] === true
                 ) {
                     continue;
                 }
