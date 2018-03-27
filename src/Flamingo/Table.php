@@ -4,6 +4,7 @@ namespace Flamingo;
 
 use Flamingo\Processor\FilterProcessor;
 use Flamingo\Processor\MappingProcessor;
+use Flamingo\Processor\TransformProcessor;
 
 /**
  * Class Table
@@ -31,6 +32,8 @@ class Table extends \ArrayIterator implements \Traversable
 
     /**
      * Remove null and empty values.
+     *
+     * @return $this
      */
     public function sanitize()
     {
@@ -41,16 +44,21 @@ class Table extends \ArrayIterator implements \Traversable
         });
 
         parent::__construct($cleanArray);
+
+        return $this;
     }
 
     /**
      * Copy an array into object storage.
      *
      * @param array $array
+     * @return $this
      */
     public function copy($array)
     {
         parent::__construct($array);
+
+        return $this;
     }
 
     /**
@@ -58,6 +66,7 @@ class Table extends \ArrayIterator implements \Traversable
      *
      * @param array $map
      * @param bool $keepProperties
+     * @return $this
      */
     public function map(array $map, $keepProperties = true)
     {
@@ -67,6 +76,8 @@ class Table extends \ArrayIterator implements \Traversable
         ];
 
         (new MappingProcessor($this, $options))->run();
+
+        return $this;
     }
 
     /**
@@ -75,6 +86,7 @@ class Table extends \ArrayIterator implements \Traversable
      * @param string $property
      * @param mixed|null $value
      * @param bool $invert
+     * @return $this
      */
     public function filter($property, $value = null, $invert = true)
     {
@@ -85,5 +97,24 @@ class Table extends \ArrayIterator implements \Traversable
         ];
 
         (new FilterProcessor($this, $options))->run();
+
+        return $this;
+    }
+
+    /**
+     * @param array $modifiers
+     * @param bool $propertyMustExist
+     * @return $this
+     */
+    public function mod(array $modifiers, $propertyMustExist = false)
+    {
+        $options = [
+            'modifiers' => $modifiers,
+            'propertyMustExist' => $propertyMustExist,
+        ];
+
+        (new TransformProcessor($this, $options))->run();
+
+        return $this;
     }
 }

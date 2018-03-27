@@ -12,9 +12,11 @@ class TransformExampleTask extends \Flamingo\Task
     {
         $data = $this->read('examples/Fixtures/Transactions.csv');
 
-        foreach ($data as &$row) {
-            $row['price'] = (int)$row['price'] * 1.12;
-        }
+        $data->mod(
+            [
+                'price' => '(int){?} * 1.12',
+            ]
+        );
 
         $data->map(
             [

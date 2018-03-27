@@ -5,7 +5,7 @@ namespace Flamingo\Processor;
 use Flamingo\Exception\RuntimeException;
 
 /**
- * Class MappingProcessor
+ * Class FilterProcessor
  * @package Flamingo\Processor
  */
 class FilterProcessor extends AbstractProcessor
