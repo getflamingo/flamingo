@@ -9,6 +9,14 @@ namespace Flamingo\Processor;
 class MappingProcessor extends AbstractProcessor
 {
     /**
+     * @var array
+     */
+    protected $options = [
+        'keepProperties' => true,
+        'map' => [],
+    ];
+
+    /**
      * Rename columns recursively.
      */
     public function run()
@@ -19,12 +27,12 @@ class MappingProcessor extends AbstractProcessor
             $baseRecord = $record;
 
             // Reset record if needed
-            if ($GLOBALS['FLAMINGO']['Options']['Mapping']['KeepOldProperties'] === false) {
+            if ($this->options['keepProperties'] === false) {
                 $record = [];
             }
 
             // Apply mapping
-            foreach ($this->options as $key => $newKey) {
+            foreach ($this->options['map'] as $key => $newKey) {
 
                 if (array_key_exists($key, $baseRecord)) {
                     $record[$newKey] = $baseRecord[$key];

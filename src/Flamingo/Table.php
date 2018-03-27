@@ -2,6 +2,9 @@
 
 namespace Flamingo;
 
+use Flamingo\Processor\FilterProcessor;
+use Flamingo\Processor\MappingProcessor;
+
 /**
  * Class Table
  * @package Flamingo
@@ -47,5 +50,39 @@ class Table extends \ArrayIterator implements \Traversable
     public function copy($array)
     {
         parent::__construct($array);
+    }
+
+    /**
+     * Remap column names of the object.
+     *
+     * @param array $map
+     * @param bool $keepProperties
+     */
+    public function map(array $map, $keepProperties = true)
+    {
+        $options = [
+            'map' => $map,
+            'keepProperties' => $keepProperties,
+        ];
+
+        (new MappingProcessor($this, $options))->run();
+    }
+
+    /**
+     * Remove values using a filtering.
+     *
+     * @param string $property
+     * @param mixed|null $value
+     * @param bool $invert
+     */
+    public function filter($property, $value = null, $invert = true)
+    {
+        $options = [
+            'property' => $property,
+            'value' => $value,
+            'invert' => $invert,
+        ];
+
+        (new FilterProcessor($this, $options))->run();
     }
 }

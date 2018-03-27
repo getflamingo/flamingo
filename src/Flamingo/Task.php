@@ -3,7 +3,6 @@
 namespace Flamingo;
 
 use Flamingo\Exception\RuntimeException;
-use Flamingo\Processor\MappingProcessor;
 use Flamingo\Reader\ReaderInterface;
 use Flamingo\Writer\WriterInterface;
 
@@ -55,21 +54,6 @@ abstract class Task
         $writer = new $className($table, $options);
 
         $writer->save($filename);
-    }
-
-    /**
-     * Remap column names of a table object.
-     *
-     * @param Table $table
-     * @param array $mapping
-     * @return Table
-     */
-    protected function map(Table $table, array $mapping)
-    {
-        $data = clone $table;
-        (new MappingProcessor($data, $mapping))->run();
-
-        return $data;
     }
 
     /**

@@ -16,8 +16,7 @@ class TransformExampleTask extends \Flamingo\Task
             $row['price'] = (int)$row['price'] * 1.12;
         }
 
-        $data = $this->map(
-            $data,
+        $data->map(
             [
                 'price' => 'PriceEUR',
                 'sale_date' => 'Date',
