@@ -48,7 +48,7 @@ class Flamingo
      * @param Task|Callable|string $task
      * @param array $arguments
      */
-    public function run($task, ...$arguments)
+    public function run($task, array $arguments = [])
     {
         Analog::info(sprintf('Running "%s"...', $task));
         $startTime = microtime(true);
@@ -63,14 +63,14 @@ class Flamingo
 
         if ($className) {
             if ($method) {
-                call_user_func([$className, $method], ...$arguments);
+                call_user_func_array([$className, $method], $arguments);
             } else {
                 // TODO: Check for __invoke method
-                (new $className)(...$arguments);
+                call_user_func_array(new $className, $arguments);
             }
         } else {
             if ($method) {
-                $method(...$arguments);
+                call_user_func_array($method, $arguments);
             }
         }
 
