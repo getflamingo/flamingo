@@ -10,21 +10,19 @@ class TransformExampleTask extends \Flamingo\Task
      */
     public function __invoke()
     {
-        $data = $this->read('examples/Fixtures/Transactions.csv');
-
-        $data->mod(
-            [
-                'price' => '(int)$price * 1.12',
-            ]
-        );
-
-        $data->map(
-            [
-                'price' => 'PriceEUR',
-                'sale_date' => 'Date',
-            ]
-        );
-
-        $this->write($data, 'TransformedTransactions.json');
+        $this
+            ->read('examples/Fixtures/Transactions.csv')
+            ->mod(
+                [
+                    'price' => '(int)$price * 1.12',
+                ]
+            )
+            ->map(
+                [
+                    'price' => 'PriceEUR',
+                    'sale_date' => 'Date',
+                ]
+            )
+            ->write('TransformedTransactions.json');
     }
 }

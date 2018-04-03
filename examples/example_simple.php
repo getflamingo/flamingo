@@ -10,7 +10,8 @@ class SimpleExampleTask extends \Flamingo\Task
      */
     public function __invoke()
     {
-        $data = $this->read('examples/Fixtures/Transactions.csv');
-        $this->write($data, 'Transactions.json');
+        $this
+            ->read('examples/Fixtures/Transactions.csv')
+            ->write('Transactions.json');
     }
 }

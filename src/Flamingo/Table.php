@@ -5,6 +5,8 @@ namespace Flamingo;
 use Flamingo\Processor\FilterProcessor;
 use Flamingo\Processor\MappingProcessor;
 use Flamingo\Processor\TransformProcessor;
+use Flamingo\Reader\ReaderInterface;
+use Flamingo\Writer\WriterInterface;
 
 /**
  * Class Table
@@ -12,6 +14,21 @@ use Flamingo\Processor\TransformProcessor;
  */
 class Table extends \ArrayIterator implements \Traversable
 {
+    /**
+     * @var array
+     */
+    protected static $processorExtensions = [
+        'csv' => 'Csv',
+        'xls' => 'Spreadsheet',
+        'xlsx' => 'Spreadsheet',
+        'ods' => 'Spreadsheet',
+        'json' => 'Json',
+        'js' => 'Json',
+        'xml' => 'Xml',
+        'yaml' => 'Yaml',
+        'yml' => 'Yaml',
+    ];
+
     /**
      * Table constructor.
      * @param array $columns
@@ -28,6 +45,49 @@ class Table extends \ArrayIterator implements \Traversable
 
             parent::__construct($records);
         }
+    }
+
+    /**
+     * Read a source and determines the adapted reader according to target type (if a filename).
+     *
+     * @param string $filename
+     * @param array $options
+     * @param string $readerType
+     * @return $this
+     */
+    public static function read($filename, array $options = [], $readerType = '')
+    {
+        if (empty($readerType)) {
+            $extension = pathinfo($filename, PATHINFO_EXTENSION);
+            $readerType = self::$processorExtensions[$extension];
+        }
+
+        /** @var ReaderInterface $reader */
+        $className = sprintf('Flamingo\\Reader\\%sReader', ucwords($readerType));
+        $reader = new $className($options);
+
+        return $reader->load($filename);
+    }
+
+    /**
+     * Output the table data to a filename.
+     *
+     * @param string $filename
+     * @param array $options
+     * @param string $writerType
+     */
+    public function write($filename, array $options = [], $writerType = '')
+    {
+        if (empty($writerType)) {
+            $extension = pathinfo($filename, PATHINFO_EXTENSION);
+            $writerType = self::$processorExtensions[$extension];
+        }
+
+        /** @var WriterInterface $writer */
+        $className = sprintf('Flamingo\\Writer\\%sWriter', ucwords($writerType));
+        $writer = new $className($this, $options);
+
+        $writer->save($filename);
     }
 
     /**

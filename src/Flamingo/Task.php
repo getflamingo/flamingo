@@ -3,8 +3,6 @@
 namespace Flamingo;
 
 use Flamingo\Exception\RuntimeException;
-use Flamingo\Reader\ReaderInterface;
-use Flamingo\Writer\WriterInterface;
 
 /**
  * Class Task
@@ -12,21 +10,6 @@ use Flamingo\Writer\WriterInterface;
  */
 abstract class Task
 {
-    /**
-     * @var array
-     */
-    protected $processorExtensions = [
-        'csv' => 'Csv',
-        'xls' => 'Spreadsheet',
-        'xlsx' => 'Spreadsheet',
-        'ods' => 'Spreadsheet',
-        'json' => 'Json',
-        'js' => 'Json',
-        'xml' => 'Xml',
-        'yaml' => 'Yaml',
-        'yml' => 'Yaml',
-    ];
-
     /**
      * Read a source and determines the adapted reader according to target type (if a filename).
      *
@@ -37,16 +20,7 @@ abstract class Task
      */
     protected function read($filename, array $options = [], $readerType = '')
     {
-        if (empty($readerType)) {
-            $extension = pathinfo($filename, PATHINFO_EXTENSION);
-            $readerType = $this->processorExtensions[$extension];
-        }
-
-        /** @var ReaderInterface $reader */
-        $className = sprintf('Flamingo\\Reader\\%sReader', ucwords($readerType));
-        $reader = new $className($options);
-
-        return $reader->load($filename);
+        return Table::read($filename, $options, $readerType);
     }
 
     /**
@@ -59,16 +33,7 @@ abstract class Task
      */
     protected function write(Table $table, $filename, array $options = [], $writerType = '')
     {
-        if (empty($writerType)) {
-            $extension = pathinfo($filename, PATHINFO_EXTENSION);
-            $writerType = $this->processorExtensions[$extension];
-        }
-
-        /** @var WriterInterface $writer */
-        $className = sprintf('Flamingo\\Writer\\%sWriter', ucwords($writerType));
-        $writer = new $className($table, $options);
-
-        $writer->save($filename);
+        $table->write($filename, $options, $writerType);
     }
 
     /**

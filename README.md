@@ -14,8 +14,7 @@ This example configuration converts a \*.csv file into a \*.json one.
     {
         function __invoke()
         {
-            $data = $this->read('file.csv');
-            $this->write($data, 'file.json');
+            $this->read('file.csv')->write('file.json');
         }
     }
 
