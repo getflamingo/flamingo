@@ -52,6 +52,10 @@ $handler = \Flamingo\Service\ErrorHandler::init($command['debug'], $command['for
 $task = $command[0];
 $arguments = [];
 
+if (empty($task)) {
+    Analog::error('Please specify a task to execute...');
+}
+
 // Decode the given task
 $parser = new \Flamingo\Service\TaskNameParser($task);
 $className = $parser->getClass();

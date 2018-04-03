@@ -89,7 +89,7 @@ class TaskNameParser
 
         if ($this->class) {
             if ($this->method) {
-                call_user_func_array([$this->class, $this->method], $arguments);
+                call_user_func_array([$this->isStatic() ? $this->class : new $this->class, $this->method], $arguments);
             } else {
                 // TODO: Check for __invoke method
                 call_user_func_array(new $this->class, $arguments);
@@ -99,5 +99,13 @@ class TaskNameParser
                 call_user_func_array($this->method, $arguments);
             }
         }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isStatic()
+    {
+        return (new \ReflectionMethod($this->class, $this->method))->isStatic();
     }
 }
