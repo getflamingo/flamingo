@@ -42,14 +42,6 @@ class SpreadsheetReader extends AbstractFileReader
         // Use first line as header keys
         $header = $this->options['header'] ? array_shift($data) : [];
 
-        // Clean up header keys
-        if ($GLOBALS['FLAMINGO']['Options']['Header']['FirstLine']) {
-            foreach ($header as &$column) {
-                $column = current(explode(PHP_EOL, $column));
-            }
-            reset($header);
-        }
-
         return new Table($header, array_values($data));
     }
 }
