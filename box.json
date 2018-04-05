@@ -34,6 +34,10 @@
     {
       "name": "AdditionalConfiguration.yaml",
       "in": "bin"
+    },
+    {
+      "name": "composer.json",
+      "in": "."
     }
   ],
   "compression": "GZ",
