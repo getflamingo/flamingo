@@ -46,7 +46,7 @@ abstract class Task
     {
         $versions = explode('-', $versions);
 
-        if (strlen($versions[0]) && version_compare($GLOBALS['FLAMINGO']['Version'], $versions[0], '<')) {
+        if (strlen($versions[0]) && version_compare('@git-version@', $versions[0], '<')) {
             throw new RuntimeException(
                 'The Flamingo version is too low (current: %s, needed: %s)',
                 $GLOBALS['FLAMINGO']['Version'],
@@ -54,7 +54,7 @@ abstract class Task
             );
         }
 
-        if (strlen($versions[1]) && version_compare($GLOBALS['FLAMINGO']['Version'], $versions[1], '>')) {
+        if (strlen($versions[1]) && version_compare('@git-version@', $versions[1], '>')) {
             throw new RuntimeException(
                 'The Flamingo version is too high (current: %s, needed: %s)',
                 $GLOBALS['FLAMINGO']['Version'],
