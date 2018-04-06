@@ -34,10 +34,6 @@
     {
       "name": "AdditionalConfiguration.yaml",
       "in": "bin"
-    },
-    {
-      "name": "composer.json",
-      "in": "."
     }
   ],
   "git-version": "git-version",
