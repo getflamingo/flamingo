@@ -34,9 +34,11 @@ $command
     ->option()
     ->describedAs('Name of the task file to execute.');
 
+$flamingo = new \Flamingo\Flamingo();
+
 // Output executable version
 if ($command['version']) {
-    echo '@git-version@' . PHP_EOL;
+    echo $flamingo->getVersion() . PHP_EOL;
     exit;
 }
 
@@ -46,22 +48,5 @@ $handler = \Flamingo\Service\ErrorHandler::init($command['debug'], $command['for
 
 // Forward arguments to the task
 $arguments = $command->getArgumentValues();
-$task = array_shift($arguments);
-
-if (empty($task)) {
-    Analog::error('Please specify a task to execute...');
-}
-
-// Decode the given task
-$parser = new \Flamingo\Service\TaskNameParser($task);
-$className = $parser->getClass();
-$method = $parser->getMethod();
-
-Analog::info(sprintf('Running "%s"...', $className ?: $method));
-$startTime = microtime(true);
-
-// Run the task with arguments
-$parser->run($arguments);
-
-$elapsedTime = microtime(true) - $startTime;
-Analog::info(sprintf('Finished "%s" in %fs', $className ?: $method, $elapsedTime));
+$taskName = array_shift($arguments);
+$flamingo->run($taskName, $arguments);
