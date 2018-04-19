@@ -5,6 +5,7 @@ namespace Flamingo\Writer;
 use Analog\Analog;
 use Flamingo\Exception\RuntimeException;
 use Flamingo\Table;
+use Flamingo\Traits\DatabaseAccessTrait;
 use Flamingo\Utility\StatementUtility;
 
 /**
@@ -13,10 +14,7 @@ use Flamingo\Utility\StatementUtility;
  */
 class DatabaseWriter implements WriterInterface
 {
-    /**
-     * @var \PDO
-     */
-    protected $pdo = null;
+    use DatabaseAccessTrait;
 
     /**
      * @var Table
@@ -24,51 +22,27 @@ class DatabaseWriter implements WriterInterface
     protected $table = null;
 
     /**
-     * @var array
-     */
-    protected $options = [
-        'driver' => 'mysql',
-        'server' => 'localhost',
-        'port' => 3306,
-        'username' => 'root',
-        'password' => '',
-        'database' => '',
-        'charset' => 'UTF8',
-        'unique' => [],
-    ];
-
-    /**
-     * DbWriter constructor.
+     * DatabaseWriter constructor.
      * @param Table $table
      * @param array $options
-     * @throws RuntimeException
      */
     public function __construct(Table $table, array $options)
     {
         $this->table = $table;
         $this->options = array_replace($this->options, $options);
+        $this->initializeObject();
+    }
 
-        $properties = [
-            'host' => $this->options['server'],
-            'port' => $this->options['port'],
-            'dbname' => $this->options['database'],
-            'charset' => $this->options['charset'],
-        ];
-
-        try {
-
-            $this->pdo = new \PDO(
-                $this->options['driver'] . ':' . http_build_query($properties, null, ';'),
-                $this->options['username'],
-                $this->options['password']
-            );
-
-            // PDO should throw exceptions on error
-            // Need to be handled by Analog though
-            $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
-        } catch (\PDOException $e) {
-            throw new RuntimeException($e->getMessage());
+    /**
+     * @param string $tableName
+     * @param array $unique
+     */
+    public function save($tableName, array $unique = [])
+    {
+        if (count($unique)) {
+            $this->update($tableName, $unique);
+        } else {
+            $this->insert($tableName);
         }
     }
 
@@ -80,7 +54,7 @@ class DatabaseWriter implements WriterInterface
      * @param string $tableName
      * @throws RuntimeException
      */
-    public function save($tableName)
+    public function insert($tableName)
     {
         if (empty($tableName)) {
             throw new RuntimeException('No destination table defined');
@@ -95,10 +69,44 @@ class DatabaseWriter implements WriterInterface
                 $tableName
             ));
 
-            if (count($this->options['unique'])) {
+            // Execute queries
+            foreach ($this->table as $record) {
+                $this->insertItem($record, $tableName);
+            }
+
+        } catch (\PDOException $e) {
+
+            if (isset($request) && $request instanceof \PDOStatement) {
+                Analog::debug('PDO: ' . $request->queryString);
+            }
+
+            throw new RuntimeException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param $tableName
+     * @param array $unique
+     */
+    public function update($tableName, array $unique = [])
+    {
+        if (empty($tableName)) {
+            throw new RuntimeException('No destination table defined');
+        }
+
+        try {
+
+            Analog::debug(sprintf(
+                'Prepare %s records for %s.%s',
+                $this->table->count(),
+                $this->options['database'],
+                $tableName
+            ));
+
+            if (count($unique)) {
                 Analog::debug(sprintf(
                     'Use unique constraint on columns : %s',
-                    implode(', ', $this->options['unique'])
+                    implode(', ', $unique)
                 ));
             }
 
@@ -126,17 +134,18 @@ class DatabaseWriter implements WriterInterface
      *
      * @param array $record
      * @param string $tableName
+     * @param array $unique
      * @return bool
      */
-    protected function itemExists($record, $tableName)
+    protected function itemExists($record, $tableName, array $unique = [])
     {
         // No unique field has been set
-        if (count($this->options['unique']) == 0) {
+        if (count($unique) == 0) {
             return false;
         }
 
         // Get values from unique constraint
-        $unique = array_intersect_key($record, array_flip($this->options['unique']));
+        $unique = array_intersect_key($record, array_flip($unique));
 
         // Create statement
         $statement = sprintf(
@@ -179,23 +188,20 @@ class DatabaseWriter implements WriterInterface
      *
      * @param array $record
      * @param string $tableName
+     * @param array $unique
      */
-    protected function updateItem($record, $tableName)
+    protected function updateItem($record, $tableName, array $unique = [])
     {
         // Fetch unique data
-        $unique = array_intersect_key(
-            $record, array_flip($this->options['unique'])
-        );
+        $uniqueConstraint = array_intersect_key($record, array_flip($unique));
 
         // Remove unique fields if needed
-        if (count($unique)) {
-            $record = array_diff_key(
-                $record, array_flip($this->options['unique'])
-            );
+        if (count($uniqueConstraint)) {
+            $record = array_diff_key($record, array_flip($unique));
         }
 
         // No columns to update
-        if (count($record) == 0) {
+        if (count($record) === 0) {
             return;
         }
 
@@ -207,12 +213,12 @@ class DatabaseWriter implements WriterInterface
         );
 
         // Add where constraint based on unique fields
-        if (count($unique)) {
-            $statement .= ' WHERE ' . StatementUtility::equals($unique, $tableName, ' AND ');
+        if (count($uniqueConstraint)) {
+            $statement .= ' WHERE ' . StatementUtility::equals($uniqueConstraint, $tableName, ' AND ');
         }
 
         // Execute update
         $request = $this->pdo->prepare($statement);
-        $request->execute(array_merge(array_values($record), array_values($unique)));
+        $request->execute(array_merge(array_values($record), array_values($uniqueConstraint)));
     }
 }

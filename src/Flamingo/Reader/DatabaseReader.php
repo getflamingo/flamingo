@@ -5,6 +5,7 @@ namespace Flamingo\Reader;
 use Analog\Analog;
 use Flamingo\Exception\RuntimeException;
 use Flamingo\Table;
+use Flamingo\Traits\DatabaseAccessTrait;
 
 /**
  * Class DatabaseReader
@@ -12,61 +13,21 @@ use Flamingo\Table;
  */
 class DatabaseReader implements ReaderInterface
 {
-    /**
-     * @var \PDO
-     */
-    protected $pdo = null;
+    use DatabaseAccessTrait;
 
     /**
-     * @var array
-     */
-    protected $options = [
-        'driver' => 'mysql',
-        'server' => 'localhost',
-        'port' => 3306,
-        'username' => 'root',
-        'password' => '',
-        'database' => '',
-        'charset' => 'UTF8',
-    ];
-
-    /**
-     * DbReader constructor.
+     * DatabaseReader constructor.
      * @param array $options
-     * @throws RuntimeException
      */
     public function __construct(array $options)
     {
         $this->options = array_replace($this->options, $options);
-
-        $properties = [
-            'host' => $this->options['server'],
-            'port' => $this->options['port'],
-            'dbname' => $this->options['database'],
-            'charset' => $this->options['charset'],
-        ];
-
-        try {
-
-            $this->pdo = new \PDO(
-                $this->options['driver'] . ':' . http_build_query($properties, null, ';'),
-                $this->options['username'],
-                $this->options['password']
-            );
-
-            // PDO should throw exceptions on error
-            // Need to be handled by Analog though
-            $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
-        } catch (\PDOException $e) {
-            throw new RuntimeException($e->getMessage());
-        }
+        $this->initializeObject();
     }
 
     /**
      * @param string $tableName
      * @return Table
-     * @throws RuntimeException
      */
     public function load($tableName)
     {
@@ -74,10 +35,22 @@ class DatabaseReader implements ReaderInterface
             throw new RuntimeException('No table name defined');
         }
 
-        try {
+        Analog::debug(sprintf('Building query from table name - "%s"', $tableName));
+        $query = 'SELECT * FROM ' . $tableName;
 
-            Analog::debug(sprintf('Building query from table name - "%s"', $tableName));
-            $query = 'SELECT * FROM ' . $tableName;
+        return $this->query($query);
+    }
+
+    /**
+     * Execute a SQL request manually.
+     *
+     * @param string $query
+     * @return Table
+     * @throws RuntimeException
+     */
+    public function query($query)
+    {
+        try {
 
             // Execute query
             $query = $this->pdo->query($query, \PDO::FETCH_ASSOC)->fetchAll();
